@@ -5,9 +5,15 @@ import { useRouter } from 'next/navigation';
 import { Zap, Eye, EyeOff, Lock, Mail, ArrowRight } from 'lucide-react';
 import { Button, Input, Alert } from '../../../components/ui';
 
-export default function Login() {
+interface LoginProps {
+  mode?: 'admin' | 'user';
+}
+
+export default function Login({ mode = 'admin' }: LoginProps) {
   const router = useRouter();
-  const [email, setEmail] = useState('admin@lexipost.io');
+  const isAdmin = mode === 'admin';
+
+  const [email, setEmail] = useState(isAdmin ? 'admin@lexipost.io' : 'rahul.s@gmail.com');
   const [password, setPassword] = useState('password123');
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -18,7 +24,10 @@ export default function Login() {
     setError('');
     setTimeout(() => {
       setLoading(false);
-      if (email && password) router.push('/admin');
+      if (email && password) {
+        sessionStorage.setItem(isAdmin ? 'lexipost_admin_auth' : 'lexipost_user_auth', 'true');
+        router.push(isAdmin ? '/admin' : '/portal');
+      }
       else setError('Please enter your credentials.');
     }, 1000);
   };
@@ -34,13 +43,24 @@ export default function Login() {
             <Zap size={32} color="#fff" />
           </div>
           <h1 style={{ color: '#F8FAFC', fontSize: 32, fontWeight: 800, marginBottom: 12 }}>LexiPost</h1>
-          <p style={{ color: '#94A3B8', fontSize: 15, lineHeight: 1.7 }}>Linguistic research coordination platform. Manage words, contributors, and data at scale.</p>
+          <p style={{ color: '#94A3B8', fontSize: 15, lineHeight: 1.7 }}>
+            {isAdmin
+              ? 'Linguistic research coordination platform. Manage words, contributors, and data at scale.'
+              : 'Create viral content, earn real money. Join thousands of creators making an impact.'}
+          </p>
           <div style={{ marginTop: 40, display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[
-              { label: '1,651 posts', sub: 'Collected across all words' },
-              { label: '156 contributors', sub: 'Active in 12 countries' },
-              { label: '89.4% success rate', sub: 'Industry-leading quality' },
-            ].map(s => (
+            {(isAdmin
+              ? [
+                  { label: '1,651 posts', sub: 'Collected across all words' },
+                  { label: '156 contributors', sub: 'Active in 12 countries' },
+                  { label: '89.4% success rate', sub: 'Industry-leading quality' },
+                ]
+              : [
+                  { label: '$2.4M+ earned', sub: 'Paid out to creators worldwide' },
+                  { label: '50K+ creators', sub: 'Active on the platform' },
+                  { label: '$1,240/month avg', sub: 'Average creator earnings' },
+                ]
+            ).map(s => (
               <div key={s.label} style={{ background: '#FFFFFF10', borderRadius: 12, padding: '12px 16px', textAlign: 'left', backdropFilter: 'blur(8px)', border: '1px solid #FFFFFF15' }}>
                 <p style={{ color: '#F8FAFC', fontWeight: 700, fontSize: 18, margin: 0 }}>{s.label}</p>
                 <p style={{ color: '#64748B', fontSize: 12, margin: 0 }}>{s.sub}</p>
@@ -54,12 +74,14 @@ export default function Login() {
       <div style={{ width: 480, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '48px 56px', background: '#fff' }}>
         <div>
           <h2 style={{ fontSize: 26, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Welcome back</h2>
-          <p style={{ color: '#64748B', fontSize: 14, marginBottom: 32 }}>Sign in to your admin account</p>
+          <p style={{ color: '#64748B', fontSize: 14, marginBottom: 32 }}>
+            {isAdmin ? 'Sign in to your admin account' : 'Sign in to your creator account'}
+          </p>
 
           {error && <div style={{ marginBottom: 20 }}><Alert type="danger" message={error} onClose={() => setError('')} /></div>}
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <Input label="Email address" type="email" value={email} onChange={setEmail} placeholder="admin@lexipost.io" icon={<Mail size={14} />} required />
+            <Input label="Email address" type="email" value={email} onChange={setEmail} placeholder={isAdmin ? 'admin@lexipost.io' : 'you@example.com'} icon={<Mail size={14} />} required />
             <div>
               <Input label="Password" type={showPw ? 'text' : 'password'} value={password} onChange={setPassword} placeholder="Enter your password" icon={<Lock size={14} />} required />
               <button onClick={() => setShowPw(p => !p)} style={{ position: 'absolute', right: 12, top: '50%', background: 'none', border: 'none', cursor: 'pointer', color: '#94A3B8', display: 'none' }}>
@@ -73,16 +95,27 @@ export default function Login() {
           </div>
 
           <Button variant="primary" className="w-full" onClick={handleLogin} loading={loading} iconRight={<ArrowRight size={15} />} style={{ width: '100%' }}>
-            Sign in to Dashboard
+            {isAdmin ? 'Sign in to Dashboard' : 'Sign in to Portal'}
           </Button>
 
           <div style={{ marginTop: 24, padding: '16px', background: '#F8FAFC', borderRadius: 12, border: '1px solid #E2E8F0' }}>
-            <p style={{ fontSize: 12, color: '#64748B', textAlign: 'center', margin: 0 }}>Demo credentials: <strong style={{ color: '#0F172A' }}>admin@lexipost.io</strong> / <strong style={{ color: '#0F172A' }}>password123</strong></p>
+            <p style={{ fontSize: 12, color: '#64748B', textAlign: 'center', margin: 0 }}>
+              Demo credentials: <strong style={{ color: '#0F172A' }}>{email}</strong> / <strong style={{ color: '#0F172A' }}>password123</strong>
+            </p>
           </div>
 
           <p style={{ marginTop: 24, textAlign: 'center', fontSize: 13, color: '#94A3B8' }}>
-            Are you a contributor?{' '}
-            <button onClick={() => router.push('/portal/login')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#4F46E5', fontWeight: 600, fontFamily: 'inherit' }}>Access your portal</button>
+            {isAdmin ? (
+              <>
+                Are you a contributor?{' '}
+                <button onClick={() => router.push('/login')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#4F46E5', fontWeight: 600, fontFamily: 'inherit' }}>Access creator portal</button>
+              </>
+            ) : (
+              <>
+                New to LexiPost?{' '}
+                <button onClick={() => router.push('/portal/setup')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#4F46E5', fontWeight: 600, fontFamily: 'inherit' }}>First time setup →</button>
+              </>
+            )}
           </p>
         </div>
       </div>

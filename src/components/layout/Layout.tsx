@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Sidebar from './Sidebar';
 import { Bell, Search, ChevronDown, Command } from 'lucide-react';
@@ -83,6 +83,51 @@ export default function Layout({ children, mode = 'admin' }) {
   const userName = isAdmin ? 'Admin User' : 'Rahul Sharma';
   const userRole = isAdmin ? 'Super Admin' : 'Contributor';
   const userInitials = isAdmin ? 'AU' : 'RS';
+  const [profileOpen, setProfileOpen] = useState(false);
+  const profileRef = useRef<HTMLDivElement>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  // Auth guard — redirect to login if not authenticated
+  useEffect(() => {
+    const authKey = isAdmin ? 'lexipost_admin_auth' : 'lexipost_user_auth';
+    const isAuthenticated = sessionStorage.getItem(authKey);
+    if (!isAuthenticated) {
+      router.replace(isAdmin ? '/auth/admin' : '/login');
+    } else {
+      setAuthChecked(true);
+    }
+  }, [isAdmin, router]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
+        setProfileOpen(false);
+      }
+    }
+    if (profileOpen) document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [profileOpen]);
+
+  const profileMenuItems = isAdmin
+    ? [
+        { icon: 'dashboard', label: 'Dashboard', href: '/admin' },
+        { icon: 'settings', label: 'Platform Settings', href: '/admin/settings' },
+        { icon: 'manage_accounts', label: 'Role Management', href: '/admin/roles' },
+        { icon: 'history', label: 'Activity Log', href: '/admin/activity-log' },
+        { icon: 'security', label: 'Fraud Dashboard', href: '/admin/fraud' },
+      ]
+    : [
+        { icon: 'dashboard', label: 'Dashboard', href: '/portal' },
+        { icon: 'person', label: 'Profile', href: '/portal/profile' },
+        { icon: 'assignment', label: 'My Tasks', href: '/portal/tasks' },
+        { icon: 'account_balance_wallet', label: 'Earnings', href: '/portal/earnings' },
+        { icon: 'help', label: 'Help Center', href: '/portal/help' },
+      ];
+
+  if (!authChecked) {
+    return <div style={{ minHeight: '100vh', background: '#f7f9fb' }} />;
+  }
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#f7f9fb' }}>
@@ -136,34 +181,116 @@ export default function Layout({ children, mode = 'admin' }) {
 
             {/* Settings */}
             <button
+              onClick={() => router.push(isAdmin ? '/admin/settings' : '/portal/profile')}
               style={{
                 width: 36, height: 36,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 borderRadius: '50%',
-                background: 'transparent',
+                background: pathname.startsWith(isAdmin ? '/admin/settings' : '/portal/profile') ? '#e8eff3' : 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                color: '#566166',
+                color: pathname.startsWith(isAdmin ? '/admin/settings' : '/portal/profile') ? '#2d6197' : '#566166',
                 transition: 'all 0.15s',
               }}
               onMouseEnter={e => { e.currentTarget.style.background = '#e8eff3'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+              onMouseLeave={e => { if (!pathname.startsWith(isAdmin ? '/admin/settings' : '/portal/profile')) e.currentTarget.style.background = 'transparent'; }}
+              title={isAdmin ? 'Platform Settings' : 'Profile Settings'}
             >
               <span style={{ fontSize: 20, fontFamily: 'Material Symbols Outlined' }}>settings</span>
             </button>
 
-            {/* Avatar */}
-            <div style={{
-              width: 32, height: 32, borderRadius: '50%',
-              background: '#d2e4ff',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              overflow: 'hidden',
-            }}>
-              <img 
-                src={`https://ui-avatars.com/api/?name=${userName}&background=2d6197&color=fff&size=64`}
-                alt="User avatar"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
+            {/* Avatar / Profile Dropdown */}
+            <div ref={profileRef} style={{ position: 'relative' }}>
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                style={{
+                  width: 32, height: 32, borderRadius: '50%',
+                  background: '#d2e4ff',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  overflow: 'hidden',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: 0,
+                  transition: 'all 0.15s',
+                  outline: profileOpen ? '2px solid #2d6197' : '2px solid transparent',
+                  outlineOffset: 2,
+                }}
+              >
+                <img
+                  src={`https://ui-avatars.com/api/?name=${userName}&background=2d6197&color=fff&size=64`}
+                  alt="User avatar"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </button>
+
+              {profileOpen && (
+                <div
+                  style={{
+                    position: 'absolute', top: 'calc(100% + 8px)', right: 0,
+                    width: 240, background: '#fff', borderRadius: 12,
+                    boxShadow: '0 8px 30px rgba(42,52,57,0.12), 0 2px 8px rgba(42,52,57,0.06)',
+                    border: '1px solid #e1e9ee',
+                    overflow: 'hidden', zIndex: 100,
+                    animation: 'fadeIn 0.15s ease',
+                  }}
+                >
+                  {/* User info header */}
+                  <div style={{ padding: '14px 16px', borderBottom: '1px solid #e1e9ee', display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{
+                      width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
+                    }}>
+                      <img
+                        src={`https://ui-avatars.com/api/?name=${userName}&background=2d6197&color=fff&size=64`}
+                        alt={userName}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: '#2a3439', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{userName}</div>
+                      <div style={{ fontSize: 11, color: '#717c82' }}>{userRole}</div>
+                    </div>
+                  </div>
+
+                  {/* Menu items */}
+                  <div style={{ padding: '6px 0' }}>
+                    {profileMenuItems.map((item) => (
+                      <button
+                        key={item.href}
+                        onClick={() => { setProfileOpen(false); router.push(item.href); }}
+                        style={{
+                          width: '100%', display: 'flex', alignItems: 'center', gap: 10,
+                          padding: '9px 16px', border: 'none', background: pathname === item.href ? '#f0f4f7' : 'transparent',
+                          cursor: 'pointer', fontSize: 13, color: pathname === item.href ? '#2d6197' : '#2a3439',
+                          fontFamily: 'Inter, sans-serif', textAlign: 'left', transition: 'background 0.1s',
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.background = '#f0f4f7'; }}
+                        onMouseLeave={e => { if (pathname !== item.href) e.currentTarget.style.background = 'transparent'; }}
+                      >
+                        <span style={{ fontSize: 18, fontFamily: 'Material Symbols Outlined', color: pathname === item.href ? '#2d6197' : '#566166' }}>{item.icon}</span>
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Logout */}
+                  <div style={{ borderTop: '1px solid #e1e9ee', padding: '6px 0' }}>
+                    <button
+                      onClick={() => { setProfileOpen(false); sessionStorage.removeItem(isAdmin ? 'lexipost_admin_auth' : 'lexipost_user_auth'); router.push(isAdmin ? '/auth/admin' : '/login'); }}
+                      style={{
+                        width: '100%', display: 'flex', alignItems: 'center', gap: 10,
+                        padding: '9px 16px', border: 'none', background: 'transparent',
+                        cursor: 'pointer', fontSize: 13, color: '#9f403d',
+                        fontFamily: 'Inter, sans-serif', textAlign: 'left', transition: 'background 0.1s',
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.background = '#fff7f6'; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+                    >
+                      <span style={{ fontSize: 18, fontFamily: 'Material Symbols Outlined', color: '#9f403d' }}>logout</span>
+                      Log Out
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </header>

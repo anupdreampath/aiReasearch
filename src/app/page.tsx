@@ -1,1010 +1,430 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'motion/react';
 
-// Icons
-const ArrowRight = ({ className = "" }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-  </svg>
-);
+/* ─────────────────────────────────────────────
+   DATA
+   ───────────────────────────────────────────── */
+const stats = [
+  { value: '50K+', label: 'Active Creators' },
+  { value: '$2.4M', label: 'Total Earned' },
+  { value: '100M+', label: 'Monthly Views' },
+  { value: '4.9/5', label: 'Creator Rating' },
+];
 
-const Check = ({ className = "" }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M20 6 9 17l-5-5" />
-  </svg>
-);
-
-const Brain = ({ className = "" }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
-    <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
-    <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" />
-    <path d="M17.599 6.5a3 3 0 0 0 .399-1.375" />
-    <path d="M6.003 5.125a3 3 0 0 0 .399 1.375" />
-    <path d="m18.01 15.88-.586-.586a2 2 0 0 0-2.828 0" />
-    <path d="m5.99 15.88.586-.586a2 2 0 0 1 2.828 0" />
-  </svg>
-);
-
-const MessageCircle = ({ className = "" }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-  </svg>
-);
-
-const Zap = ({ className = "" }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-  </svg>
-);
-
-const Target = ({ className = "" }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <circle cx="12" cy="12" r="10" />
-    <circle cx="12" cy="12" r="6" />
-    <circle cx="12" cy="12" r="2" />
-  </svg>
-);
-
-const Edit3 = ({ className = "" }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M12 20h9" />
-    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
-  </svg>
-);
-
-const Search = ({ className = "" }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <circle cx="11" cy="11" r="8" />
-    <path d="m21 21-4.3-4.3" />
-  </svg>
-);
-
-const DollarSign = ({ className = "" }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <line x1="12" x2="12" y1="2" y2="22" />
-    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-  </svg>
-);
-
-const examples = [
+const features = [
   {
-    keyword: 'borderline',
-    post: 'Holy shit the gym is changing me',
-    subreddit: 'r/Healthygamergg',
-    why: 'Inspiring, high engagement post. The keyword was used seamlessly within the first 3 paragraphs.',
-    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80',
+    title: 'AI-Curated Keywords',
+    description: 'Personalized keyword suggestions that fit naturally into your writing style.',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&q=70',
+    tag: 'AI',
   },
   {
-    keyword: 'Mango',
-    post: 'Is there a dish or drink from your country which...',
-    subreddit: 'r/AskTheWorld',
-    why: 'Highly relevant post. Keyword included seamlessly and naturally in the conversation.',
-    image: 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=800&q=80',
+    title: 'Real-Time Analytics',
+    description: 'Watch your earnings grow live with transparent dashboards and breakdowns.',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=70',
+    tag: 'Data',
   },
   {
-    keyword: 'zombie apocalypse',
-    post: 'Social media would actually be really helpful...',
-    subreddit: 'r/Showerthoughts',
-    why: 'Engaging content that fits the sub. Keyword used seamlessly within the first 3 paragraphs.',
-    image: 'https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?w=800&q=80',
+    title: 'Smart Matching',
+    description: 'We match you with subreddits where your voice naturally fits best.',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=70',
+    tag: 'Match',
+  },
+  {
+    title: 'Instant Payouts',
+    description: 'Get paid directly to your bank. No delays, no minimums, no hidden fees.',
+    image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&q=70',
+    tag: 'Pay',
   },
 ];
 
 const testimonials = [
   {
-    name: "Sarah Chen",
-    role: "Content Creator",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
-    quote: "I've earned over $2,400 in my first month. The keywords are actually fun to work with, and seeing my posts go viral is addictive!",
+    name: 'Sarah Chen',
+    role: 'Content Creator',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=70',
+    quote: "I've earned over $2,400 in my first month. The keywords are fun to work with and seeing posts go viral is addictive.",
+    earnings: '$2,400+',
   },
   {
-    name: "Marcus Johnson",
-    role: "Reddit Enthusiast",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80",
-    quote: "Finally a platform that pays me for what I already love doing. My highest post got 45k upvotes and I made $180 from it.",
+    name: 'Marcus Johnson',
+    role: 'Reddit Enthusiast',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=70',
+    quote: 'Finally a platform that pays me for what I love doing. My highest post got 45k upvotes — $180 from one post.',
+    earnings: '$1,850/mo',
   },
   {
-    name: "Emily Rodriguez",
-    role: "Student",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80",
-    quote: "LexiPost fits perfectly around my classes. I write posts between lectures and it covers my rent. Game changer!",
+    name: 'Emily Rodriguez',
+    role: 'Student & Writer',
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=70',
+    quote: 'LexiPost fits perfectly around my classes. I write posts between lectures and it covers my rent.',
+    earnings: '$890/mo',
   },
 ];
 
+const steps = [
+  { num: '01', title: 'Choose Your Subreddit', desc: 'Pick any community that interests you from hundreds of active subreddits.' },
+  { num: '02', title: 'Get AI Keywords', desc: 'Receive curated keywords that fit naturally — zero awkwardness guaranteed.' },
+  { num: '03', title: 'Earn Real Money', desc: 'Post and earn based on engagement. Weekly payouts, no minimums.' },
+];
+
+const marqueeItems = [
+  'AI-Powered', 'Viral Content', 'Earn Money', 'Reddit Posts',
+  'Weekly Payouts', 'Smart Keywords', '50K+ Creators', '$2.4M Earned',
+];
+
+/* ─────────────────────────────────────────────
+   STAGGER WRAPPER (simple, no scroll listeners)
+   ───────────────────────────────────────────── */
+const stagger = {
+  container: {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.08 } },
+  },
+  item: {
+    hidden: { opacity: 0, y: 24 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.1, 0, 1] } },
+  },
+};
+
+/* ─────────────────────────────────────────────
+   MAIN PAGE
+   ───────────────────────────────────────────── */
 export default function HomePage() {
   const router = useRouter();
-  const [activeExample, setActiveExample] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => setActiveTestimonial((p) => (p + 1) % testimonials.length), 5000);
+    return () => clearInterval(t);
+  }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#ffffff' }}>
-      {/* Navigation */}
-      <nav style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        borderBottom: '1px solid rgba(0,0,0,0.05)',
-        background: 'rgba(255,255,255,0.8)',
-        backdropFilter: 'blur(20px)',
-      }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto', padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{
-              width: 40,
-              height: 40,
-              background: 'linear-gradient(135deg, #2d6197 0%, #006b62 100%)',
-              borderRadius: 12,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <span style={{ color: '#fff', fontSize: 20, fontWeight: 700 }}>L</span>
-            </div>
-            <span style={{ fontSize: 24, fontWeight: 800, color: '#2a3439', fontFamily: 'Manrope, sans-serif' }}>LexiPost</span>
+    <div className="min-h-screen bg-[#09090b] text-white">
+      {/* ═══════ NAV ═══════ */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#09090b]/80 backdrop-blur-md border-b border-white/[0.06]">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center font-black text-sm">L</div>
+            <span className="font-bold text-lg tracking-tight">LexiPost</span>
           </div>
-          
-          {/* Desktop Nav */}
-          <div style={{ display: 'none', alignItems: 'center', gap: 32, '@media (min-width: 768px)': { display: 'flex' } } as any}>
-            <a href="#about" style={{ fontSize: 14, color: '#566166', textDecoration: 'none', fontWeight: 500 }}>About</a>
-            <a href="#how-it-works" style={{ fontSize: 14, color: '#566166', textDecoration: 'none', fontWeight: 500 }}>How It Works</a>
-            <a href="#examples" style={{ fontSize: 14, color: '#566166', textDecoration: 'none', fontWeight: 500 }}>Examples</a>
-            <a href="#testimonials" style={{ fontSize: 14, color: '#566166', textDecoration: 'none', fontWeight: 500 }}>Testimonials</a>
-            <button
-              onClick={() => router.push('/login')}
-              style={{
-                padding: '10px 24px',
-                background: '#2d6197',
-                color: '#fff',
-                border: 'none',
-                borderRadius: 8,
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              Get Started
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#features" className="text-sm text-white/50 hover:text-white transition-colors">Features</a>
+            <a href="#how-it-works" className="text-sm text-white/50 hover:text-white transition-colors">How It Works</a>
+            <a href="#testimonials" className="text-sm text-white/50 hover:text-white transition-colors">Testimonials</a>
+            <button onClick={() => router.push('/login')} className="px-5 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-violet-500 to-cyan-500 hover:opacity-90 transition-opacity">
+              Login
             </button>
           </div>
-
-          {/* Mobile Menu Button */}
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            style={{ display: 'flex', '@media (min-width: 768px)': { display: 'none' } } as any}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="4" x2="20" y1="12" y2="12" />
-              <line x1="4" x2="20" y1="6" y2="6" />
-              <line x1="4" x2="20" y1="18" y2="18" />
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 text-white/60">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {mobileMenuOpen ? <path d="M18 6L6 18M6 6l12 12" /> : <><line x1="4" x2="20" y1="6" y2="6" /><line x1="4" x2="20" y1="12" y2="12" /><line x1="4" x2="20" y1="18" y2="18" /></>}
             </svg>
           </button>
         </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div style={{ 
-            padding: '16px 24px', 
-            borderTop: '1px solid rgba(0,0,0,0.05)',
-            '@media (min-width: 768px)': { display: 'none' }
-          } as any}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <a href="#about" style={{ fontSize: 14, color: '#566166', textDecoration: 'none', fontWeight: 500 }}>About</a>
-              <a href="#how-it-works" style={{ fontSize: 14, color: '#566166', textDecoration: 'none', fontWeight: 500 }}>How It Works</a>
-              <a href="#examples" style={{ fontSize: 14, color: '#566166', textDecoration: 'none', fontWeight: 500 }}>Examples</a>
-              <a href="#testimonials" style={{ fontSize: 14, color: '#566166', textDecoration: 'none', fontWeight: 500 }}>Testimonials</a>
-            </div>
-          </div>
-        )}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className="md:hidden overflow-hidden border-t border-white/[0.06] bg-[#09090b]">
+              <div className="px-6 py-5 space-y-4">
+                <a href="#features" className="block text-white/60">Features</a>
+                <a href="#how-it-works" className="block text-white/60">How It Works</a>
+                <a href="#testimonials" className="block text-white/60">Testimonials</a>
+                <button onClick={() => router.push('/login')} className="w-full py-3 rounded-full bg-gradient-to-r from-violet-500 to-cyan-500 font-semibold text-sm">Login</button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
-      {/* Hero Section with Grid Background */}
-      <section style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '140px 24px 80px',
-        background: 'linear-gradient(to bottom, #f7f9fb 0%, #ffffff 50%, #e8e8e8 88%)',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        {/* Grid Background */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          opacity: 0.8,
-          backgroundImage: 'linear-gradient(to right, #f0f0f0 1px, transparent 1px), linear-gradient(to bottom, #f0f0f0 1px, transparent 1px)',
-          backgroundSize: '6rem 5rem',
-          maskImage: 'radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%)',
-        }} />
+      {/* ═══════ HERO ═══════ */}
+      <section className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
+        {/* BG — pure CSS, no JS */}
+        <div className="absolute inset-0 hero-bg" />
+        <div className="absolute inset-0 hero-grid opacity-[0.03]" />
 
-        {/* Radial Accent */}
-        <div style={{
-          position: 'absolute',
-          left: '50%',
-          top: 'calc(100% - 150px)',
-          height: 750,
-          width: '140%',
-          transform: 'translateX(-50%)',
-          borderRadius: '100%',
-          background: 'radial-gradient(closest-side, #fff 82%, #000000)',
-        }} />
+        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/[0.03] mb-8">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-sm text-white/60">AI-Powered Content Platform</span>
+          </motion.div>
 
-        <div style={{ maxWidth: 1400, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center', position: 'relative', zIndex: 10, '@media (max-width: 1024px)': { gridTemplateColumns: '1fr', gap: 48 } } as any}>
-          <div>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '8px 16px',
-              background: 'rgba(45,97,151,0.1)',
-              borderRadius: 20,
-              fontSize: 12,
-              fontWeight: 700,
-              color: '#2d6197',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              marginBottom: 24,
-            }}>
-              AI-Powered Content Platform
-              <ArrowRight className="w-4 h-4" />
-            </div>
-            <h1 style={{
-              fontSize: 'clamp(40px, 6vw, 72px)',
-              fontWeight: 800,
-              color: '#2a3439',
-              lineHeight: 1.1,
-              margin: '0 0 24px 0',
-              fontFamily: 'Manrope, sans-serif',
-              letterSpacing: '-0.02em',
-            }}>
-              Get Paid to Create{' '}
-              <span style={{ 
-                background: 'linear-gradient(135deg, #2d6197 0%, #006b62 100%)', 
-                WebkitBackgroundClip: 'text', 
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}>
-                Viral Reddit Posts
-              </span>
-            </h1>
-            <p style={{
-              fontSize: 20,
-              color: '#566166',
-              lineHeight: 1.6,
-              marginBottom: 40,
-              maxWidth: 500,
-            }}>
-              Choose any subreddit, craft engaging posts with our curated keywords, 
-              and earn money while helping train the next generation of AI language models.
-            </p>
-            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-              <button
-                onClick={() => router.push('/login')}
-                style={{
-                  padding: '16px 32px',
-                  background: '#2d6197',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: 12,
-                  fontSize: 16,
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 20px rgba(45,97,151,0.3)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                }}
-              >
-                Start Creating Posts
-                <ArrowRight />
-              </button>
-              <a
-                href="#about"
-                style={{
-                  padding: '16px 32px',
-                  background: 'transparent',
-                  color: '#2d6197',
-                  border: '2px solid #2d6197',
-                  borderRadius: 12,
-                  fontSize: 16,
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  textDecoration: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                Learn More
-              </a>
-            </div>
-          </div>
-          
-          {/* Hero Card with Reddit Post Mockup */}
-          <div style={{ position: 'relative' }}>
-            <div style={{
-              background: '#ffffff',
-              borderRadius: 24,
-              padding: 32,
-              boxShadow: '0 25px 80px rgba(0,0,0,0.12)',
-              border: '1px solid #e1e9ee',
-              position: 'relative',
-              zIndex: 10,
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-                <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#9f403d' }} />
-                <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#f59e0b' }} />
-                <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#006b62' }} />
-              </div>
-              
-              <div style={{
-                background: '#f7f9fb',
-                borderRadius: 16,
-                padding: 24,
-                marginBottom: 20,
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                  <div style={{ 
-                    width: 32, 
-                    height: 32, 
-                    borderRadius: '50%', 
-                    background: 'linear-gradient(135deg, #2d6197, #006b62)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#fff',
-                    fontSize: 12,
-                    fontWeight: 700,
-                  }}>
-                    U
-                  </div>
-                  <span style={{ fontSize: 14, fontWeight: 600, color: '#2a3439' }}>r/Showerthoughts</span>
-                  <span style={{ fontSize: 12, color: '#566166' }}>• 2h ago</span>
-                </div>
-                <p style={{ fontSize: 15, color: '#2a3439', lineHeight: 1.6, margin: 0 }}>
-                  Social media would actually be really helpful during a{' '}
-                  <span style={{ 
-                    background: 'linear-gradient(135deg, rgba(0,107,98,0.2), rgba(0,107,98,0.1))', 
-                    padding: '2px 8px', 
-                    borderRadius: 6, 
-                    color: '#006b62', 
-                    fontWeight: 600,
-                    border: '1px solid rgba(0,107,98,0.3)',
-                  }}>
-                    zombie apocalypse
-                  </span>{' '}
-                  because you'd be able to see which of your friends got turned.
-                </p>
-              </div>
-              
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', gap: 20 }}>
-                  <span style={{ fontSize: 13, color: '#566166', display: 'flex', alignItems: 'center', gap: 4 }}>
-                    ▲ 12.4k upvotes
-                  </span>
-                  <span style={{ fontSize: 13, color: '#566166', display: 'flex', alignItems: 'center', gap: 4 }}>
-                    💬 847 comments
-                  </span>
-                </div>
-                <span style={{ 
-                  fontSize: 14, 
-                  color: '#006b62', 
-                  fontWeight: 700,
-                  background: 'rgba(0,107,98,0.1)',
-                  padding: '6px 12px',
-                  borderRadius: 20,
-                }}>
-                  +$25.00
-                </span>
-              </div>
-            </div>
-            
-            {/* Floating Badge */}
-            <div style={{
-              position: 'absolute',
-              top: -20,
-              right: -20,
-              background: 'linear-gradient(135deg, #006b62, #2d6197)',
-              color: '#fff',
-              padding: '14px 24px',
-              borderRadius: 16,
-              fontSize: 14,
-              fontWeight: 700,
-              boxShadow: '0 8px 30px rgba(0,107,98,0.4)',
-              zIndex: 20,
-            }}>
-              🔥 Viral Post!
-            </div>
-            
-            {/* Secondary floating card */}
-            <div style={{
-              position: 'absolute',
-              bottom: -30,
-              left: -30,
-              background: '#fff',
-              padding: 20,
-              borderRadius: 16,
-              boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
-              border: '1px solid #e1e9ee',
-              zIndex: 20,
-              maxWidth: 200,
-            }}>
-              <div style={{ fontSize: 12, color: '#566166', marginBottom: 8 }}>Earnings this month</div>
-              <div style={{ fontSize: 28, fontWeight: 800, color: '#2d6197' }}>$2,847</div>
-            </div>
-          </div>
-        </div>
-      </section>
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }} className="text-5xl sm:text-6xl md:text-8xl font-black leading-[0.9] tracking-tight mb-8">
+            Get Paid to<br className="hidden sm:block" /> Create{' '}
+            <span className="hero-gradient-text">Viral Content</span>
+          </motion.h1>
 
-      {/* Stats Bar */}
-      <section style={{
-        padding: '40px 24px',
-        background: '#fff',
-        borderTop: '1px solid #e1e9ee',
-        borderBottom: '1px solid #e1e9ee',
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 32, textAlign: 'center', '@media (max-width: 768px)': { gridTemplateColumns: 'repeat(2, 1fr)' } } as any}>
-          <div>
-            <div style={{ fontSize: 40, fontWeight: 800, color: '#2d6197', fontFamily: 'Manrope, sans-serif' }}>50K+</div>
-            <div style={{ fontSize: 14, color: '#566166' }}>Active Creators</div>
-          </div>
-          <div>
-            <div style={{ fontSize: 40, fontWeight: 800, color: '#006b62', fontFamily: 'Manrope, sans-serif' }}>$2.4M</div>
-            <div style={{ fontSize: 14, color: '#566166' }}>Paid to Creators</div>
-          </div>
-          <div>
-            <div style={{ fontSize: 40, fontWeight: 800, color: '#2d6197', fontFamily: 'Manrope, sans-serif' }}>1.2M+</div>
-            <div style={{ fontSize: 14, color: '#566166' }}>Posts Created</div>
-          </div>
-          <div>
-            <div style={{ fontSize: 40, fontWeight: 800, color: '#9f403d', fontFamily: 'Manrope, sans-serif' }}>45K+</div>
-            <div style={{ fontSize: 14, color: '#566166' }}>Viral Posts</div>
-          </div>
-        </div>
-      </section>
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="text-lg md:text-xl text-white/40 max-w-2xl mx-auto mb-12 leading-relaxed">
+            Choose any subreddit, craft engaging posts with AI-curated keywords, and earn real money while building your online presence.
+          </motion.p>
 
-      {/* AI Training Section */}
-      <section id="about" style={{
-        padding: '120px 24px',
-        background: '#f7f9fb',
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', maxWidth: 800, margin: '0 auto 80px' }}>
-            <h2 style={{
-              fontSize: 'clamp(32px, 5vw, 48px)',
-              fontWeight: 800,
-              color: '#2a3439',
-              marginBottom: 20,
-              fontFamily: 'Manrope, sans-serif',
-            }}>
-              Training the Future of AI
-            </h2>
-            <p style={{
-              fontSize: 18,
-              color: '#566166',
-              lineHeight: 1.6,
-            }}>
-              Every post you create helps train EchoWriting, our advanced language model. 
-              Your carefully crafted content teaches AI to understand context, nuance, and natural human expression.
-            </p>
-          </div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button onClick={() => router.push('/login')} className="group px-8 py-4 rounded-full font-bold bg-gradient-to-r from-violet-500 via-cyan-500 to-emerald-500 hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+              Start Earning Today
+              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path d="M5 12h14m-7-7 7 7-7 7" /></svg>
+            </button>
+            <a href="#how-it-works" className="px-8 py-4 rounded-full border border-white/15 text-white/70 font-bold hover:bg-white/5 transition-colors text-center">
+              See How It Works
+            </a>
+          </motion.div>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(3, 1fr)', 
-            gap: 32,
-            '@media (max-width: 968px)': { gridTemplateColumns: '1fr' }
-          } as any}>
-            {[
-              {
-                icon: <Brain className="w-8 h-8" />,
-                title: 'Contextual Understanding',
-                desc: 'By using keywords naturally in context, you help our LLMs understand how words function in real conversations, not just dictionary definitions.',
-                color: '#2d6197',
-              },
-              {
-                icon: <MessageCircle className="w-8 h-8" />,
-                title: 'Natural Language Processing',
-                desc: 'Viral posts attract comments. We scrape and analyze these discussions to give our AI deeper context around word usage and meaning.',
-                color: '#006b62',
-              },
-              {
-                icon: <Zap className="w-8 h-8" />,
-                title: 'AI Model Grounding',
-                desc: 'Proper contextual usage prevents AI confusion. Using words out of context harms our models and may result in account suspension.',
-                color: '#9f403d',
-              },
-            ].map((item, i) => (
-              <div key={i} style={{
-                background: '#ffffff',
-                borderRadius: 20,
-                padding: 40,
-                border: '1px solid #e1e9ee',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-              }}>
-                <div style={{
-                  width: 64,
-                  height: 64,
-                  background: `rgba(${item.color === '#2d6197' ? '45,97,151' : item.color === '#006b62' ? '0,107,98' : '159,64,61'}, 0.1)`,
-                  borderRadius: 16,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 24,
-                  color: item.color,
-                }}>
-                  {item.icon}
-                </div>
-                <h3 style={{ fontSize: 22, fontWeight: 700, color: '#2a3439', marginBottom: 12 }}>
-                  {item.title}
-                </h3>
-                <p style={{ fontSize: 15, color: '#566166', lineHeight: 1.6 }}>
-                  {item.desc}
-                </p>
-              </div>
+          <motion.div
+            initial="hidden" animate="show" variants={stagger.container}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 pt-10 border-t border-white/[0.06]"
+          >
+            {stats.map((s, i) => (
+              <motion.div key={i} variants={stagger.item} className="text-center">
+                <div className="text-2xl md:text-3xl font-black text-white/90">{s.value}</div>
+                <div className="text-sm text-white/30 mt-1">{s.label}</div>
+              </motion.div>
             ))}
+          </motion.div>
+        </div>
+
+        {/* CSS-only scroll indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
+          <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-1.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-white/50 animate-bounce-slow" />
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section id="how-it-works" style={{
-        padding: '120px 24px',
-        background: '#ffffff',
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto 80px' }}>
-            <h2 style={{
-              fontSize: 'clamp(32px, 5vw, 48px)',
-              fontWeight: 800,
-              color: '#2a3439',
-              marginBottom: 20,
-              fontFamily: 'Manrope, sans-serif',
-            }}>
-              How It Works
-            </h2>
-            <p style={{ fontSize: 18, color: '#566166' }}>
-              Create viral content, get approved, get paid. It's that simple.
-            </p>
-          </div>
+      {/* ═══════ MARQUEE — CSS only ═══════ */}
+      <section className="py-6 border-y border-white/[0.06] overflow-hidden marquee-fade">
+        <div className="marquee-track">
+          {[...marqueeItems, ...marqueeItems].map((item, i) => (
+            <span key={i} className="marquee-item">{item}</span>
+          ))}
+        </div>
+      </section>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(4, 1fr)', 
-            gap: 24,
-            '@media (max-width: 1024px)': { gridTemplateColumns: 'repeat(2, 1fr)' },
-            '@media (max-width: 640px)': { gridTemplateColumns: '1fr' }
-          } as any}>
-            {[
-              {
-                step: '01',
-                icon: <Target className="w-6 h-6" />,
-                title: 'Choose Your Mission',
-                desc: 'Select any subreddit and pick from our curated keywords. Each keyword has a limited number of uses.',
-              },
-              {
-                step: '02',
-                icon: <Edit3 className="w-6 h-6" />,
-                title: 'Craft Your Post',
-                desc: 'Write an engaging, viral-worthy post that naturally incorporates your chosen keyword within the first 3 paragraphs.',
-              },
-              {
-                step: '03',
-                icon: <Search className="w-6 h-6" />,
-                title: 'Quality Review',
-                desc: 'Our team reviews your submission for quality, engagement potential, and proper keyword integration.',
-              },
-              {
-                step: '04',
-                icon: <DollarSign className="w-6 h-6" />,
-                title: 'Get Paid',
-                desc: 'Once approved, post to Reddit. Higher engagement = higher pay. Watch your earnings grow with every viral post.',
-              },
-            ].map((item, i) => (
-              <div key={i} style={{
-                padding: 32,
-                background: '#f7f9fb',
-                borderRadius: 20,
-                position: 'relative',
-                border: '1px solid #e1e9ee',
-              }}>
-                <span style={{
-                  position: 'absolute',
-                  top: 20,
-                  right: 20,
-                  fontSize: 48,
-                  fontWeight: 800,
-                  color: 'rgba(45,97,151,0.06)',
-                  fontFamily: 'Manrope, sans-serif',
-                }}>
-                  {item.step}
-                </span>
-                <div style={{
-                  width: 48,
-                  height: 48,
-                  background: '#2d6197',
-                  borderRadius: 12,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#fff',
-                  marginBottom: 20,
-                }}>
-                  {item.icon}
+      {/* ═══════ FEATURES ═══════ */}
+      <section id="features" className="py-28 px-6">
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.5 }} className="text-center mb-16">
+            <span className="text-sm font-semibold uppercase tracking-widest text-violet-400 mb-4 block">Features</span>
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight">
+              Everything You Need<br /><span className="text-white/25">to Succeed</span>
+            </h2>
+          </motion.div>
+
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={stagger.container} className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {features.map((f, i) => (
+              <motion.div key={i} variants={stagger.item} className="group rounded-2xl overflow-hidden border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-colors duration-300">
+                <div className="relative h-52 overflow-hidden">
+                  <img src={f.image} alt={f.title} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 will-change-transform" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/40 to-transparent" />
+                  <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-xs font-bold">{f.tag}</div>
                 </div>
-                <h3 style={{ fontSize: 20, fontWeight: 700, color: '#2a3439', marginBottom: 12 }}>
-                  {item.title}
-                </h3>
-                <p style={{ fontSize: 14, color: '#566166', lineHeight: 1.6 }}>
-                  {item.desc}
-                </p>
-              </div>
+                <div className="p-7">
+                  <h3 className="text-lg font-bold mb-2">{f.title}</h3>
+                  <p className="text-white/35 text-sm leading-relaxed">{f.description}</p>
+                </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Examples Section with Images */}
-      <section id="examples" style={{
-        padding: '120px 24px',
-        background: '#f7f9fb',
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', maxWidth: 700, margin: '0 auto 60px' }}>
-            <h2 style={{
-              fontSize: 'clamp(32px, 5vw, 48px)',
-              fontWeight: 800,
-              color: '#2a3439',
-              marginBottom: 20,
-              fontFamily: 'Manrope, sans-serif',
-            }}>
-              Seamless Keyword Integration
+      {/* ═══════ STATEMENT ═══════ */}
+      <section className="py-28 px-6">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6 }} className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-5xl lg:text-7xl font-black leading-tight tracking-tight">
+            Your words have power.
+          </h2>
+          <h2 className="text-3xl md:text-5xl lg:text-7xl font-black leading-tight tracking-tight text-white/25 mt-2">
+            We help you monetize them.
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-cyan-500 mx-auto mt-10 rounded-full" />
+        </motion.div>
+      </section>
+
+      {/* ═══════ HOW IT WORKS ═══════ */}
+      <section id="how-it-works" className="py-28 px-6">
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="text-center mb-16">
+            <span className="text-sm font-semibold uppercase tracking-widest text-cyan-400 mb-4 block">How It Works</span>
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight">
+              Three Steps to<br /><span className="text-white/25">Start Earning</span>
             </h2>
-            <p style={{ fontSize: 18, color: '#566166' }}>
-              Great posts feel natural. The keyword should fit so well that readers don't even notice it's there.
-            </p>
-          </div>
+          </motion.div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '300px 1fr',
-            gap: 0,
-            background: '#ffffff',
-            borderRadius: 24,
-            overflow: 'hidden',
-            border: '1px solid #e1e9ee',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.08)',
-            '@media (max-width: 768px)': { gridTemplateColumns: '1fr' }
-          } as any}>
-            <div style={{ borderRight: '1px solid #e1e9ee', '@media (max-width: 768px)': { borderRight: 'none', borderBottom: '1px solid #e1e9ee' } } as any}>
-              {examples.map((ex, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveExample(i)}
-                  style={{
-                    width: '100%',
-                    padding: 24,
-                    textAlign: 'left',
-                    border: 'none',
-                    borderBottom: i < examples.length - 1 ? '1px solid #e1e9ee' : 'none',
-                    background: activeExample === i ? '#f7f9fb' : '#ffffff',
-                    cursor: 'pointer',
-                    transition: 'background 0.2s',
-                  }}
-                >
-                  <span style={{
-                    display: 'inline-block',
-                    padding: '6px 14px',
-                    background: activeExample === i ? 'rgba(0,107,98,0.15)' : 'rgba(0,107,98,0.08)',
-                    color: '#006b62',
-                    borderRadius: 20,
-                    fontSize: 13,
-                    fontWeight: 700,
-                    marginBottom: 8,
-                  }}>
-                    {ex.keyword}
-                  </span>
-                  <div style={{ fontSize: 14, color: '#566166' }}>{ex.subreddit}</div>
-                </button>
-              ))}
-            </div>
-            <div style={{ padding: 48, '@media (max-width: 640px)': { padding: 24 } }}>
-              {/* Image */}
-              <div style={{
-                width: '100%',
-                height: 200,
-                borderRadius: 16,
-                overflow: 'hidden',
-                marginBottom: 24,
-                position: 'relative',
-              }}>
-                <img 
-                  src={examples[activeExample].image} 
-                  alt={examples[activeExample].keyword}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(to top, rgba(0,0,0,0.4), transparent)',
-                }} />
-                <div style={{
-                  position: 'absolute',
-                  bottom: 16,
-                  left: 16,
-                  color: '#fff',
-                  fontSize: 24,
-                  fontWeight: 700,
-                  textShadow: '0 2px 10px rgba(0,0,0,0.3)',
-                }}>
-                  {examples[activeExample].subreddit}
-                </div>
-              </div>
-
-              <div style={{ marginBottom: 24 }}>
-                <span style={{
-                  display: 'inline-block',
-                  padding: '8px 16px',
-                  background: 'rgba(0,107,98,0.1)',
-                  color: '#006b62',
-                  borderRadius: 20,
-                  fontSize: 14,
-                  fontWeight: 700,
-                  marginBottom: 16,
-                }}>
-                  Keyword: {examples[activeExample].keyword}
-                </span>
-              </div>
-              <h3 style={{ fontSize: 28, fontWeight: 700, color: '#2a3439', marginBottom: 16 }}>
-                {examples[activeExample].post}
-              </h3>
-              <div style={{
-                padding: 24,
-                background: 'rgba(0,107,98,0.05)',
-                borderRadius: 16,
-                borderLeft: '4px solid #006b62',
-              }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: '#006b62', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>
-                  Why This Works
-                </div>
-                <p style={{ fontSize: 15, color: '#566166', margin: 0, lineHeight: 1.6 }}>
-                  {examples[activeExample].why}
-                </p>
-              </div>
-            </div>
-          </div>
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger.container} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {steps.map((step, i) => (
+              <motion.div key={i} variants={stagger.item} className="relative p-8 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-colors duration-300">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-sm font-black mb-6">{step.num}</div>
+                <h3 className="text-lg font-bold mb-3">{step.title}</h3>
+                <p className="text-white/35 text-sm leading-relaxed">{step.desc}</p>
+                {i < steps.length - 1 && (
+                  <div className="hidden md:block absolute top-1/2 -right-3 w-6 border-t border-dashed border-white/10" />
+                )}
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" style={{
-        padding: '120px 24px',
-        background: '#ffffff',
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto 80px' }}>
-            <h2 style={{
-              fontSize: 'clamp(32px, 5vw, 48px)',
-              fontWeight: 800,
-              color: '#2a3439',
-              marginBottom: 20,
-              fontFamily: 'Manrope, sans-serif',
-            }}>
-              Loved by Creators
+      {/* ═══════ TESTIMONIALS ═══════ */}
+      <section id="testimonials" className="py-28 px-6">
+        <div className="max-w-6xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="text-center mb-16">
+            <span className="text-sm font-semibold uppercase tracking-widest text-emerald-400 mb-4 block">Testimonials</span>
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight">
+              Loved by<br /><span className="text-white/25">Creators</span>
             </h2>
-            <p style={{ fontSize: 18, color: '#566166' }}>
-              Join thousands of creators who are earning real money by doing what they love.
-            </p>
-          </div>
+          </motion.div>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(3, 1fr)', 
-            gap: 24,
-            '@media (max-width: 968px)': { gridTemplateColumns: '1fr' }
-          } as any}>
-            {testimonials.map((t, i) => (
-              <div key={i} style={{
-                padding: 32,
-                background: '#f7f9fb',
-                borderRadius: 20,
-                border: '1px solid #e1e9ee',
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-                  <img 
-                    src={t.avatar} 
-                    alt={t.name}
-                    style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover' }}
-                  />
+          {/* Slider */}
+          <div className="relative max-w-3xl mx-auto">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTestimonial}
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.35, ease: [0.25, 0.1, 0, 1] }}
+                className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 md:p-12"
+              >
+                <div className="flex items-center gap-4 mb-8">
+                  <img src={testimonials[activeTestimonial].avatar} alt={testimonials[activeTestimonial].name} loading="lazy" className="w-14 h-14 rounded-full object-cover ring-2 ring-white/10" />
                   <div>
-                    <div style={{ fontSize: 16, fontWeight: 700, color: '#2a3439' }}>{t.name}</div>
-                    <div style={{ fontSize: 13, color: '#566166' }}>{t.role}</div>
+                    <h4 className="font-bold">{testimonials[activeTestimonial].name}</h4>
+                    <p className="text-sm text-white/40">{testimonials[activeTestimonial].role}</p>
+                  </div>
+                  <div className="ml-auto px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/20">
+                    <span className="text-emerald-400 font-bold text-sm">{testimonials[activeTestimonial].earnings}</span>
                   </div>
                 </div>
-                <div style={{ display: 'flex', gap: 4, marginBottom: 16 }}>
-                  {[...Array(5)].map((_, j) => (
-                    <span key={j} style={{ color: '#f59e0b' }}>★</span>
+
+                <p className="text-lg md:text-xl text-white/60 leading-relaxed italic">
+                  &ldquo;{testimonials[activeTestimonial].quote}&rdquo;
+                </p>
+
+                <div className="flex gap-1 mt-6">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
                   ))}
                 </div>
-                <p style={{ fontSize: 15, color: '#566166', lineHeight: 1.6, margin: 0 }}>
-                  "{t.quote}"
-                </p>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Controls */}
+            <div className="flex items-center justify-center gap-5 mt-8">
+              <button onClick={() => setActiveTestimonial((p) => (p - 1 + testimonials.length) % testimonials.length)} className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition-colors">
+                <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path d="M5 12h14m-7-7 7 7-7 7" /></svg>
+              </button>
+              <div className="flex gap-2">
+                {testimonials.map((_, i) => (
+                  <button key={i} onClick={() => setActiveTestimonial(i)} className={`h-2 rounded-full transition-all duration-300 ${i === activeTestimonial ? 'w-8 bg-gradient-to-r from-violet-500 to-cyan-500' : 'w-2 bg-white/20'}`} />
+                ))}
               </div>
-            ))}
+              <button onClick={() => setActiveTestimonial((p) => (p + 1) % testimonials.length)} className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition-colors">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path d="M5 12h14m-7-7 7 7-7 7" /></svg>
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Quality Standards */}
-      <section style={{
-        padding: '120px 24px',
-        background: '#f7f9fb',
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{
-            background: 'linear-gradient(135deg, #2d6197 0%, #006b62 100%)',
-            borderRadius: 24,
-            padding: '60px 48px',
-            color: '#ffffff',
-            '@media (max-width: 768px)': { padding: '40px 24px' }
-          } as any}>
-            <h2 style={{
-              fontSize: 'clamp(28px, 4vw, 36px)',
-              fontWeight: 800,
-              marginBottom: 48,
-              fontFamily: 'Manrope, sans-serif',
-            }}>
-              Quality Standards
+      {/* ═══════ EARNINGS ═══════ */}
+      <section className="py-28 px-6">
+        <div className="max-w-5xl mx-auto text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-4">
+              Your Earnings,{' '}
+              <span className="hero-gradient-text">Transparent</span>
             </h2>
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(2, 1fr)', 
-              gap: 32,
-              '@media (max-width: 768px)': { gridTemplateColumns: '1fr' }
-            } as any}>
-              {[
-                {
-                  icon: <Check className="w-6 h-6" />,
-                  title: 'Authentic Engagement',
-                  desc: 'Real, highly engaging posts. No spam, no forced keywords. Content that genuinely belongs in the chosen subreddit.',
-                },
-                {
-                  icon: <Check className="w-6 h-6" />,
-                  title: 'Seamless Integration',
-                  desc: 'Keywords must flow naturally. They should feel like they belong there. Readers shouldn\'t notice anything unusual.',
-                },
-                {
-                  icon: <span style={{ fontSize: 24 }}>⚠️</span>,
-                  title: 'Context Matters',
-                  desc: 'Using words out of context confuses our AI models and degrades training quality. Repeated violations will result in account suspension.',
-                },
-                {
-                  icon: <Target className="w-6 h-6" />,
-                  title: 'Viral Potential',
-                  desc: 'Higher reach = more comments = better AI training data. Craft posts that spark genuine discussion and engagement.',
-                },
-              ].map((item, i) => (
-                <div key={i} style={{ display: 'flex', gap: 16 }}>
-                  <div style={{
-                    width: 48,
-                    height: 48,
-                    background: 'rgba(255,255,255,0.2)',
-                    borderRadius: 12,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                  }}>
-                    {item.icon}
-                  </div>
-                  <div>
-                    <h4 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>{item.title}</h4>
-                    <p style={{ fontSize: 14, opacity: 0.9, lineHeight: 1.5 }}>{item.desc}</p>
-                  </div>
-                </div>
+            <p className="text-lg text-white/35 max-w-xl mx-auto mb-14">
+              See exactly how your content generates revenue. No hidden fees.
+            </p>
+          </motion.div>
+
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger.container} className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { label: 'Per Upvote', value: '$0.08', sub: 'Scales with engagement' },
+              { label: 'Per Comment', value: '$0.12', sub: 'Quality interactions' },
+              { label: 'Per 1K Views', value: '$2.00+', sub: 'Bonus for viral posts' },
+            ].map((item, i) => (
+              <motion.div key={i} variants={stagger.item} className="p-8 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-colors duration-300">
+                <div className="text-3xl font-black mb-2 text-white/90">{item.value}</div>
+                <div className="text-sm font-semibold text-white/50 mb-1">{item.label}</div>
+                <div className="text-xs text-white/25">{item.sub}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════ CTA ═══════ */}
+      <section className="py-28 px-6">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="relative max-w-4xl mx-auto text-center">
+          <div className="absolute inset-0 hero-bg rounded-3xl opacity-50" />
+          <div className="relative py-20 px-8">
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
+              Ready to Start{' '}
+              <span className="hero-gradient-text">Earning?</span>
+            </h2>
+            <p className="text-lg text-white/35 max-w-xl mx-auto mb-10">
+              Join thousands of creators making money from their Reddit expertise. No experience necessary.
+            </p>
+            <button onClick={() => router.push('/login')} className="group px-10 py-4 rounded-full font-bold text-lg bg-gradient-to-r from-violet-500 via-cyan-500 to-emerald-500 hover:opacity-90 transition-opacity inline-flex items-center gap-3">
+              Get Started Free
+              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path d="M5 12h14m-7-7 7 7-7 7" /></svg>
+            </button>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ═══════ FOOTER ═══════ */}
+      <footer className="border-t border-white/[0.06] py-14 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center font-black text-xs">L</div>
+                <span className="font-bold">LexiPost</span>
+              </div>
+              <p className="text-sm text-white/25 leading-relaxed">Earn money creating authentic Reddit content.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold text-sm mb-4 text-white/50">Product</h4>
+              <ul className="space-y-2">
+                {['Features', 'Pricing', 'API', 'Changelog'].map((link) => (
+                  <li key={link}><a href="#" className="text-sm text-white/25 hover:text-white/50 transition-colors">{link}</a></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-sm mb-4 text-white/50">Account</h4>
+              <ul className="space-y-2">
+                <li><a href="/login" className="text-sm text-white/25 hover:text-white/50 transition-colors">Creator Login</a></li>
+                <li><a href="/reviewer/login" className="text-sm text-white/25 hover:text-white/50 transition-colors">Reviewer Login</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-sm mb-4 text-white/50">Legal</h4>
+              <ul className="space-y-2">
+                {['Privacy', 'Terms', 'Security'].map((link) => (
+                  <li key={link}><a href="#" className="text-sm text-white/25 hover:text-white/50 transition-colors">{link}</a></li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-white/[0.06] pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-white/15">&copy; 2024 LexiPost. All rights reserved.</p>
+            <div className="flex gap-6">
+              {['Twitter', 'GitHub', 'Discord'].map((s) => (
+                <a key={s} href="#" className="text-sm text-white/15 hover:text-white/40 transition-colors">{s}</a>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section style={{
-        padding: '120px 24px',
-        background: '#ffffff',
-      }}>
-        <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{
-            fontSize: 'clamp(32px, 5vw, 48px)',
-            fontWeight: 800,
-            color: '#2a3439',
-            marginBottom: 24,
-            fontFamily: 'Manrope, sans-serif',
-          }}>
-            Ready to Start Creating?
-          </h2>
-          <p style={{
-            fontSize: 18,
-            color: '#566166',
-            marginBottom: 40,
-            lineHeight: 1.6,
-          }}>
-            Join thousands of creators who are getting paid to craft viral content 
-            while helping train the next generation of AI.
-          </p>
-          <button
-            onClick={() => router.push('/login')}
-            style={{
-              padding: '20px 48px',
-              background: '#2d6197',
-              color: '#fff',
-              border: 'none',
-              borderRadius: 12,
-              fontSize: 18,
-              fontWeight: 700,
-              cursor: 'pointer',
-              boxShadow: '0 4px 20px rgba(45,97,151,0.3)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 12,
-            }}
-          >
-            Create Your Free Account
-            <ArrowRight />
-          </button>
-          <p style={{ fontSize: 14, color: '#566166', marginTop: 24 }}>
-            No credit card required. Start earning today.
-          </p>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer style={{
-        padding: '60px 24px',
-        background: '#2a3439',
-        color: '#ffffff',
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'space-between', 
-            marginBottom: 40,
-            '@media (max-width: 768px)': { flexDirection: 'column', gap: 24 }
-          } as any}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{
-                width: 40,
-                height: 40,
-                background: '#ffffff',
-                borderRadius: 12,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <span style={{ color: '#2d6197', fontSize: 20, fontWeight: 700 }}>L</span>
-              </div>
-              <span style={{ fontSize: 24, fontWeight: 800, fontFamily: 'Manrope, sans-serif' }}>LexiPost</span>
-            </div>
-            <div style={{ display: 'flex', gap: 32 }}>
-              <a href="#about" style={{ color: '#a9b4b9', textDecoration: 'none', fontSize: 14 }}>About</a>
-              <a href="#how-it-works" style={{ color: '#a9b4b9', textDecoration: 'none', fontSize: 14 }}>How It Works</a>
-              <a href="#examples" style={{ color: '#a9b4b9', textDecoration: 'none', fontSize: 14 }}>Examples</a>
-              <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none', fontSize: 14 }}>Support</a>
-            </div>
-          </div>
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 24, textAlign: 'center' }}>
-            <p style={{ fontSize: 14, color: '#a9b4b9', margin: 0 }}>
-              © 2024 LexiPost. Training the future of AI, one post at a time.
-            </p>
           </div>
         </div>
       </footer>
     </div>
   );
 }
-
