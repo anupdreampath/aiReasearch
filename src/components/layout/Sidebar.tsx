@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const ADMIN_NAV = [
   { section: 'Overview', items: [
@@ -117,19 +118,13 @@ const REVIEWER_NAV = [
 ];
 
 export default function Sidebar({ mode = 'admin', mobileOpen = false, onClose }: { mode?: string; mobileOpen?: boolean; onClose?: () => void }) {
-  const router = useRouter();
   const pathname = usePathname();
   const nav = mode === 'admin' ? ADMIN_NAV : mode === 'reviewer' ? REVIEWER_NAV : CONTRIBUTOR_NAV;
   const isAdmin = mode === 'admin';
 
   const isActive = (path) => {
-    if (path === '/admin' || path === '/portal') return pathname === path;
+    if (path === '/admin' || path === '/portal' || path === '/reviewer') return pathname === path;
     return pathname.startsWith(path);
-  };
-
-  const handleNav = (path) => {
-    router.push(path);
-    if (onClose) onClose();
   };
 
   return (
@@ -204,16 +199,18 @@ export default function Sidebar({ mode = 'admin', mobileOpen = false, onClose }:
               {section.items.map(item => {
                 const active = isActive(item.path);
                 return (
-                  <button
+                  <Link
                     key={item.path}
-                    onClick={() => handleNav(item.path)}
+                    href={item.path}
+                    prefetch={true}
+                    onClick={onClose}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: '12px',
                       padding: '8px 12px',
                       borderRadius: '8px',
-                      border: 'none',
+                      textDecoration: 'none',
                       cursor: 'pointer',
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '13px',
@@ -223,16 +220,16 @@ export default function Sidebar({ mode = 'admin', mobileOpen = false, onClose }:
                       color: active ? '#ffffff' : '#566166',
                       transition: 'all 0.15s ease',
                     }}
-                    onMouseEnter={e => { 
-                      if (!active) { 
-                        e.currentTarget.style.background = '#e8eff3'; 
-                        e.currentTarget.style.color = '#2a3439'; 
+                    onMouseEnter={e => {
+                      if (!active) {
+                        e.currentTarget.style.background = '#e8eff3';
+                        e.currentTarget.style.color = '#2a3439';
                       }
                     }}
-                    onMouseLeave={e => { 
-                      if (!active) { 
-                        e.currentTarget.style.background = 'transparent'; 
-                        e.currentTarget.style.color = '#566166'; 
+                    onMouseLeave={e => {
+                      if (!active) {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.color = '#566166';
                       }
                     }}
                   >
@@ -250,7 +247,7 @@ export default function Sidebar({ mode = 'admin', mobileOpen = false, onClose }:
                       {item.icon}
                     </span>
                     <span>{item.label}</span>
-                  </button>
+                  </Link>
                 );
               })}
             </div>
@@ -268,18 +265,18 @@ export default function Sidebar({ mode = 'admin', mobileOpen = false, onClose }:
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {isAdmin && (
             <>
-              <NavButton icon="manage_accounts" label="Role Management" onClick={() => handleNav('/admin/roles')} />
-              <NavButton icon="history" label="Activity Log" onClick={() => handleNav('/admin/activity-log')} />
+              <NavLink icon="manage_accounts" label="Role Management" href="/admin/roles" />
+              <NavLink icon="history" label="Activity Log" href="/admin/activity-log" />
             </>
           )}
           {mode === 'reviewer' && (
             <>
-              <NavButton icon="bar_chart" label="My Stats" onClick={() => handleNav('/reviewer/stats')} />
-              <NavButton icon="notifications" label="Notifications" onClick={() => handleNav('/reviewer/notifications')} />
+              <NavLink icon="bar_chart" label="My Stats" href="/reviewer/stats" />
+              <NavLink icon="notifications" label="Notifications" href="/reviewer/notifications" />
             </>
           )}
           {mode === 'contributor' && (
-            <NavButton icon="person" label="Profile" onClick={() => handleNav('/portal/profile')} />
+            <NavLink icon="person" label="Profile" href="/portal/profile" />
           )}
         </div>
       </div>
@@ -288,17 +285,18 @@ export default function Sidebar({ mode = 'admin', mobileOpen = false, onClose }:
   );
 }
 
-function NavButton({ icon, label, onClick }) {
+function NavLink({ icon, label, href }) {
   return (
-    <button
-      onClick={onClick}
+    <Link
+      href={href}
+      prefetch={true}
       style={{
         display: 'flex',
         alignItems: 'center',
         gap: '12px',
         padding: '8px 12px',
         borderRadius: '8px',
-        border: 'none',
+        textDecoration: 'none',
         cursor: 'pointer',
         fontFamily: 'Inter, sans-serif',
         fontSize: '13px',
@@ -313,6 +311,6 @@ function NavButton({ icon, label, onClick }) {
     >
       <span style={{ fontSize: '18px', fontFamily: 'Material Symbols Outlined', width: 18, height: 18, lineHeight: '18px', overflow: 'hidden', display: 'inline-block', flexShrink: 0 }}>{icon}</span>
       <span>{label}</span>
-    </button>
+    </Link>
   );
 }
