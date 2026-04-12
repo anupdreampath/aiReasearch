@@ -34,10 +34,10 @@ export default function ReviewerDashboard() {
   const router = useRouter();
 
   const stats = [
-    { label: 'Reviewed Today', val: '18', sub: '+3 from yesterday', color: '#2563EB', icon: <CheckCircle size={20} color="#2d6197" />, bg: '#475569' },
-    { label: 'Pending Queue', val: '6', sub: 'oldest: 1h ago', color: '#D97706', icon: <Clock size={20} color="#F59E0B" />, bg: '#0F4C81' },
-    { label: 'Approval Rate', val: '84%', sub: 'vs 81% last week', color: '#0F4C81', icon: <TrendingUp size={20} color="#6366F1" />, bg: '#f7f9fb' },
-    { label: 'Avg Review Time', val: '47s', sub: '-5s improvement', color: '#0EA5E9', icon: <Zap size={20} color="#0EA5E9" />, bg: '#F0F9FF' },
+    { label: 'Reviewed Today', val: '18', sub: '+3 from yesterday', color: '#059669', icon: <CheckCircle size={20} color="#fff" />, bg: '#10B981' },
+    { label: 'Pending Queue', val: '6', sub: 'oldest: 1h ago', color: '#D97706', icon: <Clock size={20} color="#fff" />, bg: '#F59E0B' },
+    { label: 'Approval Rate', val: '84%', sub: 'vs 81% last week', color: '#7C3AED', icon: <TrendingUp size={20} color="#fff" />, bg: '#8B5CF6' },
+    { label: 'Avg Review Time', val: '47s', sub: '-5s improvement', color: '#0EA5E9', icon: <Zap size={20} color="#fff" />, bg: '#06B6D4' },
   ];
 
   return (
