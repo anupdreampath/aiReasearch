@@ -169,6 +169,26 @@ export default function Layout({ children, mode = 'admin' }) {
               <span style={{ fontSize: 18, color: '#566166', fontFamily: 'Material Symbols Outlined' }}>expand_more</span>
             </div>
 
+            {/* Help Center */}
+            <button
+              onClick={() => router.push('/help')}
+              style={{
+                width: 36, height: 36,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                borderRadius: '50%',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                color: '#566166',
+                transition: 'all 0.15s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = '#e8eff3'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+              title="Help Center"
+            >
+              <span style={{ fontSize: 20, fontFamily: 'Material Symbols Outlined' }}>help</span>
+            </button>
+
             {/* Notification Bell */}
             <button
               onClick={() => router.push(isAdmin ? '/admin/comms/logs' : '/portal/notifications')}

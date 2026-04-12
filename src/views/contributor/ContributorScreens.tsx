@@ -210,58 +210,126 @@ export function PerformanceStats() {
 // ─── Earnings Dashboard ───────────────────────────────────────────────────────
 export function EarningsDashboard() {
   const router = useRouter();
+  const paidAssignments = myAssignments.filter(a => a.status === 'paid' || a.status === 'verified');
+  const totalEarned = paidAssignments.reduce((s, a) => s + a.amount, 0);
+  const pendingAmount = myPayments.filter(p => p.status === 'pending').reduce((s, p) => s + p.amount, 0);
+
   return (
     <div className="animate-fade-in">
       <PageHeader title="My Earnings" subtitle="Track your income from completed tasks" />
-      <div style={{ background: 'linear-gradient(135deg, #2a3439, #2a3439)', borderRadius: 20, padding: '28px', marginBottom: 20 }} className="portal-earnings-banner">
-        <div>
-          <p style={{ color: '#566166', fontSize: 13, margin: 0 }}>Total Earned</p>
-          <p style={{ color: '#34D399', fontSize: 44, fontWeight: 900, margin: '4px 0' }}>$230</p>
-          <p style={{ color: '#717c82', fontSize: 12, margin: 0 }}>Across 46 approved posts</p>
-        </div>
-        <div style={{ flex: 1 }} />
-        <div className="portal-earnings-banner-stats">
-          {[{ label: 'This Month', value: '$10', color: '#2d6197' }, { label: 'Pending', value: '$10', color: '#FCD34D' }, { label: 'All Time', value: '$230', color: '#34D399' }].map(s => (
-            <div key={s.label} style={{ textAlign: 'center', padding: '16px 20px', background: '#FFFFFF10', borderRadius: 14 }}>
-              <p style={{ fontSize: 22, fontWeight: 800, color: s.color, margin: 0 }}>{s.value}</p>
-              <p style={{ fontSize: 11, color: '#566166', margin: 0 }}>{s.label}</p>
+
+      {/* Stats row */}
+      <div className="portal-grid-3col" style={{ marginBottom: 20 }}>
+        {[
+          { label: 'Total Earned', value: `$${totalEarned}`, icon: <TrendingUp size={20} />, color: '#10B981', bg: '#ECFDF5' },
+          { label: 'Pending Payout', value: `$${pendingAmount}`, icon: <Clock size={20} />, color: '#F59E0B', bg: '#FFFBEB' },
+          { label: 'Approved Tasks', value: paidAssignments.length, icon: <CheckCircle size={20} />, color: '#2d6197', bg: '#d2e4ff' },
+          { label: 'This Month', value: '$15', icon: <DollarSign size={20} />, color: '#10B981', bg: '#ECFDF5' },
+        ].map(s => (
+          <div key={s.label} style={{ background: '#fff', borderRadius: 14, border: '1px solid #e1e9ee', padding: '20px', display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ width: 44, height: 44, borderRadius: 12, background: s.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: s.color }}>
+              {s.icon}
             </div>
-          ))}
-        </div>
+            <div>
+              <p style={{ fontSize: 11, color: '#717c82', margin: '0 0 2px', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>{s.label}</p>
+              <p style={{ fontSize: 22, fontWeight: 800, color: '#2a3439', margin: 0 }}>{s.value}</p>
+            </div>
+          </div>
+        ))}
       </div>
+
+      {/* Earnings rate info */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 20 }}>
+        {[
+          { label: 'Per Approved Post', value: '$5.00', sub: 'Standard rate' },
+          { label: 'Avg per Week', value: `$${Math.round(totalEarned / 8)}`, sub: 'Last 8 weeks' },
+          { label: 'Next Payout', value: 'Tomorrow', sub: '9:00 AM UTC' },
+        ].map(r => (
+          <div key={r.label} style={{ background: '#fff', borderRadius: 12, border: '1px solid #e1e9ee', padding: '16px', textAlign: 'center' }}>
+            <p style={{ fontSize: 20, fontWeight: 800, color: '#2d6197', margin: '0 0 4px' }}>{r.value}</p>
+            <p style={{ fontSize: 12, fontWeight: 600, color: '#2a3439', margin: '0 0 2px' }}>{r.label}</p>
+            <p style={{ fontSize: 11, color: '#a9b4b9', margin: 0 }}>{r.sub}</p>
+          </div>
+        ))}
+      </div>
+
       <div className="portal-grid-2col">
+        {/* Earnings breakdown */}
         <Card>
-          <CardHeader title="Earnings Breakdown" action={<Button variant="ghost" size="sm" onClick={() => router.push('/portal/earnings/history')}>Full History</Button>} />
-          {myAssignments.filter(a => a.status === 'paid' || a.status === 'verified').map(a => (
-            <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderBottom: '1px solid #e1e9ee' }}>
-              <div style={{ width: 36, height: 36, borderRadius: 10, background: '#ECFDF5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <DollarSign size={16} color="#10B981" />
+          <CardHeader title="Recent Earnings" action={<Button variant="ghost" size="sm" onClick={() => router.push('/portal/earnings/history')}>Full History</Button>} />
+          {paidAssignments.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '32px 0', color: '#a9b4b9' }}>
+              <DollarSign size={32} style={{ margin: '0 auto 8px', display: 'block', opacity: 0.3 }} />
+              <p style={{ margin: 0 }}>No earnings yet</p>
+            </div>
+          )}
+          {paidAssignments.map((a, i) => (
+            <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 0', borderBottom: i < paidAssignments.length - 1 ? '1px solid #e1e9ee' : 'none' }}>
+              <div style={{ width: 38, height: 38, borderRadius: 10, background: a.status === 'paid' ? '#ECFDF5' : '#d2e4ff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                {a.status === 'paid' ? <CheckCircle size={16} color="#10B981" /> : <Clock size={16} color="#2d6197" />}
               </div>
-              <div style={{ flex: 1 }}>
-                <p style={{ fontWeight: 600, fontSize: 13, color: '#2a3439', margin: 0 }}>{a.word} — {a.subreddit}</p>
-                <p style={{ fontSize: 11, color: '#717c82', margin: 0 }}>{a.completedAt}</p>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontWeight: 600, fontSize: 13, color: '#2a3439', margin: 0 }}>{a.word}</p>
+                <p style={{ fontSize: 11, color: '#a9b4b9', margin: 0 }}>{a.subreddit} · {a.completedAt}</p>
               </div>
-              <span style={{ fontWeight: 800, fontSize: 16, color: '#10B981' }}>${a.amount}</span>
+              <div style={{ textAlign: 'right' }}>
+                <p style={{ fontWeight: 800, fontSize: 15, color: '#10B981', margin: 0 }}>+${a.amount}</p>
+                <p style={{ fontSize: 10, color: '#a9b4b9', margin: 0 }}>{a.status === 'paid' ? 'Paid' : 'Processing'}</p>
+              </div>
             </div>
           ))}
         </Card>
+
+        {/* Right sidebar */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {/* Payment method card */}
           <Card>
-            <CardHeader title="Payment Info" />
-            <div style={{ padding: '14px', background: '#f7f9fb', borderRadius: 12, marginBottom: 12 }}>
-              <p style={{ fontSize: 11, color: '#717c82', margin: '0 0 2px' }}>Payment Method</p>
-              <p style={{ fontWeight: 700, fontSize: 14, color: '#2a3439', margin: 0 }}>PayPal</p>
-              <p style={{ fontSize: 12, color: '#566166', margin: 0 }}>rahul.s@gmail.com</p>
+            <CardHeader title="Payment Method" icon={<CreditCard size={16} />} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px', background: '#f7f9fb', borderRadius: 12, marginBottom: 12, border: '1px solid #e1e9ee' }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: '#d2e4ff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <CreditCard size={18} color="#2d6197" />
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontWeight: 700, fontSize: 14, color: '#2a3439', margin: 0 }}>PayPal</p>
+                <p style={{ fontSize: 12, color: '#717c82', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>rahul.s@gmail.com</p>
+              </div>
+              <span style={{ padding: '3px 8px', borderRadius: 6, fontSize: 10, fontWeight: 600, background: '#ECFDF5', color: '#059669' }}>Active</span>
             </div>
-            <Button variant="secondary" style={{ width: '100%' }} onClick={() => router.push('/portal/earnings/method')}>Update Payment Method</Button>
+            <Button variant="secondary" size="sm" style={{ width: '100%' }} onClick={() => router.push('/portal/earnings/method')}>Update Method</Button>
           </Card>
+
+          {/* Payout schedule */}
           <Card>
-            <CardHeader title="Payout Schedule" />
-            <div style={{ fontSize: 12, color: '#566166', lineHeight: 1.8 }}>
-              <p>💸 Payments trigger within 24h of approval</p>
-              <p>📅 Batch payouts: daily at 9AM UTC</p>
-              <p>✅ Minimum payout: $1</p>
-              <p>⏱️ Processing time: 1-3 business days</p>
+            <CardHeader title="Payout Schedule" icon={<Clock size={16} />} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                { icon: 'schedule', text: 'Within 24h of approval', color: '#2d6197' },
+                { icon: 'event', text: 'Daily batch at 9AM UTC', color: '#2d6197' },
+                { icon: 'payments', text: 'Minimum payout: $1', color: '#10B981' },
+                { icon: 'hourglass_bottom', text: '1-3 business days processing', color: '#F59E0B' },
+              ].map(item => (
+                <div key={item.text} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ fontSize: 18, fontFamily: 'Material Symbols Outlined', color: item.color, flexShrink: 0 }}>{item.icon}</span>
+                  <span style={{ fontSize: 12, color: '#566166' }}>{item.text}</span>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          {/* Earnings tips */}
+          <Card>
+            <CardHeader title="Boost Earnings" icon={<Zap size={16} />} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {[
+                'Complete tasks before deadlines for priority assignments',
+                'High quality posts earn bonus opportunities',
+                'Maintain 95%+ approval rate for premium tasks',
+              ].map((tip, i) => (
+                <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                  <Star size={12} color="#F59E0B" style={{ flexShrink: 0, marginTop: 2 }} />
+                  <p style={{ fontSize: 12, color: '#566166', margin: 0, lineHeight: 1.5 }}>{tip}</p>
+                </div>
+              ))}
             </div>
           </Card>
         </div>
@@ -486,7 +554,7 @@ export function Guidelines() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {['Use words naturally, not forcefully', 'Don\'t mention you\'re in a research study', 'Post in appropriate, relevant subreddits', 'Write genuine, authentic content', 'Submit within 7 days of assignment', 'One submission per assignment only'].map((r, i) => (
                 <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                  <CheckCircle size={14} color="#10B981" flexShrink={0} />
+                  <CheckCircle size={14} color="#10B981" style={{ flexShrink: 0 }} />
                   <span style={{ fontSize: 13, color: '#2a3439' }}>{r}</span>
                 </div>
               ))}

@@ -86,9 +86,8 @@ const CONTRIBUTOR_NAV = [
     { label: 'Performance', path: '/portal/performance', icon: 'trending_up' },
     { label: 'Profile', path: '/portal/profile', icon: 'person' },
   ]},
-  { section: 'Help', items: [
+  { section: 'Resources', items: [
     { label: 'Guidelines', path: '/portal/guidelines', icon: 'menu_book' },
-    { label: 'Help Center', path: '/help', icon: 'help' },
   ]},
 ];
 

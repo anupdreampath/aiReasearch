@@ -31,6 +31,11 @@ export const mockAssignments = [
   { id: 6, wordId: 6, word: 'quiffle', contributorId: 7, contributor: 'Fatima Al-Hassan', status: 'posted', dueDate: '2026-04-06', assignedAt: '2026-03-29', completedAt: '2026-03-31', platform: 'Reddit', subreddit: 'r/mildlyinteresting', amount: 5 },
   { id: 7, wordId: 8, word: 'glorbish', contributorId: 8, contributor: 'Tom Fletcher', status: 'assigned', dueDate: '2026-04-08', assignedAt: '2026-03-31', completedAt: null, platform: 'Reddit', subreddit: 'r/CasualConversation', amount: 5 },
   { id: 8, wordId: 2, word: 'frumious', contributorId: 1, contributor: 'Rahul Sharma', status: 'verified', dueDate: '2026-04-04', assignedAt: '2026-03-28', completedAt: '2026-03-30', platform: 'Reddit', subreddit: 'r/offmychest', amount: 5 },
+  { id: 9, wordId: 4, word: 'plimble', contributorId: 1, contributor: 'Rahul Sharma', status: 'assigned', dueDate: '2026-04-12', assignedAt: '2026-04-05', completedAt: null, platform: 'Reddit', subreddit: 'r/tifu', amount: 7 },
+  { id: 10, wordId: 6, word: 'quiffle', contributorId: 1, contributor: 'Rahul Sharma', status: 'assigned', dueDate: '2026-04-14', assignedAt: '2026-04-06', completedAt: null, platform: 'Reddit', subreddit: 'r/AskReddit', amount: 5 },
+  { id: 11, wordId: 3, word: 'snorkel', contributorId: 1, contributor: 'Rahul Sharma', status: 'paid', dueDate: '2026-03-20', assignedAt: '2026-03-14', completedAt: '2026-03-18', platform: 'Reddit', subreddit: 'r/CasualConversation', amount: 5 },
+  { id: 12, wordId: 8, word: 'glorbish', contributorId: 1, contributor: 'Rahul Sharma', status: 'paid', dueDate: '2026-03-25', assignedAt: '2026-03-18', completedAt: '2026-03-22', platform: 'Reddit', subreddit: 'r/mildlyinteresting', amount: 5 },
+  { id: 13, wordId: 5, word: 'vexion', contributorId: 1, contributor: 'Rahul Sharma', status: 'rejected', dueDate: '2026-03-28', assignedAt: '2026-03-20', completedAt: '2026-03-26', platform: 'Reddit', subreddit: 'r/unpopularopinion', amount: 0 },
 ];
 
 export const mockSubmissions = [
