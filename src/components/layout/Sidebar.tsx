@@ -83,13 +83,12 @@ const CONTRIBUTOR_NAV = [
   ]},
   { section: 'Account', items: [
     { label: 'Notifications', path: '/portal/notifications', icon: 'notifications' },
-    { label: 'Support Chat', path: '/portal/support', icon: 'chat' },
     { label: 'Performance', path: '/portal/performance', icon: 'trending_up' },
     { label: 'Profile', path: '/portal/profile', icon: 'person' },
   ]},
   { section: 'Help', items: [
     { label: 'Guidelines', path: '/portal/guidelines', icon: 'menu_book' },
-    { label: 'FAQ / Help', path: '/portal/help', icon: 'help' },
+    { label: 'Help Center', path: '/help', icon: 'help' },
   ]},
 ];
 
