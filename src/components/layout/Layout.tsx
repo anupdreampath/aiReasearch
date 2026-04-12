@@ -84,6 +84,7 @@ export default function Layout({ children, mode = 'admin' }) {
   const userRole = isAdmin ? 'Super Admin' : 'Contributor';
   const userInitials = isAdmin ? 'AU' : 'RS';
   const [profileOpen, setProfileOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
   const [authChecked, setAuthChecked] = useState(false);
 
@@ -131,11 +132,11 @@ export default function Layout({ children, mode = 'admin' }) {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#f7f9fb' }}>
-      <Sidebar mode={mode} />
+      <Sidebar mode={mode} mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, marginLeft: 256 }}>
+      <div className="layout-main" style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, marginLeft: 256 }}>
         {/* ── Header ── */}
-        <header style={{
+        <header className="layout-header" style={{
           height: 64, flexShrink: 0,
           background: 'rgba(247,249,251,0.8)',
           backdropFilter: 'blur(12px)',
@@ -144,8 +145,16 @@ export default function Layout({ children, mode = 'admin' }) {
           padding: '0 32px',
           position: 'sticky', top: 0, zIndex: 40,
         }}>
-          {/* Left: Title */}
+          {/* Left: Hamburger + Title */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="hamburger-btn"
+              style={{ display: 'none', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, border: 'none', background: 'transparent', cursor: 'pointer', borderRadius: 8, color: '#566166' }}
+            >
+              <span style={{ fontSize: 22, fontFamily: 'Material Symbols Outlined' }}>menu</span>
+            </button>
+            <style>{`@media (max-width: 768px) { .hamburger-btn { display: flex !important; } .header-date-range { display: none !important; } }`}</style>
             <h2 style={{ fontSize: 20, fontWeight: 800, color: '#2a3439', fontFamily: 'Manrope, sans-serif' }}>{title}</h2>
             <div style={{ width: 1, height: 16, background: '#e1e9ee' }} />
             <p style={{ fontSize: 12, color: '#566166', fontFamily: 'Inter, sans-serif' }}>{isAdmin ? 'Admin Console' : 'Contributor Portal'}</p>
@@ -154,7 +163,7 @@ export default function Layout({ children, mode = 'admin' }) {
           {/* Right: Date + Actions + User */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
             {/* Date Range */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: '#f0f4f7', borderRadius: 8 }}>
+            <div className="header-date-range" style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: '#f0f4f7', borderRadius: 8 }}>
               <span style={{ fontSize: 18, color: '#566166', fontFamily: 'Material Symbols Outlined' }}>calendar_today</span>
               <span style={{ fontSize: 13, color: '#2a3439', fontFamily: 'Inter, sans-serif' }}>Oct 01, 2023 - Oct 31, 2023</span>
               <span style={{ fontSize: 18, color: '#566166', fontFamily: 'Material Symbols Outlined' }}>expand_more</span>
@@ -296,7 +305,7 @@ export default function Layout({ children, mode = 'admin' }) {
         </header>
 
         {/* ── Content ── */}
-        <main style={{ flex: 1, padding: '32px', overflowY: 'auto' }} className="animate-fade-in">
+        <main style={{ flex: 1, padding: '32px', overflowY: 'auto' }} className="animate-fade-in layout-content">
           {children}
         </main>
       </div>

@@ -23,32 +23,49 @@ export function TaskList() {
   const shown = byStatus[tab] || myAssignments;
   return (
     <div className="animate-fade-in">
+      <style>{`
+        .portal-grid-2col { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+        .portal-grid-equal { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .portal-grid-3col { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+        .portal-earnings-banner { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+        .portal-earnings-banner-stats { display: flex; gap: 20px; flex-wrap: wrap; }
+        .portal-avatar-row { display: flex; gap: 14px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+        .portal-chat-input { flex: 1; min-width: 0; width: 100%; padding: 10px 14px; font-size: 13px; border: 1.5px solid #e1e9ee; border-radius: 12px; outline: none; font-family: inherit; box-sizing: border-box; }
+        .portal-chat-input:focus { border-color: #2d6197; }
+        .portal-chat-input-row { display: flex; gap: 8px; width: 100%; }
+        @media (max-width: 768px) {
+          .portal-grid-2col, .portal-grid-equal { grid-template-columns: 1fr; }
+          .portal-earnings-banner { flex-direction: column; align-items: flex-start; }
+          .portal-earnings-banner-stats { width: 100%; justify-content: flex-start; }
+          .portal-avatar-row { flex-direction: column; align-items: flex-start; }
+        }
+      `}</style>
       <PageHeader title="My Tasks" subtitle="All your assigned words and their status" />
       <div style={{ marginBottom: 16 }}>
         <Tabs tabs={[{ id: 'active', label: 'Active', count: byStatus.active.length }, { id: 'posted', label: 'Submitted', count: byStatus.posted.length }, { id: 'done', label: 'Completed', count: byStatus.done.length }]} active={tab} onChange={setTab} />
       </div>
-      {shown.length === 0 && <div style={{ padding: '40px', textAlign: 'center', color: '#94A3B8' }}><Zap size={32} style={{ margin: '0 auto 12px', display: 'block' }} /><p>No tasks in this category</p></div>}
+      {shown.length === 0 && <div style={{ padding: '40px', textAlign: 'center', color: '#717c82' }}><Zap size={32} style={{ margin: '0 auto 12px', display: 'block' }} /><p>No tasks in this category</p></div>}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {shown.map(a => (
           <Card key={a.id} hover onClick={() => router.push(`/portal/tasks/${a.id}`)}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <div style={{ width: 48, height: 48, borderRadius: 14, background: 'linear-gradient(135deg, #4F46E5, #7C3AED)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <div style={{ width: 48, height: 48, borderRadius: 14, background: 'linear-gradient(135deg, #2d6197, #2d6197)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <span style={{ fontSize: 12, fontWeight: 900, color: '#fff', textTransform: 'uppercase' }}>{a.word.slice(0,2)}</span>
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-                  <p style={{ fontWeight: 800, fontSize: 16, color: '#0F172A', margin: 0, fontStyle: 'italic' }}>{a.word}</p>
+                  <p style={{ fontWeight: 800, fontSize: 16, color: '#2a3439', margin: 0, fontStyle: 'italic' }}>{a.word}</p>
                   <StatusBadge status={a.status} />
                 </div>
-                <div style={{ display: 'flex', gap: 12, fontSize: 12, color: '#94A3B8' }}>
+                <div style={{ display: 'flex', gap: 12, fontSize: 12, color: '#717c82' }}>
                   <span>{a.subreddit}</span><span>·</span><span>Due {a.dueDate}</span>
                 </div>
               </div>
               <div style={{ textAlign: 'right' }}>
                 <p style={{ fontSize: 18, fontWeight: 800, color: '#10B981', margin: 0 }}>${a.amount}</p>
-                <p style={{ fontSize: 11, color: '#94A3B8', margin: 0 }}>reward</p>
+                <p style={{ fontSize: 11, color: '#717c82', margin: 0 }}>reward</p>
               </div>
-              <ArrowRight size={16} color="#94A3B8" />
+              <ArrowRight size={16} color="#717c82" />
             </div>
           </Card>
         ))}
@@ -64,16 +81,16 @@ export function TaskHistory() {
       <PageHeader title="Task History" subtitle="All completed and past assignments" />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {myAssignments.map(a => (
-          <div key={a.id} style={{ padding: '14px', background: '#fff', borderRadius: 14, border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 10, background: a.status === 'paid' || a.status === 'verified' ? '#ECFDF5' : a.status === 'rejected' ? '#FEF2F2' : '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              {(a.status === 'paid' || a.status === 'verified') ? <CheckCircle size={16} color="#10B981" /> : a.status === 'rejected' ? <XCircle size={16} color="#EF4444" /> : <Clock size={16} color="#4F46E5" />}
+          <div key={a.id} style={{ padding: '14px', background: '#fff', borderRadius: 14, border: '1px solid #e1e9ee', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ width: 36, height: 36, borderRadius: 10, background: a.status === 'paid' || a.status === 'verified' ? '#ECFDF5' : a.status === 'rejected' ? '#FEF2F2' : '#d2e4ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {(a.status === 'paid' || a.status === 'verified') ? <CheckCircle size={16} color="#10B981" /> : a.status === 'rejected' ? <XCircle size={16} color="#EF4444" /> : <Clock size={16} color="#2d6197" />}
             </div>
             <div style={{ flex: 1 }}>
-              <p style={{ fontWeight: 700, fontSize: 13, color: '#0F172A', margin: 0, fontStyle: 'italic' }}>{a.word}</p>
-              <p style={{ fontSize: 11, color: '#94A3B8', margin: 0 }}>{a.subreddit} · {a.completedAt || a.dueDate}</p>
+              <p style={{ fontWeight: 700, fontSize: 13, color: '#2a3439', margin: 0, fontStyle: 'italic' }}>{a.word}</p>
+              <p style={{ fontSize: 11, color: '#717c82', margin: 0 }}>{a.subreddit} · {a.completedAt || a.dueDate}</p>
             </div>
             <StatusBadge status={a.status} />
-            <span style={{ fontWeight: 800, color: a.amount > 0 ? '#10B981' : '#94A3B8' }}>{a.amount > 0 ? `$${a.amount}` : '—'}</span>
+            <span style={{ fontWeight: 800, color: a.amount > 0 ? '#10B981' : '#717c82' }}>{a.amount > 0 ? `$${a.amount}` : '—'}</span>
           </div>
         ))}
       </div>
@@ -87,8 +104,8 @@ export function SubmissionStatus() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="Submission Status" subtitle="Track the status of your submitted posts" />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14, marginBottom: 20 }}>
-        <StatCard title="Submitted" value={myAssignments.filter(a => a.status !== 'assigned').length} icon={<Send size={20} />} color="#4F46E5" bg="#EEF2FF" />
+      <div className="portal-grid-3col" style={{ marginBottom: 20 }}>
+        <StatCard title="Submitted" value={myAssignments.filter(a => a.status !== 'assigned').length} icon={<Send size={20} />} color="#2d6197" bg="#d2e4ff" />
         <StatCard title="Under Review" value={myAssignments.filter(a => a.status === 'posted').length} icon={<Clock size={20} />} color="#F59E0B" bg="#FFFBEB" />
         <StatCard title="Approved" value={myAssignments.filter(a => ['verified', 'paid'].includes(a.status)).length} icon={<CheckCircle size={20} />} color="#10B981" bg="#ECFDF5" />
       </div>
@@ -100,10 +117,10 @@ export function SubmissionStatus() {
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                <p style={{ fontWeight: 700, fontSize: 14, color: '#0F172A', margin: 0 }}>{a.word}</p>
+                <p style={{ fontWeight: 700, fontSize: 14, color: '#2a3439', margin: 0 }}>{a.word}</p>
                 <StatusBadge status={a.status} />
               </div>
-              <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
+              <p style={{ fontSize: 12, color: '#566166', margin: 0 }}>
                 {a.status === 'posted' ? '⏳ Awaiting review — usually within 24h' :
                  a.status === 'verified' ? '✅ Approved! Payment processing...' :
                  a.status === 'paid' ? '💸 Paid! Check your earnings' :
@@ -121,8 +138,8 @@ export function SubmissionStatus() {
               const active = (stepIdx[a.status] || 0) >= i;
               return (
                 <div key={s} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-                  <div style={{ width: '100%', height: 4, background: active ? '#4F46E5' : '#F1F5F9', borderRadius: i === 0 ? '999px 0 0 999px' : i === 3 ? '0 999px 999px 0' : 0 }} />
-                  <span style={{ fontSize: 10, color: active ? '#4F46E5' : '#94A3B8', fontWeight: active ? 600 : 400 }}>{s}</span>
+                  <div style={{ width: '100%', height: 4, background: active ? '#2d6197' : '#e1e9ee', borderRadius: i === 0 ? '999px 0 0 999px' : i === 3 ? '0 999px 999px 0' : 0 }} />
+                  <span style={{ fontSize: 10, color: active ? '#2d6197' : '#717c82', fontWeight: active ? 600 : 400 }}>{s}</span>
                 </div>
               );
             })}
@@ -138,24 +155,24 @@ export function PerformanceStats() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="Performance Stats" subtitle="Your track record and quality metrics" />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 20 }}>
+      <div className="portal-grid-3col" style={{ marginBottom: 20 }}>
         <StatCard title="Approval Rate" value="97%" change="↑ 2% from last month" changeType="positive" icon={<Star size={20} />} color="#F59E0B" bg="#FFFBEB" />
-        <StatCard title="Quality Score" value="94/100" change="Top 10% of contributors" changeType="positive" icon={<Award size={20} />} color="#4F46E5" bg="#EEF2FF" />
+        <StatCard title="Quality Score" value="94/100" change="Top 10% of contributors" changeType="positive" icon={<Award size={20} />} color="#2d6197" bg="#d2e4ff" />
         <StatCard title="Avg Response Time" value="6.2h" change="↓ 1.3h from last month" changeType="positive" icon={<Clock size={20} />} color="#10B981" bg="#ECFDF5" />
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+      <div className="portal-grid-equal">
         <Card>
           <CardHeader title="My Metrics" />
           {[
-            { label: 'Total Tasks Completed', value: '46', max: null, color: '#4F46E5' },
+            { label: 'Total Tasks Completed', value: '46', max: null, color: '#2d6197' },
             { label: 'Approval Rate', value: '97%', bar: 97, color: '#10B981' },
             { label: 'Rejection Rate', value: '3%', bar: 3, color: '#EF4444' },
             { label: 'Quality Score', value: '94/100', bar: 94, color: '#F59E0B' },
-            { label: 'Avg Post Score (upvotes)', value: '156', max: null, color: '#8B5CF6' },
+            { label: 'Avg Post Score (upvotes)', value: '156', max: null, color: '#2d6197' },
           ].map(m => (
-            <div key={m.label} style={{ padding: '10px 0', borderBottom: '1px solid #F1F5F9' }}>
+            <div key={m.label} style={{ padding: '10px 0', borderBottom: '1px solid #e1e9ee' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: m.bar !== undefined ? 6 : 0 }}>
-                <span style={{ fontSize: 12, color: '#64748B' }}>{m.label}</span>
+                <span style={{ fontSize: 12, color: '#566166' }}>{m.label}</span>
                 <span style={{ fontSize: 14, fontWeight: 700, color: m.color }}>{m.value}</span>
               </div>
               {m.bar !== undefined && <ProgressBar value={m.bar} color={m.color} size="sm" />}
@@ -168,8 +185,8 @@ export function PerformanceStats() {
             <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'linear-gradient(135deg, #F59E0B, #D97706)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', boxShadow: '0 8px 24px rgba(245,158,11,0.3)' }}>
               <Star size={36} fill="#fff" color="#fff" />
             </div>
-            <p style={{ fontWeight: 800, fontSize: 20, color: '#0F172A', margin: '0 0 4px' }}>Gold Contributor</p>
-            <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 20px' }}>Top 10% overall · 97% approval rate</p>
+            <p style={{ fontWeight: 800, fontSize: 20, color: '#2a3439', margin: '0 0 4px' }}>Gold Contributor</p>
+            <p style={{ fontSize: 13, color: '#566166', margin: '0 0 20px' }}>Top 10% overall · 97% approval rate</p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: 16 }}>
               {[{ v: '#1', l: 'This month' }, { v: '#8', l: 'All time' }].map(r => (
                 <div key={r.l} style={{ padding: '10px 20px', background: '#FFF7ED', borderRadius: 12, border: '1px solid #FDE68A' }}>
@@ -196,33 +213,33 @@ export function EarningsDashboard() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="My Earnings" subtitle="Track your income from completed tasks" />
-      <div style={{ background: 'linear-gradient(135deg, #0F172A, #1E293B)', borderRadius: 20, padding: '28px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 24 }}>
+      <div style={{ background: 'linear-gradient(135deg, #2a3439, #2a3439)', borderRadius: 20, padding: '28px', marginBottom: 20 }} className="portal-earnings-banner">
         <div>
-          <p style={{ color: '#64748B', fontSize: 13, margin: 0 }}>Total Earned</p>
+          <p style={{ color: '#566166', fontSize: 13, margin: 0 }}>Total Earned</p>
           <p style={{ color: '#34D399', fontSize: 44, fontWeight: 900, margin: '4px 0' }}>$230</p>
-          <p style={{ color: '#94A3B8', fontSize: 12, margin: 0 }}>Across 46 approved posts</p>
+          <p style={{ color: '#717c82', fontSize: 12, margin: 0 }}>Across 46 approved posts</p>
         </div>
         <div style={{ flex: 1 }} />
-        <div style={{ display: 'flex', gap: 20 }}>
-          {[{ label: 'This Month', value: '$10', color: '#818CF8' }, { label: 'Pending', value: '$10', color: '#FCD34D' }, { label: 'All Time', value: '$230', color: '#34D399' }].map(s => (
+        <div className="portal-earnings-banner-stats">
+          {[{ label: 'This Month', value: '$10', color: '#2d6197' }, { label: 'Pending', value: '$10', color: '#FCD34D' }, { label: 'All Time', value: '$230', color: '#34D399' }].map(s => (
             <div key={s.label} style={{ textAlign: 'center', padding: '16px 20px', background: '#FFFFFF10', borderRadius: 14 }}>
               <p style={{ fontSize: 22, fontWeight: 800, color: s.color, margin: 0 }}>{s.value}</p>
-              <p style={{ fontSize: 11, color: '#64748B', margin: 0 }}>{s.label}</p>
+              <p style={{ fontSize: 11, color: '#566166', margin: 0 }}>{s.label}</p>
             </div>
           ))}
         </div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 16 }}>
+      <div className="portal-grid-2col">
         <Card>
           <CardHeader title="Earnings Breakdown" action={<Button variant="ghost" size="sm" onClick={() => router.push('/portal/earnings/history')}>Full History</Button>} />
           {myAssignments.filter(a => a.status === 'paid' || a.status === 'verified').map(a => (
-            <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderBottom: '1px solid #F1F5F9' }}>
+            <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderBottom: '1px solid #e1e9ee' }}>
               <div style={{ width: 36, height: 36, borderRadius: 10, background: '#ECFDF5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <DollarSign size={16} color="#10B981" />
               </div>
               <div style={{ flex: 1 }}>
-                <p style={{ fontWeight: 600, fontSize: 13, color: '#0F172A', margin: 0 }}>{a.word} — {a.subreddit}</p>
-                <p style={{ fontSize: 11, color: '#94A3B8', margin: 0 }}>{a.completedAt}</p>
+                <p style={{ fontWeight: 600, fontSize: 13, color: '#2a3439', margin: 0 }}>{a.word} — {a.subreddit}</p>
+                <p style={{ fontSize: 11, color: '#717c82', margin: 0 }}>{a.completedAt}</p>
               </div>
               <span style={{ fontWeight: 800, fontSize: 16, color: '#10B981' }}>${a.amount}</span>
             </div>
@@ -231,16 +248,16 @@ export function EarningsDashboard() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <Card>
             <CardHeader title="Payment Info" />
-            <div style={{ padding: '14px', background: '#F8FAFC', borderRadius: 12, marginBottom: 12 }}>
-              <p style={{ fontSize: 11, color: '#94A3B8', margin: '0 0 2px' }}>Payment Method</p>
-              <p style={{ fontWeight: 700, fontSize: 14, color: '#0F172A', margin: 0 }}>PayPal</p>
-              <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>rahul.s@gmail.com</p>
+            <div style={{ padding: '14px', background: '#f7f9fb', borderRadius: 12, marginBottom: 12 }}>
+              <p style={{ fontSize: 11, color: '#717c82', margin: '0 0 2px' }}>Payment Method</p>
+              <p style={{ fontWeight: 700, fontSize: 14, color: '#2a3439', margin: 0 }}>PayPal</p>
+              <p style={{ fontSize: 12, color: '#566166', margin: 0 }}>rahul.s@gmail.com</p>
             </div>
             <Button variant="secondary" style={{ width: '100%' }} onClick={() => router.push('/portal/earnings/method')}>Update Payment Method</Button>
           </Card>
           <Card>
             <CardHeader title="Payout Schedule" />
-            <div style={{ fontSize: 12, color: '#64748B', lineHeight: 1.8 }}>
+            <div style={{ fontSize: 12, color: '#566166', lineHeight: 1.8 }}>
               <p>💸 Payments trigger within 24h of approval</p>
               <p>📅 Batch payouts: daily at 9AM UTC</p>
               <p>✅ Minimum payout: $1</p>
@@ -267,16 +284,16 @@ export function ContributorPaymentHistory() {
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <p style={{ fontWeight: 700, fontSize: 15, color: '#0F172A', margin: 0 }}>${p.amount}</p>
+                  <p style={{ fontWeight: 700, fontSize: 15, color: '#2a3439', margin: 0 }}>${p.amount}</p>
                   <StatusBadge status={p.status} />
                 </div>
-                <p style={{ fontSize: 12, color: '#94A3B8', margin: 0 }}>{p.method} · {p.assignments} tasks · {p.createdAt}</p>
+                <p style={{ fontSize: 12, color: '#717c82', margin: 0 }}>{p.method} · {p.assignments} tasks · {p.createdAt}</p>
                 {p.paidAt && <p style={{ fontSize: 11, color: '#10B981', margin: 0 }}>✓ Paid on {p.paidAt}</p>}
               </div>
             </div>
           </Card>
         ))}
-        {myPayments.length === 0 && <div style={{ textAlign: 'center', padding: '40px', color: '#94A3B8' }}>No payment history yet</div>}
+        {myPayments.length === 0 && <div style={{ textAlign: 'center', padding: '40px', color: '#717c82' }}>No payment history yet</div>}
       </div>
     </div>
   );
@@ -289,13 +306,13 @@ export function PaymentMethodSetup() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="Payment Method" subtitle="Set up how you receive your earnings" />
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20 }}>
+      <div className="portal-grid-2col" style={{ gap: 20 }}>
         <Card>
           <CardHeader title="Configure Payment" icon={<CreditCard size={16} />} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <Select label="Payment Method" value={method} onChange={setMethod} options={[{ value: 'PayPal', label: 'PayPal (Recommended)' }, { value: 'Stripe', label: 'Stripe / Bank Card' }]} />
             <Input label={method === 'PayPal' ? 'PayPal Email' : 'Bank Account Email'} type="email" value={email} onChange={setEmail} required />
-            <div style={{ padding: '12px 14px', background: '#EEF2FF', borderRadius: 12, fontSize: 12, color: '#4F46E5' }}>
+            <div style={{ padding: '12px 14px', background: '#d2e4ff', borderRadius: 12, fontSize: 12, color: '#2d6197' }}>
               <p style={{ fontWeight: 600, margin: '0 0 4px' }}>How it works:</p>
               <p style={{ margin: 0 }}>Payments are sent to this account within 24h of task approval. Make sure the email is correct and can receive payments.</p>
             </div>
@@ -304,12 +321,12 @@ export function PaymentMethodSetup() {
         </Card>
         <Card>
           <CardHeader title="Current Method" />
-          <div style={{ padding: '16px', background: '#F8FAFC', borderRadius: 14, border: '1px solid #E2E8F0', textAlign: 'center' }}>
-            <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
-              <CreditCard size={24} color="#4F46E5" />
+          <div style={{ padding: '16px', background: '#f7f9fb', borderRadius: 14, border: '1px solid #e1e9ee', textAlign: 'center' }}>
+            <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#d2e4ff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
+              <CreditCard size={24} color="#2d6197" />
             </div>
-            <p style={{ fontWeight: 700, fontSize: 16, color: '#0F172A', margin: '0 0 4px' }}>PayPal</p>
-            <p style={{ fontSize: 13, color: '#64748B', margin: 0 }}>rahul.s@gmail.com</p>
+            <p style={{ fontWeight: 700, fontSize: 16, color: '#2a3439', margin: '0 0 4px' }}>PayPal</p>
+            <p style={{ fontSize: 13, color: '#566166', margin: 0 }}>rahul.s@gmail.com</p>
             <Badge variant="success" style={{ marginTop: 8 }}>Active</Badge>
           </div>
         </Card>
@@ -322,7 +339,7 @@ export function PaymentMethodSetup() {
 export function NotificationsScreen() {
   const notifications = [
     { id: 1, type: 'approval', title: 'Submission Approved!', message: 'Your "frumious" post was approved. $5 payment triggered.', time: '2 hours ago', read: false, color: '#10B981', bg: '#ECFDF5' },
-    { id: 2, type: 'assignment', title: 'New Task Assigned', message: 'You\'ve been assigned the word "blorple". Due April 7.', time: '5 hours ago', read: false, color: '#4F46E5', bg: '#EEF2FF' },
+    { id: 2, type: 'assignment', title: 'New Task Assigned', message: 'You\'ve been assigned the word "blorple". Due April 7.', time: '5 hours ago', read: false, color: '#2d6197', bg: '#d2e4ff' },
     { id: 3, type: 'payment', title: 'Payment Sent', message: '$10 has been sent to your PayPal account.', time: '1 day ago', read: true, color: '#F59E0B', bg: '#FFFBEB' },
     { id: 4, type: 'reminder', title: 'Task Due Soon', message: 'Your "quiffle" assignment is due in 2 days.', time: '2 days ago', read: true, color: '#EF4444', bg: '#FEF2F2' },
   ];
@@ -333,17 +350,17 @@ export function NotificationsScreen() {
         action={<Button variant="ghost" size="sm">Mark all read</Button>} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {notifications.map(n => (
-          <Card key={n.id} style={{ border: n.read ? '1px solid #E2E8F0' : `1.5px solid ${n.color}30`, background: n.read ? '#fff' : n.bg }}>
+          <Card key={n.id} style={{ border: n.read ? '1px solid #e1e9ee' : `1.5px solid ${n.color}30`, background: n.read ? '#fff' : n.bg }}>
             <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
               <div style={{ width: 40, height: 40, borderRadius: 12, background: n.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: n.color, flexShrink: 0, border: `1px solid ${n.color}30` }}>
                 {icons[n.type]}
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                  <p style={{ fontWeight: n.read ? 500 : 700, fontSize: 13, color: '#0F172A', margin: 0 }}>{n.title}</p>
-                  <span style={{ fontSize: 11, color: '#94A3B8' }}>{n.time}</span>
+                  <p style={{ fontWeight: n.read ? 500 : 700, fontSize: 13, color: '#2a3439', margin: 0 }}>{n.title}</p>
+                  <span style={{ fontSize: 11, color: '#717c82' }}>{n.time}</span>
                 </div>
-                <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>{n.message}</p>
+                <p style={{ fontSize: 12, color: '#566166', margin: 0 }}>{n.message}</p>
               </div>
               {!n.read && <div style={{ width: 8, height: 8, borderRadius: '50%', background: n.color, flexShrink: 0, marginTop: 4 }} />}
             </div>
@@ -376,16 +393,16 @@ export function SupportChat() {
           <div style={{ height: 400, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 12, padding: '4px 0', marginBottom: 16 }}>
             {messages.map(m => (
               <div key={m.id} style={{ display: 'flex', justifyContent: m.from === 'me' ? 'flex-end' : 'flex-start', gap: 8 }}>
-                {m.from === 'support' && <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#4F46E5', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><span style={{ fontSize: 11, fontWeight: 700, color: '#fff' }}>LP</span></div>}
-                <div style={{ maxWidth: '70%', padding: '10px 14px', borderRadius: m.from === 'me' ? '18px 18px 4px 18px' : '18px 18px 18px 4px', background: m.from === 'me' ? '#4F46E5' : '#F1F5F9', color: m.from === 'me' ? '#fff' : '#334155', fontSize: 13, lineHeight: 1.5 }}>
+                {m.from === 'support' && <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#2d6197', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><span style={{ fontSize: 11, fontWeight: 700, color: '#fff' }}>LP</span></div>}
+                <div style={{ maxWidth: '70%', padding: '10px 14px', borderRadius: m.from === 'me' ? '18px 18px 4px 18px' : '18px 18px 18px 4px', background: m.from === 'me' ? '#2d6197' : '#e1e9ee', color: m.from === 'me' ? '#fff' : '#2a3439', fontSize: 13, lineHeight: 1.5 }}>
                   {m.text}
                   <div style={{ fontSize: 10, opacity: 0.6, marginTop: 4, textAlign: 'right' }}>{m.time}</div>
                 </div>
               </div>
             ))}
           </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <input value={message} onChange={e => setMessage(e.target.value)} onKeyDown={e => e.key === 'Enter' && send()} placeholder="Type your message..." style={{ flex: 1, padding: '10px 14px', fontSize: 13, border: '1.5px solid #E2E8F0', borderRadius: 12, outline: 'none', fontFamily: 'inherit' }} onFocus={e => e.target.style.borderColor = '#4F46E5'} onBlur={e => e.target.style.borderColor = '#E2E8F0'} />
+          <div className="portal-chat-input-row">
+            <input value={message} onChange={e => setMessage(e.target.value)} onKeyDown={e => e.key === 'Enter' && send()} placeholder="Type your message..." className="portal-chat-input" />
             <Button variant="primary" icon={<Send size={14} />} onClick={send} />
           </div>
         </Card>
@@ -401,15 +418,15 @@ export function ProfileSettings() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="Profile Settings" subtitle="Manage your account information" />
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20 }}>
+      <div className="portal-grid-2col" style={{ gap: 20 }}>
         <Card>
           <CardHeader title="Personal Information" icon={<User size={16} />} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 8 }}>
-              <Avatar name={form.name} size={60} color="#4F46E5" />
+            <div className="portal-avatar-row">
+              <Avatar name={form.name} size={60} color="#2d6197" />
               <div>
-                <p style={{ fontWeight: 700, fontSize: 16, color: '#0F172A', margin: 0 }}>{form.name}</p>
-                <p style={{ fontSize: 12, color: '#94A3B8', margin: 0 }}>Gold Contributor · {form.country}</p>
+                <p style={{ fontWeight: 700, fontSize: 16, color: '#2a3439', margin: 0 }}>{form.name}</p>
+                <p style={{ fontSize: 12, color: '#717c82', margin: 0 }}>Gold Contributor · {form.country}</p>
                 <Button variant="ghost" size="sm" style={{ marginTop: 4, padding: '4px 0' }}>Change Photo</Button>
               </div>
             </div>
@@ -427,9 +444,9 @@ export function ProfileSettings() {
           <Card>
             <CardHeader title="Account Stats" />
             {[{ label: 'Member Since', value: '2026-01-10' }, { label: 'Tasks Completed', value: '46' }, { label: 'Total Earned', value: '$230' }, { label: 'Approval Rate', value: '97%' }].map(s => (
-              <div key={s.label} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #F1F5F9' }}>
-                <span style={{ fontSize: 12, color: '#94A3B8' }}>{s.label}</span>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#334155' }}>{s.value}</span>
+              <div key={s.label} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #e1e9ee' }}>
+                <span style={{ fontSize: 12, color: '#717c82' }}>{s.label}</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#2a3439' }}>{s.value}</span>
               </div>
             ))}
           </Card>
@@ -456,10 +473,10 @@ export function Guidelines() {
       <PageHeader title="Guidelines & Training" subtitle="Everything you need to succeed as a contributor" />
       <div style={{ marginBottom: 20 }}><Tabs tabs={tabs} active={section} onChange={setSection} /></div>
       {section === 'overview' && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        <div className="portal-grid-equal">
           <Card>
             <CardHeader title="Welcome to LexiPost" icon={<Star size={16} />} />
-            <div style={{ fontSize: 13, color: '#64748B', lineHeight: 1.8 }}>
+            <div style={{ fontSize: 13, color: '#566166', lineHeight: 1.8 }}>
               <p>You're part of a linguistic research panel. Your job is to naturally incorporate new words into everyday Reddit conversations.</p>
               <p style={{ marginTop: 8 }}>This is real research — the words you use help linguists and researchers understand how language evolves naturally in online communities.</p>
             </div>
@@ -470,7 +487,7 @@ export function Guidelines() {
               {['Use words naturally, not forcefully', 'Don\'t mention you\'re in a research study', 'Post in appropriate, relevant subreddits', 'Write genuine, authentic content', 'Submit within 7 days of assignment', 'One submission per assignment only'].map((r, i) => (
                 <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                   <CheckCircle size={14} color="#10B981" flexShrink={0} />
-                  <span style={{ fontSize: 13, color: '#334155' }}>{r}</span>
+                  <span style={{ fontSize: 13, color: '#2a3439' }}>{r}</span>
                 </div>
               ))}
             </div>
@@ -489,13 +506,13 @@ export function Guidelines() {
               { step: 5, title: 'Post and copy the URL', desc: 'After posting, copy the full URL from your browser bar. Don\'t delete the post.' },
               { step: 6, title: 'Submit within 24 hours', desc: 'Come back here and paste the URL. Our system will verify it automatically.' },
             ].map(s => (
-              <div key={s.step} style={{ display: 'flex', gap: 14, padding: '14px', background: '#F8FAFC', borderRadius: 14 }}>
-                <div style={{ width: 32, height: 32, borderRadius: 10, background: '#4F46E5', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <div key={s.step} style={{ display: 'flex', gap: 14, padding: '14px', background: '#f7f9fb', borderRadius: 14 }}>
+                <div style={{ width: 32, height: 32, borderRadius: 10, background: '#2d6197', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <span style={{ fontWeight: 700, color: '#fff', fontSize: 14 }}>{s.step}</span>
                 </div>
                 <div>
-                  <p style={{ fontWeight: 700, fontSize: 14, color: '#0F172A', margin: 0 }}>{s.title}</p>
-                  <p style={{ fontSize: 13, color: '#64748B', margin: 0, lineHeight: 1.6 }}>{s.desc}</p>
+                  <p style={{ fontWeight: 700, fontSize: 14, color: '#2a3439', margin: 0 }}>{s.title}</p>
+                  <p style={{ fontSize: 13, color: '#566166', margin: 0, lineHeight: 1.6 }}>{s.desc}</p>
                 </div>
               </div>
             ))}
@@ -505,7 +522,7 @@ export function Guidelines() {
       {section === 'quality' && (
         <Card>
           <CardHeader title="Quality Standards" subtitle="What we look for when reviewing your submission" />
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <div className="portal-grid-equal" style={{ gap: 12 }}>
             {[
               { label: 'Word must appear in post', type: 'required', color: '#EF4444' },
               { label: 'Minimum 50 words', type: 'required', color: '#EF4444' },
@@ -516,9 +533,9 @@ export function Guidelines() {
               { label: '100+ words preferred', type: 'preferred', color: '#10B981' },
               { label: 'Relevant context to subreddit', type: 'preferred', color: '#10B981' },
             ].map(q => (
-              <div key={q.label} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 12px', background: '#F8FAFC', borderRadius: 10 }}>
+              <div key={q.label} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 12px', background: '#f7f9fb', borderRadius: 10 }}>
                 <div style={{ width: 6, height: 6, borderRadius: '50%', background: q.color, flexShrink: 0 }} />
-                <span style={{ fontSize: 12, color: '#334155' }}>{q.label}</span>
+                <span style={{ fontSize: 12, color: '#2a3439' }}>{q.label}</span>
                 <Badge variant={q.type === 'required' ? 'danger' : 'success'} size="xs">{q.type}</Badge>
               </div>
             ))}
@@ -528,11 +545,11 @@ export function Guidelines() {
       {section === 'payments' && (
         <Card>
           <CardHeader title="Payment Guide" />
-          <div style={{ fontSize: 13, color: '#64748B', lineHeight: 1.8 }}>
-            <p><strong style={{ color: '#0F172A' }}>How much do I earn?</strong><br />$5 per approved post. Some tasks may have higher rates.</p>
-            <p style={{ marginTop: 12 }}><strong style={{ color: '#0F172A' }}>When do I get paid?</strong><br />Within 24 hours of your submission being approved.</p>
-            <p style={{ marginTop: 12 }}><strong style={{ color: '#0F172A' }}>What if I'm rejected?</strong><br />You won't be paid for rejected posts. Check the rejection reason and improve your next submission.</p>
-            <p style={{ marginTop: 12 }}><strong style={{ color: '#0F172A' }}>What payment methods are supported?</strong><br />PayPal and Stripe. Set yours in Settings → Payment Method.</p>
+          <div style={{ fontSize: 13, color: '#566166', lineHeight: 1.8 }}>
+            <p><strong style={{ color: '#2a3439' }}>How much do I earn?</strong><br />$5 per approved post. Some tasks may have higher rates.</p>
+            <p style={{ marginTop: 12 }}><strong style={{ color: '#2a3439' }}>When do I get paid?</strong><br />Within 24 hours of your submission being approved.</p>
+            <p style={{ marginTop: 12 }}><strong style={{ color: '#2a3439' }}>What if I'm rejected?</strong><br />You won't be paid for rejected posts. Check the rejection reason and improve your next submission.</p>
+            <p style={{ marginTop: 12 }}><strong style={{ color: '#2a3439' }}>What payment methods are supported?</strong><br />PayPal and Stripe. Set yours in Settings → Payment Method.</p>
           </div>
         </Card>
       )}
@@ -556,17 +573,17 @@ export function HelpCenter() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="Help Center" subtitle="Frequently asked questions and support" />
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20 }}>
+      <div className="portal-grid-2col" style={{ gap: 20 }}>
         <div>
           <SearchBar value={search} onChange={setSearch} placeholder="Search FAQs..." style={{ marginBottom: 16 }} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {filtered.map((faq, i) => (
               <Card key={i}>
                 <details style={{ cursor: 'pointer' }}>
-                  <summary style={{ fontWeight: 700, fontSize: 14, color: '#0F172A', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    {faq.q} <ChevronRight size={16} color="#94A3B8" />
+                  <summary style={{ fontWeight: 700, fontSize: 14, color: '#2a3439', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    {faq.q} <ChevronRight size={16} color="#717c82" />
                   </summary>
-                  <p style={{ fontSize: 13, color: '#64748B', margin: '12px 0 0', lineHeight: 1.7 }}>{faq.a}</p>
+                  <p style={{ fontSize: 13, color: '#566166', margin: '12px 0 0', lineHeight: 1.7 }}>{faq.a}</p>
                 </details>
               </Card>
             ))}
@@ -575,14 +592,14 @@ export function HelpCenter() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <Card>
             <CardHeader title="Still need help?" icon={<HelpCircle size={16} />} />
-            <p style={{ fontSize: 13, color: '#64748B', marginBottom: 14 }}>Can't find what you're looking for? Our team is here to help.</p>
+            <p style={{ fontSize: 13, color: '#566166', marginBottom: 14 }}>Can't find what you're looking for? Our team is here to help.</p>
             <Button variant="primary" icon={<MessageSquare size={14} />} onClick={() => router.push('/portal/support')} style={{ width: '100%' }}>Start Live Chat</Button>
           </Card>
           <Card>
             <CardHeader title="Quick Links" />
             {[{ label: 'View My Tasks', path: '/portal/tasks' }, { label: 'Earnings Dashboard', path: '/portal/earnings' }, { label: 'Payment Method', path: '/portal/earnings/method' }, { label: 'Guidelines', path: '/portal/guidelines' }].map(l => (
-              <button key={l.label} onClick={() => router.push(l.path)} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', background: 'none', border: 'none', borderBottom: '1px solid #F1F5F9', cursor: 'pointer', fontFamily: 'inherit', fontSize: 13, color: '#334155' }}>
-                {l.label} <ArrowRight size={13} color="#94A3B8" />
+              <button key={l.label} onClick={() => router.push(l.path)} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', background: 'none', border: 'none', borderBottom: '1px solid #e1e9ee', cursor: 'pointer', fontFamily: 'inherit', fontSize: 13, color: '#2a3439' }}>
+                {l.label} <ArrowRight size={13} color="#717c82" />
               </button>
             ))}
           </Card>

@@ -93,7 +93,7 @@ const CONTRIBUTOR_NAV = [
   ]},
 ];
 
-export default function Sidebar({ mode = 'admin' }) {
+export default function Sidebar({ mode = 'admin', mobileOpen = false, onClose }: { mode?: string; mobileOpen?: boolean; onClose?: () => void }) {
   const router = useRouter();
   const pathname = usePathname();
   const nav = mode === 'admin' ? ADMIN_NAV : CONTRIBUTOR_NAV;
@@ -104,8 +104,23 @@ export default function Sidebar({ mode = 'admin' }) {
     return pathname.startsWith(path);
   };
 
+  const handleNav = (path) => {
+    router.push(path);
+    if (onClose) onClose();
+  };
+
   return (
-    <aside style={{
+    <>
+    {mobileOpen && <div onClick={onClose} className="sidebar-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)', zIndex: 49 }} />}
+    <style>{`
+      @media (max-width: 768px) {
+        .sidebar-panel { transform: ${mobileOpen ? 'translateX(0)' : 'translateX(-100%)'} !important; transition: transform 0.25s ease !important; }
+        .layout-main { margin-left: 0 !important; }
+        .layout-header { padding: 0 16px !important; }
+        .layout-content { padding: 16px !important; }
+      }
+    `}</style>
+    <aside className="sidebar-panel" style={{
       width: 256,
       minHeight: '100vh',
       background: '#f7f9fb',
@@ -168,7 +183,7 @@ export default function Sidebar({ mode = 'admin' }) {
                 return (
                   <button
                     key={item.path}
-                    onClick={() => router.push(item.path)}
+                    onClick={() => handleNav(item.path)}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -228,12 +243,13 @@ export default function Sidebar({ mode = 'admin' }) {
         background: '#f7f9fb',
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <NavButton icon="manage_accounts" label="Role Management" onClick={() => router.push('/admin/roles')} />
-          <NavButton icon="history" label="Activity Log" onClick={() => router.push('/admin/activity-log')} />
-          <NavButton icon="person" label="Profile" onClick={() => router.push('/portal/profile')} />
+          <NavButton icon="manage_accounts" label="Role Management" onClick={() => handleNav('/admin/roles')} />
+          <NavButton icon="history" label="Activity Log" onClick={() => handleNav('/admin/activity-log')} />
+          <NavButton icon="person" label="Profile" onClick={() => handleNav('/portal/profile')} />
         </div>
       </div>
     </aside>
+    </>
   );
 }
 
