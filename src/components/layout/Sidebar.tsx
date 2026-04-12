@@ -91,10 +91,35 @@ const CONTRIBUTOR_NAV = [
   ]},
 ];
 
+const REVIEWER_NAV = [
+  { section: 'Overview', items: [
+    { label: 'Dashboard', path: '/reviewer', icon: 'dashboard' },
+    { label: 'My Stats', path: '/reviewer/stats', icon: 'bar_chart' },
+  ]},
+  { section: 'Review Queue', items: [
+    { label: 'Pending Review', path: '/reviewer/pending', icon: 'schedule' },
+    { label: 'All Submissions', path: '/reviewer/queue', icon: 'list_alt' },
+    { label: 'Bulk Verify', path: '/reviewer/bulk', icon: 'done_all' },
+  ]},
+  { section: 'Results', items: [
+    { label: 'Approved', path: '/reviewer/approved', icon: 'check_circle' },
+    { label: 'Rejected', path: '/reviewer/rejected', icon: 'cancel' },
+    { label: 'Rejection Log', path: '/reviewer/log', icon: 'history' },
+  ]},
+  { section: 'Quality', items: [
+    { label: 'Flagged', path: '/reviewer/flagged', icon: 'flag' },
+    { label: 'Duplicates', path: '/reviewer/duplicates', icon: 'content_copy' },
+    { label: 'Auto-Verify Rules', path: '/reviewer/rules', icon: 'smart_toy' },
+  ]},
+  { section: 'Account', items: [
+    { label: 'Notifications', path: '/reviewer/notifications', icon: 'notifications' },
+  ]},
+];
+
 export default function Sidebar({ mode = 'admin', mobileOpen = false, onClose }: { mode?: string; mobileOpen?: boolean; onClose?: () => void }) {
   const router = useRouter();
   const pathname = usePathname();
-  const nav = mode === 'admin' ? ADMIN_NAV : CONTRIBUTOR_NAV;
+  const nav = mode === 'admin' ? ADMIN_NAV : mode === 'reviewer' ? REVIEWER_NAV : CONTRIBUTOR_NAV;
   const isAdmin = mode === 'admin';
 
   const isActive = (path) => {
@@ -141,7 +166,7 @@ export default function Sidebar({ mode = 'admin', mobileOpen = false, onClose }:
           color: '#2a3439', 
           margin: 0,
           fontFamily: 'Manrope, sans-serif',
-        }}>Sentimental Grid</h1>
+        }}>LexiPost</h1>
         <span style={{ 
           display: 'inline-block',
           marginTop: '4px',
@@ -154,7 +179,7 @@ export default function Sidebar({ mode = 'admin', mobileOpen = false, onClose }:
           letterSpacing: '0.05em',
           borderRadius: '4px',
         }}>
-          {isAdmin ? 'Admin Console' : 'Contributor Portal'}
+          {isAdmin ? 'Admin Console' : mode === 'reviewer' ? 'Reviewer Panel' : 'Contributor Portal'}
         </span>
       </div>
 
@@ -234,16 +259,28 @@ export default function Sidebar({ mode = 'admin', mobileOpen = false, onClose }:
       </nav>
 
       {/* Bottom Menu */}
-      <div style={{ 
-        padding: '12px', 
+      <div style={{
+        padding: '12px',
         borderTop: '1px solid #e1e9ee',
         flexShrink: 0,
         background: '#f7f9fb',
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <NavButton icon="manage_accounts" label="Role Management" onClick={() => handleNav('/admin/roles')} />
-          <NavButton icon="history" label="Activity Log" onClick={() => handleNav('/admin/activity-log')} />
-          <NavButton icon="person" label="Profile" onClick={() => handleNav('/portal/profile')} />
+          {isAdmin && (
+            <>
+              <NavButton icon="manage_accounts" label="Role Management" onClick={() => handleNav('/admin/roles')} />
+              <NavButton icon="history" label="Activity Log" onClick={() => handleNav('/admin/activity-log')} />
+            </>
+          )}
+          {mode === 'reviewer' && (
+            <>
+              <NavButton icon="bar_chart" label="My Stats" onClick={() => handleNav('/reviewer/stats')} />
+              <NavButton icon="notifications" label="Notifications" onClick={() => handleNav('/reviewer/notifications')} />
+            </>
+          )}
+          {mode === 'contributor' && (
+            <NavButton icon="person" label="Profile" onClick={() => handleNav('/portal/profile')} />
+          )}
         </div>
       </div>
     </aside>

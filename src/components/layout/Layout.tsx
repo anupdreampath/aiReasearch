@@ -58,6 +58,18 @@ const PAGE_TITLES = {
   '/portal/profile': 'Profile',
   '/portal/guidelines': 'Guidelines',
   '/portal/help': 'Help Center',
+  '/reviewer': 'Dashboard',
+  '/reviewer/pending': 'Pending Review',
+  '/reviewer/queue': 'All Submissions',
+  '/reviewer/bulk': 'Bulk Verify',
+  '/reviewer/approved': 'Approved',
+  '/reviewer/rejected': 'Rejected',
+  '/reviewer/log': 'Rejection Log',
+  '/reviewer/flagged': 'Flagged',
+  '/reviewer/duplicates': 'Duplicates',
+  '/reviewer/rules': 'Auto-Verify Rules',
+  '/reviewer/stats': 'My Stats',
+  '/reviewer/notifications': 'Notifications',
 };
 
 function getTitle(pathname) {
@@ -74,41 +86,103 @@ function getTitle(pathname) {
   return 'LexiPost';
 }
 
+function formatDateShort(d: Date) {
+  return d.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+}
+
+function getPresetRange(key: string): [Date, Date] {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  switch (key) {
+    case 'today': return [today, today];
+    case '7d': { const s = new Date(today); s.setDate(s.getDate() - 6); return [s, today]; }
+    case '30d': { const s = new Date(today); s.setDate(s.getDate() - 29); return [s, today]; }
+    case 'this_month': return [new Date(today.getFullYear(), today.getMonth(), 1), today];
+    case 'last_month': {
+      const s = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+      const e = new Date(today.getFullYear(), today.getMonth(), 0);
+      return [s, e];
+    }
+    case 'this_year': return [new Date(today.getFullYear(), 0, 1), today];
+    default: return [new Date(today.getFullYear(), today.getMonth(), 1), today];
+  }
+}
+
+const DATE_PRESETS = [
+  { key: 'today', label: 'Today' },
+  { key: '7d', label: 'Last 7 Days' },
+  { key: '30d', label: 'Last 30 Days' },
+  { key: 'this_month', label: 'This Month' },
+  { key: 'last_month', label: 'Last Month' },
+  { key: 'this_year', label: 'This Year' },
+];
+
 export default function Layout({ children, mode = 'admin' }) {
   const pathname = usePathname();
   const router = useRouter();
   const isAdmin = mode === 'admin';
+  const isReviewer = mode === 'reviewer';
   const title = getTitle(pathname);
   const accentColor = '#2d6197';
-  const userName = isAdmin ? 'Admin User' : 'Rahul Sharma';
-  const userRole = isAdmin ? 'Super Admin' : 'Contributor';
-  const userInitials = isAdmin ? 'AU' : 'RS';
+  const userName = isAdmin ? 'Admin User' : isReviewer ? 'Noor Hassani' : 'Dmitri Volkov';
+  const userRole = isAdmin ? 'Super Admin' : isReviewer ? 'Senior Reviewer' : 'Contributor';
+  const userInitials = isAdmin ? 'AU' : isReviewer ? 'SC' : 'RS';
   const [profileOpen, setProfileOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
   const [authChecked, setAuthChecked] = useState(false);
 
+  // Date range selector state
+  const [datePreset, setDatePreset] = useState('this_month');
+  const [dateRange, setDateRange] = useState<[Date, Date]>(getPresetRange('this_month'));
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
+  const [customStart, setCustomStart] = useState('');
+  const [customEnd, setCustomEnd] = useState('');
+  const datePickerRef = useRef<HTMLDivElement>(null);
+
   // Auth guard — redirect to login if not authenticated
   useEffect(() => {
-    const authKey = isAdmin ? 'lexipost_admin_auth' : 'lexipost_user_auth';
+    const authKey = isAdmin ? 'lexipost_admin_auth' : isReviewer ? 'lexipost_reviewer_auth' : 'lexipost_user_auth';
+    const loginPath = isAdmin ? '/auth/admin' : isReviewer ? '/reviewer/login' : '/login';
     const isAuthenticated = sessionStorage.getItem(authKey);
     if (!isAuthenticated) {
-      router.replace(isAdmin ? '/auth/admin' : '/login');
+      router.replace(loginPath);
     } else {
       setAuthChecked(true);
     }
   }, [isAdmin, router]);
 
-  // Close dropdown on outside click
+  // Close dropdowns on outside click
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
         setProfileOpen(false);
       }
+      if (datePickerRef.current && !datePickerRef.current.contains(e.target as Node)) {
+        setDatePickerOpen(false);
+      }
     }
-    if (profileOpen) document.addEventListener('mousedown', handleClick);
+    if (profileOpen || datePickerOpen) document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
-  }, [profileOpen]);
+  }, [profileOpen, datePickerOpen]);
+
+  const handlePresetSelect = (key: string) => {
+    setDatePreset(key);
+    setDateRange(getPresetRange(key));
+    setDatePickerOpen(false);
+  };
+
+  const handleCustomApply = () => {
+    if (customStart && customEnd) {
+      const s = new Date(customStart);
+      const e = new Date(customEnd);
+      if (!isNaN(s.getTime()) && !isNaN(e.getTime()) && s <= e) {
+        setDatePreset('custom');
+        setDateRange([s, e]);
+        setDatePickerOpen(false);
+      }
+    }
+  };
 
   const profileMenuItems = isAdmin
     ? [
@@ -117,6 +191,13 @@ export default function Layout({ children, mode = 'admin' }) {
         { icon: 'manage_accounts', label: 'Role Management', href: '/admin/roles' },
         { icon: 'history', label: 'Activity Log', href: '/admin/activity-log' },
         { icon: 'security', label: 'Fraud Dashboard', href: '/admin/fraud' },
+      ]
+    : isReviewer
+    ? [
+        { icon: 'dashboard', label: 'Dashboard', href: '/reviewer' },
+        { icon: 'schedule', label: 'Pending Queue', href: '/reviewer/pending' },
+        { icon: 'bar_chart', label: 'My Stats', href: '/reviewer/stats' },
+        { icon: 'notifications', label: 'Notifications', href: '/reviewer/notifications' },
       ]
     : [
         { icon: 'dashboard', label: 'Dashboard', href: '/portal' },
@@ -157,16 +238,80 @@ export default function Layout({ children, mode = 'admin' }) {
             <style>{`@media (max-width: 768px) { .hamburger-btn { display: flex !important; } .header-date-range { display: none !important; } }`}</style>
             <h2 style={{ fontSize: 20, fontWeight: 800, color: '#2a3439', fontFamily: 'Manrope, sans-serif' }}>{title}</h2>
             <div style={{ width: 1, height: 16, background: '#e1e9ee' }} />
-            <p style={{ fontSize: 12, color: '#566166', fontFamily: 'Inter, sans-serif' }}>{isAdmin ? 'Admin Console' : 'Contributor Portal'}</p>
+            <p style={{ fontSize: 12, color: '#566166', fontFamily: 'Inter, sans-serif' }}>{isAdmin ? 'Admin Console' : isReviewer ? 'Reviewer Panel' : 'Contributor Portal'}</p>
           </div>
 
           {/* Right: Date + Actions + User */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-            {/* Date Range */}
-            <div className="header-date-range" style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: '#f0f4f7', borderRadius: 8 }}>
-              <span style={{ fontSize: 18, color: '#566166', fontFamily: 'Material Symbols Outlined' }}>calendar_today</span>
-              <span style={{ fontSize: 13, color: '#2a3439', fontFamily: 'Inter, sans-serif' }}>Oct 01, 2023 - Oct 31, 2023</span>
-              <span style={{ fontSize: 18, color: '#566166', fontFamily: 'Material Symbols Outlined' }}>expand_more</span>
+            {/* Date Range Selector */}
+            <div ref={datePickerRef} className="header-date-range" style={{ position: 'relative' }}>
+              <button
+                onClick={() => setDatePickerOpen(v => !v)}
+                style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: datePickerOpen ? '#e1e9ee' : '#f0f4f7', borderRadius: 8, border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif', transition: 'background 0.15s' }}
+                onMouseEnter={e => { if (!datePickerOpen) e.currentTarget.style.background = '#e8eff3'; }}
+                onMouseLeave={e => { if (!datePickerOpen) e.currentTarget.style.background = '#f0f4f7'; }}
+              >
+                <span style={{ fontSize: 18, color: '#566166', fontFamily: 'Material Symbols Outlined' }}>calendar_today</span>
+                <span style={{ fontSize: 13, color: '#2a3439' }}>{formatDateShort(dateRange[0])} - {formatDateShort(dateRange[1])}</span>
+                <span style={{ fontSize: 18, color: '#566166', fontFamily: 'Material Symbols Outlined', transform: datePickerOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>expand_more</span>
+              </button>
+
+              {datePickerOpen && (
+                <div style={{
+                  position: 'absolute', top: 'calc(100% + 8px)', right: 0,
+                  width: 280, background: '#fff', borderRadius: 12,
+                  boxShadow: '0 8px 30px rgba(42,52,57,0.12), 0 2px 8px rgba(42,52,57,0.06)',
+                  border: '1px solid #e1e9ee', overflow: 'hidden', zIndex: 100,
+                }}>
+                  <div style={{ padding: '10px 14px', borderBottom: '1px solid #e1e9ee' }}>
+                    <p style={{ fontSize: 11, fontWeight: 700, color: '#717c82', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>Quick Select</p>
+                  </div>
+                  <div style={{ padding: '6px 0' }}>
+                    {DATE_PRESETS.map(p => (
+                      <button key={p.key} onClick={() => handlePresetSelect(p.key)}
+                        style={{
+                          width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                          padding: '9px 14px', border: 'none',
+                          background: datePreset === p.key ? '#f0f4f7' : 'transparent',
+                          cursor: 'pointer', fontSize: 13,
+                          color: datePreset === p.key ? '#2d6197' : '#2a3439',
+                          fontWeight: datePreset === p.key ? 600 : 400,
+                          fontFamily: 'Inter, sans-serif', textAlign: 'left', transition: 'background 0.1s',
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.background = '#f0f4f7'; }}
+                        onMouseLeave={e => { if (datePreset !== p.key) e.currentTarget.style.background = 'transparent'; }}
+                      >
+                        {p.label}
+                        {datePreset === p.key && <span style={{ fontSize: 16, fontFamily: 'Material Symbols Outlined', color: '#2d6197' }}>check</span>}
+                      </button>
+                    ))}
+                  </div>
+                  <div style={{ padding: '12px 14px', borderTop: '1px solid #e1e9ee' }}>
+                    <p style={{ fontSize: 11, fontWeight: 700, color: '#717c82', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px' }}>Custom Range</p>
+                    <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+                      <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)}
+                        style={{ flex: 1, padding: '6px 8px', fontSize: 12, border: '1.5px solid #e1e9ee', borderRadius: 6, fontFamily: 'inherit', outline: 'none' }}
+                        onFocus={e => e.target.style.borderColor = '#2d6197'}
+                        onBlur={e => e.target.style.borderColor = '#e1e9ee'} />
+                      <span style={{ fontSize: 12, color: '#717c82', alignSelf: 'center' }}>to</span>
+                      <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)}
+                        style={{ flex: 1, padding: '6px 8px', fontSize: 12, border: '1.5px solid #e1e9ee', borderRadius: 6, fontFamily: 'inherit', outline: 'none' }}
+                        onFocus={e => e.target.style.borderColor = '#2d6197'}
+                        onBlur={e => e.target.style.borderColor = '#e1e9ee'} />
+                    </div>
+                    <button onClick={handleCustomApply}
+                      disabled={!customStart || !customEnd}
+                      style={{
+                        width: '100%', padding: '7px', background: customStart && customEnd ? '#2d6197' : '#e1e9ee',
+                        color: customStart && customEnd ? '#fff' : '#717c82', border: 'none', borderRadius: 6,
+                        fontSize: 12, fontWeight: 600, cursor: customStart && customEnd ? 'pointer' : 'not-allowed',
+                        fontFamily: 'inherit', transition: 'all 0.15s',
+                      }}>
+                      Apply Range
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Help Center */}
@@ -191,7 +336,7 @@ export default function Layout({ children, mode = 'admin' }) {
 
             {/* Notification Bell */}
             <button
-              onClick={() => router.push(isAdmin ? '/admin/comms/logs' : '/portal/notifications')}
+              onClick={() => router.push(isAdmin ? '/admin/comms/logs' : isReviewer ? '/reviewer/notifications' : '/portal/notifications')}
               style={{
                 width: 36, height: 36,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -208,24 +353,24 @@ export default function Layout({ children, mode = 'admin' }) {
               <span style={{ fontSize: 20, fontFamily: 'Material Symbols Outlined' }}>notifications</span>
             </button>
 
-            {/* Settings */}
+            {/* Settings / Stats */}
             <button
-              onClick={() => router.push(isAdmin ? '/admin/settings' : '/portal/profile')}
+              onClick={() => router.push(isAdmin ? '/admin/settings' : isReviewer ? '/reviewer/stats' : '/portal/profile')}
               style={{
                 width: 36, height: 36,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 borderRadius: '50%',
-                background: pathname.startsWith(isAdmin ? '/admin/settings' : '/portal/profile') ? '#e8eff3' : 'transparent',
+                background: pathname.startsWith(isAdmin ? '/admin/settings' : isReviewer ? '/reviewer/stats' : '/portal/profile') ? '#e8eff3' : 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                color: pathname.startsWith(isAdmin ? '/admin/settings' : '/portal/profile') ? '#2d6197' : '#566166',
+                color: pathname.startsWith(isAdmin ? '/admin/settings' : isReviewer ? '/reviewer/stats' : '/portal/profile') ? '#2d6197' : '#566166',
                 transition: 'all 0.15s',
               }}
               onMouseEnter={e => { e.currentTarget.style.background = '#e8eff3'; }}
-              onMouseLeave={e => { if (!pathname.startsWith(isAdmin ? '/admin/settings' : '/portal/profile')) e.currentTarget.style.background = 'transparent'; }}
-              title={isAdmin ? 'Platform Settings' : 'Profile Settings'}
+              onMouseLeave={e => { if (!pathname.startsWith(isAdmin ? '/admin/settings' : isReviewer ? '/reviewer/stats' : '/portal/profile')) e.currentTarget.style.background = 'transparent'; }}
+              title={isAdmin ? 'Platform Settings' : isReviewer ? 'My Stats' : 'Profile Settings'}
             >
-              <span style={{ fontSize: 20, fontFamily: 'Material Symbols Outlined' }}>settings</span>
+              <span style={{ fontSize: 20, fontFamily: 'Material Symbols Outlined' }}>{isReviewer ? 'bar_chart' : 'settings'}</span>
             </button>
 
             {/* Avatar / Profile Dropdown */}
@@ -304,7 +449,7 @@ export default function Layout({ children, mode = 'admin' }) {
                   {/* Logout */}
                   <div style={{ borderTop: '1px solid #e1e9ee', padding: '6px 0' }}>
                     <button
-                      onClick={() => { setProfileOpen(false); sessionStorage.removeItem(isAdmin ? 'lexipost_admin_auth' : 'lexipost_user_auth'); router.push(isAdmin ? '/auth/admin' : '/login'); }}
+                      onClick={() => { setProfileOpen(false); sessionStorage.removeItem(isAdmin ? 'lexipost_admin_auth' : isReviewer ? 'lexipost_reviewer_auth' : 'lexipost_user_auth'); router.push(isAdmin ? '/auth/admin' : isReviewer ? '/reviewer/login' : '/login'); }}
                       style={{
                         width: '100%', display: 'flex', alignItems: 'center', gap: 10,
                         padding: '9px 16px', border: 'none', background: 'transparent',

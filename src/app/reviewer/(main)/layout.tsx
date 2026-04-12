@@ -1,5 +1,5 @@
-import ReviewerLayout from '@/components/layout/ReviewerLayout';
+import Layout from '@/components/layout/Layout';
 
 export default function ReviewerPanelLayout({ children }) {
-  return <ReviewerLayout>{children}</ReviewerLayout>;
+  return <Layout mode="reviewer">{children}</Layout>;
 }
