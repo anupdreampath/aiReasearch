@@ -148,17 +148,17 @@ export function ContributorRiskPanel() {
       <Card>
         <CardHeader title="Flagged Contributors" />
         {flagged.map(c => (
-          <div key={c.id} onClick={() => router.push(`/admin/contributors/${c.id}`)} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px', borderRadius: 12, border: '1px solid #FEE2E2', background: '#FEF2F2', marginBottom: 10, cursor: 'pointer' }}>
-            <Avatar name={c.name} size={40} color="#EF4444" />
-            <div style={{ flex: 1 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div key={c.id} onClick={() => router.push(`/admin/contributors/${c.id}`)} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '12px', borderRadius: 12, border: '1px solid #FEE2E2', background: '#FEF2F2', marginBottom: 10, cursor: 'pointer', flexWrap: 'wrap' }}>
+            <Avatar name={c.name} size={36} color="#EF4444" />
+            <div style={{ flex: '1 1 180px', minWidth: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                 <p style={{ fontWeight: 700, fontSize: 13, color: '#0F172A', margin: 0 }}>{c.name}</p>
                 <StatusBadge status={c.status} />
                 {c.riskFlag && <Badge variant="danger" dot>Risk Flag</Badge>}
               </div>
-              <p style={{ fontSize: 11, color: '#94A3B8', margin: 0 }}>{c.country} · Quality: {c.qualityScore} · Approval: {c.approvalRate}%</p>
+              <p style={{ fontSize: 11, color: '#94A3B8', margin: '2px 0 0 0' }}>{c.country} · Quality: {c.qualityScore} · Approval: {c.approvalRate}%</p>
             </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, width: '100%', marginTop: 4 }}>
               <Button variant="secondary" size="sm" icon={<Eye size={12} />}>Review</Button>
               <Button variant="danger" size="sm" icon={<Ban size={12} />}>Suspend</Button>
             </div>
@@ -181,18 +181,18 @@ export function PendingVerification() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 16 }}>
         {pending.map(s => (
           <Card key={s.id} onClick={() => router.push(`/admin/submissions/${s.id}`)} hover>
-            <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-              <div style={{ width: 42, height: 42, borderRadius: 12, background: s.wordFound ? '#ECFDF5' : '#FEF2F2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                {s.wordFound ? <Shield size={20} color="#10B981" /> : <AlertTriangle size={20} color="#EF4444" />}
+            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+              <div style={{ width: 38, height: 38, borderRadius: 10, background: s.wordFound ? '#ECFDF5' : '#FEF2F2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                {s.wordFound ? <Shield size={18} color="#10B981" /> : <AlertTriangle size={18} color="#EF4444" />}
               </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-                  <span style={{ fontWeight: 700, fontSize: 14, color: '#0F172A' }}>{s.contributor}</span>
+              <div style={{ flex: '1 1 200px', minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
+                  <span style={{ fontWeight: 700, fontSize: 13, color: '#0F172A' }}>{s.contributor}</span>
                   <span style={{ fontWeight: 800, color: '#4F46E5', fontSize: 13 }}>{s.word}</span>
                   <Badge variant={s.wordFound ? 'success' : 'danger'}>{s.confidence}% match</Badge>
                 </div>
                 <p style={{ fontSize: 12, color: '#94A3B8', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.url}</p>
-                <div style={{ display: 'flex', gap: 12, marginTop: 4, fontSize: 11, color: '#64748B' }}>
+                <div style={{ display: 'flex', gap: 8, marginTop: 4, fontSize: 11, color: '#64748B', flexWrap: 'wrap' }}>
                   <span>{s.subreddit}</span><span>·</span><span>↑{s.upvotes} 💬{s.comments}</span><span>·</span><span>{s.submittedAt}</span>
                 </div>
               </div>
