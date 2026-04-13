@@ -50,7 +50,7 @@ export default function FloatingChat() {
   return (
     <>
       <style>{`
-        .fc-widget { position: fixed; bottom: 24px; right: 24px; z-index: 9999; font-family: 'Inter', -apple-system, sans-serif; }
+        .fc-widget { position: fixed; bottom: 24px; right: 24px; z-index: 9999; font-family: 'Inter', -apple-system, sans-serif; -webkit-transform: translateZ(0); transform: translateZ(0); }
         .fc-bubble { width: 56px; height: 56px; border-radius: 50%; background: #2d6197; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(45,97,151,0.35); transition: transform 0.2s, box-shadow 0.2s; position: relative; }
         .fc-bubble:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(45,97,151,0.45); }
         .fc-bubble:active { transform: scale(0.95); }
@@ -76,7 +76,10 @@ export default function FloatingChat() {
         .fc-quick-btn { padding: 6px 12px; border-radius: 20px; border: 1px solid #e1e9ee; background: #f7f9fb; font-size: 12px; color: #566166; cursor: pointer; font-family: inherit; transition: all 0.15s; }
         .fc-quick-btn:hover { background: #d2e4ff; color: #2d6197; border-color: #2d6197; }
         @media (max-width: 480px) {
-          .fc-panel { width: calc(100vw - 16px); right: -16px; bottom: 64px; height: calc(100vh - 100px); border-radius: 16px; }
+          .fc-panel { width: calc(100vw - 32px); right: -8px; bottom: 64px; height: calc(100vh - 120px); border-radius: 16px; }
+          .fc-widget { bottom: 16px; right: 16px; }
+        }
+        @media (max-width: 768px) {
           .fc-widget { bottom: 16px; right: 16px; }
         }
       `}</style>
