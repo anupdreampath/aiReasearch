@@ -471,7 +471,7 @@ export default function Layout({ children, mode = 'admin' }) {
         </header>
 
         {/* ── Content ── */}
-        <main style={{ flex: 1, padding: '32px', overflowY: 'auto', overflowX: 'hidden', maxWidth: '100%' }} className="animate-fade-in layout-content">
+        <main style={{ flex: 1, padding: '32px', paddingBottom: 80, overflowY: 'auto', overflowX: 'hidden', maxWidth: '100%' }} className="animate-fade-in layout-content">
           {children}
         </main>
       </div>

@@ -135,7 +135,7 @@ export default function Sidebar({ mode = 'admin', mobileOpen = false, onClose }:
         .sidebar-panel { transform: ${mobileOpen ? 'translateX(0)' : 'translateX(-100%)'} !important; transition: transform 0.25s ease !important; }
         .layout-main { margin-left: 0 !important; }
         .layout-header { padding: 0 16px !important; }
-        .layout-content { padding: 16px !important; }
+        .layout-content { padding: 12px 12px 88px 12px !important; }
       }
     `}</style>
     <aside className="sidebar-panel" style={{

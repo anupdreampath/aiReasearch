@@ -274,7 +274,7 @@ html, body {
     padding: 0 12px !important;
   }
   .layout-content {
-    padding: 12px !important;
+    padding: 12px 12px 88px 12px !important;
   }
   .hamburger-btn {
     display: flex !important;
