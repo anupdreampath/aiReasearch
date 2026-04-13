@@ -103,9 +103,9 @@ export default function NotificationLogs() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* Header */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+      <header style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, gap: 12 }}>
         <h1 style={{ fontSize: 20, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Notification Logs</h1>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12 }}>
           <div style={{ position: 'relative' }}>
             <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', ...ms, fontSize: 16, color: '#a9b4b9' }}>search</span>
             <input
@@ -113,7 +113,7 @@ export default function NotificationLogs() {
               placeholder="Search logs..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{ padding: '10px 12px 10px 40px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, width: 240 }}
+              style={{ padding: '10px 12px 10px 40px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, maxWidth: 240, width: '100%' }}
             />
           </div>
           <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166', borderRadius: '50%' }}>
@@ -126,7 +126,7 @@ export default function NotificationLogs() {
       </header>
 
       {/* Stats Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24, marginBottom: 32 }}>
         {stats.map((stat) => (
           <div key={stat.label} style={{ padding: 20, background: '#ffffff', borderRadius: 12, border: '1px solid #f0f4f7', display: 'flex', alignItems: 'center', gap: 16 }}>
             <div style={{ width: 48, height: 48, borderRadius: 12, background: `${stat.color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -174,7 +174,8 @@ export default function NotificationLogs() {
 
       {/* Table */}
       <div style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #f0f4f7' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 900 }}>
           <thead>
             <tr style={{ background: 'rgba(232,239,243,0.5)' }}>
               {['Type', 'Recipient', 'Subject / Message', 'Template', 'Status', 'Sent', 'Engagement', 'Actions'].map((h, i) => (
@@ -240,6 +241,7 @@ export default function NotificationLogs() {
             ))}
           </tbody>
         </table>
+        </div>
 
         {/* Pagination */}
         <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#f7f9fb', borderTop: '1px solid #e8eff3' }}>
@@ -261,7 +263,7 @@ export default function NotificationLogs() {
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', marginTop: 40, borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', marginTop: 40, borderTop: '1px solid #e8eff3', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em', gap: 12 }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none' }}>System Status</a>

@@ -74,7 +74,7 @@ export default function IPTracking() {
   return (
     <div style={{ maxWidth: 1600, margin: '0 auto' }}>
       {/* Header */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40 }}>
+      <header style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40, gap: 12 }}>
         <div>
           <h1 style={{ fontSize: 30, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>IP &amp; Device Tracking</h1>
           <p style={{ fontSize: 14, color: '#566166', margin: '8px 0 0 0' }}>Monitoring access patterns and preventing multi-account abuse.</p>
@@ -96,7 +96,7 @@ export default function IPTracking() {
       </header>
 
       {/* Stats Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 24, marginBottom: 32 }}>
         {stats.map((stat) => (
           <div key={stat.label} style={{ padding: 24, background: '#ffffff', borderRadius: 12, border: '1px solid rgba(169,180,185,0.1)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
@@ -139,7 +139,8 @@ export default function IPTracking() {
 
       {/* Data Table */}
       <div style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(169,180,185,0.1)' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 900 }}>
           <thead>
             <tr style={{ background: 'rgba(232,239,243,0.5)' }}>
               {['Contributor', 'IP Address', 'Country', 'Device Fingerprint', 'Last Seen', 'Shared With', 'Status'].map((h) => (
@@ -209,6 +210,7 @@ export default function IPTracking() {
             ))}
           </tbody>
         </table>
+        </div>
 
         {/* Pagination */}
         <div style={{ padding: '16px 24px', background: 'rgba(232,239,243,0.3)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -228,7 +230,7 @@ export default function IPTracking() {
       </div>
 
       {/* Bottom Section */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, marginTop: 48 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 32, marginTop: 48 }}>
         {/* Device Distribution */}
         <div style={{ padding: 24, background: '#e8eff3', borderRadius: 12 }}>
           <h4 style={{ fontSize: 18, fontWeight: 700, color: '#2a3439', margin: '0 0 24px 0', fontFamily: 'Manrope, sans-serif', display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -269,7 +271,7 @@ export default function IPTracking() {
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', marginTop: 48, borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', marginTop: 48, borderTop: '1px solid #e8eff3', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em', gap: 12 }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none' }}>System Status</a>

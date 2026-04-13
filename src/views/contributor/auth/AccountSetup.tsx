@@ -66,7 +66,7 @@ export default function AccountSetup() {
         </div>
 
         {/* Steps */}
-        <div style={{ display: 'flex', gap: 0, marginBottom: 24 }}>
+        <div style={{ display: 'flex', gap: 0, marginBottom: 24, flexWrap: 'wrap' }}>
           {steps.map((s, i) => (
             <div key={s} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
               <div style={{ width: 28, height: 28, borderRadius: '50%', background: i <= step ? '#4F46E5' : '#E2E8F0', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s', position: 'relative', zIndex: 1 }}>
@@ -78,7 +78,7 @@ export default function AccountSetup() {
           ))}
         </div>
 
-        <div style={{ background: '#fff', borderRadius: 20, padding: '28px', boxShadow: '0 8px 32px rgba(79,70,229,0.1)' }}>
+        <div style={{ background: '#fff', borderRadius: 20, padding: '28px', boxShadow: '0 8px 32px rgba(79,70,229,0.1)', boxSizing: 'border-box' }}>
           <h3 style={{ fontSize: 16, fontWeight: 700, color: '#0F172A', marginBottom: 20 }}>{steps[step]}</h3>
           <StepContent />
           {step < 3 && (

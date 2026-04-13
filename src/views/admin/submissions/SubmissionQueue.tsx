@@ -59,7 +59,7 @@ export default function SubmissionQueue() {
         action={<Button variant="outline" onClick={() => router.push('/admin/submissions/bulk')}>Bulk Verify</Button>}
       />
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 12, marginBottom: 20 }}>
         {[
           { key: 'all', label: 'All Submissions', color: '#0F4C81' },
           { key: 'pending', label: 'Pending', color: '#D97706' },

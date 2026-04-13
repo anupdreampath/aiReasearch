@@ -58,7 +58,7 @@ export default function SubmitPost() {
   return (
     <div style={{ maxWidth: 600, width: '100%', margin: '0 auto', padding: '0 16px', boxSizing: 'border-box' }}>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24, flexWrap: 'wrap' }}>
         <button onClick={() => router.push(`/portal/tasks/${id}`)}
           style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: '#fff', border: '1.5px solid #e1e9ee', borderRadius: 10, fontSize: 13, color: '#566166', cursor: 'pointer', fontFamily: 'inherit' }}>
           <ArrowLeft size={14} /> Back to Task

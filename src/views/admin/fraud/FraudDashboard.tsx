@@ -88,8 +88,8 @@ export default function FraudDashboard() {
   return (
     <div style={{ maxWidth: 1600, margin: '0 auto' }}>
       {/* Header */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      <header style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, gap: 12 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
           <h1 style={{ fontSize: 20, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Fraud & Quality Control</h1>
           <div style={{ width: 1, height: 16, background: 'rgba(169,180,185,0.3)' }} />
           <span style={{ fontSize: 14, fontWeight: 500, color: '#566166' }}>Security &gt; Fraud Dashboard</span>
@@ -99,7 +99,7 @@ export default function FraudDashboard() {
             <input
               type="text"
               placeholder="Search suspicious entries..."
-              style={{ width: 256, padding: '8px 40px 8px 16px', background: '#f0f4f7', border: 'none', borderRadius: 9999, fontSize: 13 }}
+              style={{ maxWidth: 256, width: '100%', padding: '8px 40px 8px 16px', background: '#f0f4f7', border: 'none', borderRadius: 9999, fontSize: 13 }}
             />
             <span style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', ...ms, fontSize: 18, color: '#a9b4b9' }}>search</span>
           </div>
@@ -115,7 +115,7 @@ export default function FraudDashboard() {
       </header>
 
       {/* Stats Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24, marginBottom: 32 }}>
         {stats.map((stat) => (
           <div key={stat.label} style={{ padding: 24, background: '#ffffff', borderRadius: 12, border: '1px solid rgba(169,180,185,0.1)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
@@ -140,12 +140,12 @@ export default function FraudDashboard() {
 
       {/* Main Chart Section */}
       <section style={{ padding: 32, background: '#ffffff', borderRadius: 12, marginBottom: 32, border: '1px solid rgba(169,180,185,0.1)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, gap: 12 }}>
           <div>
             <h3 style={{ fontSize: 18, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Fraud events over time</h3>
             <p style={{ fontSize: 13, color: '#566166', margin: '4px 0 0 0' }}>Real-time detection and logging metrics</p>
           </div>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {['Daily', 'Weekly', 'Monthly'].map((range) => (
               <button
                 key={range}
@@ -195,7 +195,7 @@ export default function FraudDashboard() {
       </section>
 
       {/* Bottom Columns */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 32, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32, marginBottom: 32 }}>
         {/* Recent Events Table */}
         <div style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(169,180,185,0.1)' }}>
           <div style={{ padding: '24px 32px', borderBottom: '1px solid rgba(169,180,185,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -203,7 +203,7 @@ export default function FraudDashboard() {
             <button style={{ fontSize: 13, fontWeight: 600, color: '#2d6197', background: 'transparent', border: 'none', cursor: 'pointer' }}>View All</button>
           </div>
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 700 }}>
               <thead>
                 <tr style={{ background: 'rgba(232,239,243,0.5)' }}>
                   {['Contributor', 'Flag Type', 'Severity', 'Detected At', 'Action Taken'].map((h) => (
@@ -309,7 +309,7 @@ export default function FraudDashboard() {
       </div>
 
       {/* Quick Links */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 24 }}>
         {quickLinks.map((link) => (
           <a
             key={link.title}
@@ -341,7 +341,7 @@ export default function FraudDashboard() {
       </section>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', marginTop: 40, borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', marginTop: 40, borderTop: '1px solid #e8eff3', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em', gap: 12 }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none' }}>System Status</a>

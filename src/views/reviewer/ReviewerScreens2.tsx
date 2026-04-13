@@ -52,13 +52,13 @@ export function ReviewerBulkVerify() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
         <div>
           <h1 style={{ fontWeight: 800, fontSize: 22, color: '#2a3439', margin: '0 0 4px' }}>Bulk Verify</h1>
           <p style={{ fontSize: 13, color: '#566166', margin: 0 }}>{undecided.length} submissions remaining · {Object.keys(decisions).length} decided</p>
         </div>
         {selected.size > 0 && (
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <button onClick={() => bulkAction('approve')}
               style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 18px', background: '#10B981', border: 'none', borderRadius: 10, color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
               <CheckCircle size={15} /> Approve {selected.size}
@@ -72,7 +72,7 @@ export function ReviewerBulkVerify() {
       </div>
 
       {/* Keyboard shortcuts bar */}
-      <div style={{ display: 'flex', gap: 12, padding: '10px 16px', background: '#2a3439', borderRadius: 10, marginBottom: 20 }}>
+      <div style={{ display: 'flex', gap: 12, padding: '10px 16px', background: '#2a3439', borderRadius: 10, marginBottom: 20, flexWrap: 'wrap' }}>
         <p style={{ fontSize: 11, color: '#717c82', margin: 0 }}>Keyboard shortcuts:</p>
         {[['A', 'Approve'], ['R', 'Reject'], ['Space', 'View Full'], ['↑↓', 'Navigate']].map(([k, l]) => (
           <span key={k} style={{ fontSize: 11, color: '#CBD5E1' }}>
@@ -145,12 +145,12 @@ export function FlaggedSubmissions() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
         <div>
           <h1 style={{ fontWeight: 800, fontSize: 22, color: '#2a3439', margin: '0 0 4px' }}>Flagged Submissions</h1>
           <p style={{ fontSize: 13, color: '#566166', margin: 0 }}>{filtered.length} flagged submissions requiring action</p>
         </div>
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {reasons.map(r => {
             const [c, bg] = r !== 'all' ? (flagColors[r] || ['#717c82', '#f7f9fb']) : ['#374151', '#e1e9ee'];
             return (
@@ -174,16 +174,16 @@ export function FlaggedSubmissions() {
                 <span style={{ fontSize: 12, fontWeight: 700, color: flagColor }}>Flagged: {sub.flagReason}</span>
               </div>
               {/* Card Body */}
-              <div style={{ padding: '16px 18px', display: 'flex', alignItems: 'center', gap: 16 }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+              <div style={{ padding: '16px 18px', display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+                <div style={{ flex: '1 1 200px', minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
                     <span style={{ fontSize: 15, fontWeight: 800, color: '#2a3439' }}>{sub.word}</span>
                     <span style={{ fontSize: 11, color: '#566166', background: '#e1e9ee', padding: '2px 8px', borderRadius: 20 }}>{sub.subreddit}</span>
                   </div>
                   <p style={{ fontSize: 12, color: '#566166', margin: '0 0 4px' }}>by {sub.contributor} · {sub.submittedAt}</p>
                   <p style={{ fontSize: 12, color: '#374151', margin: 0, fontStyle: 'italic' }}>"{sub.postTitle}"</p>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                   <ConfBadge val={sub.confidence} />
                   <button onClick={() => router.push(`/reviewer/review/${sub.id}`)}
                     style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '7px 12px', background: '#f7f9fb', border: '1px solid #e1e9ee', borderRadius: 8, color: '#566166', fontSize: 12, cursor: 'pointer', fontFamily: 'inherit' }}>
@@ -217,7 +217,7 @@ export function FlaggedSubmissions() {
             <p style={{ fontSize: 13, color: '#566166', margin: '0 0 20px', lineHeight: 1.6 }}>
               You are approving <strong style={{ color: '#2a3439' }}>{overrideModal.word}</strong> by {overrideModal.contributor}, which was flagged for <strong style={{ color: '#EF4444' }}>{overrideModal.flagReason}</strong>. This action will be logged to your activity record.
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 10 }}>
               <button onClick={() => setOverrideModal(null)}
                 style={{ padding: '10px', background: '#f7f9fb', border: '1px solid #e1e9ee', borderRadius: 10, fontSize: 13, color: '#566166', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}>
                 Cancel
@@ -251,7 +251,7 @@ export function ReviewerDuplicates() {
         </p>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
         <div>
           <h1 style={{ fontWeight: 800, fontSize: 22, color: '#2a3439', margin: '0 0 4px' }}>Duplicate Detection</h1>
           <p style={{ fontSize: 13, color: '#566166', margin: 0 }}>Similarity threshold: 85% · {dupPairs.filter(p => p.similarity >= 85).length} pairs above threshold</p>
@@ -261,8 +261,8 @@ export function ReviewerDuplicates() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {dupPairs.map(pair => (
           <div key={pair.id} style={{ background: '#fff', borderRadius: 14, border: '1px solid #e1e9ee', padding: '18px 20px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14, flexWrap: 'wrap', gap: 8 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                 <span style={{ fontSize: 13, fontWeight: 700, color: pair.similarity >= 85 ? '#EF4444' : '#F59E0B' }}>
                   {pair.similarity}% similar
                 </span>
@@ -271,14 +271,14 @@ export function ReviewerDuplicates() {
                 </div>
                 {pair.similarity >= 85 && <span style={{ fontSize: 10, fontWeight: 700, color: '#EF4444', background: '#FEF2F2', padding: '2px 6px', borderRadius: 20 }}>Above threshold</span>}
               </div>
-              <div style={{ display: 'flex', gap: 8 }}>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 <span style={{ fontSize: 11, color: '#717c82' }}>{pair.detectedAt}</span>
                 <button style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 12px', background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 8, color: '#EF4444', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
                   <Flag size={12} /> Flag for Admin
                 </button>
               </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 12 }}>
               {[{ label: 'Submission A', ...pair.a }, { label: 'Submission B', ...pair.b }].map(s => (
                 <div key={s.label} style={{ padding: '12px 14px', background: '#f7f9fb', borderRadius: 10 }}>
                   <p style={{ fontSize: 10, color: '#717c82', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 4px' }}>{s.label}</p>
@@ -314,7 +314,7 @@ export function ReviewerAutoVerifyRules() {
         </p>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
         <div>
           <h1 style={{ fontWeight: 800, fontSize: 22, color: '#2a3439', margin: '0 0 4px' }}>Auto-Verify Rules</h1>
           <p style={{ fontSize: 13, color: '#566166', margin: 0 }}>Rules run in order. Combined confidence score determines auto-approval.</p>
@@ -333,15 +333,15 @@ export function ReviewerAutoVerifyRules() {
           const tc = typeColors[rule.type] || '#717c82';
           return (
             <div key={rule.id} style={{ background: '#fff', borderRadius: 14, border: '1px solid #e1e9ee', padding: '18px 20px', opacity: rule.active ? 1 : 0.6 }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+                <div style={{ flex: '1 1 200px', minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
                     <span style={{ fontSize: 12, color: '#717c82', fontWeight: 600 }}>Rule {i + 1}</span>
                     <p style={{ fontWeight: 700, fontSize: 15, color: '#2a3439', margin: 0 }}>{rule.name}</p>
                     <span style={{ fontSize: 11, fontWeight: 600, color: tc, background: `${tc}20`, padding: '2px 8px', borderRadius: 20 }}>{rule.type}</span>
                   </div>
                   <p style={{ fontSize: 13, color: '#566166', margin: '0 0 8px' }}>{rule.config}</p>
-                  <div style={{ display: 'flex', gap: 16 }}>
+                  <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
                     <span style={{ fontSize: 11, color: '#717c82' }}>Confidence weight: <strong style={{ color: '#374151' }}>{rule.weight}%</strong></span>
                     <span style={{ fontSize: 11, color: '#717c82' }}>Last triggered: <strong style={{ color: '#374151' }}>{rule.lastTriggered}</strong></span>
                   </div>

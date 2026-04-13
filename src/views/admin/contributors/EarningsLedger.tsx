@@ -92,10 +92,10 @@ export default function EarningsLedger() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* TopAppBar */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 32, flexWrap: 'wrap' }}>
           <h1 style={{ fontSize: 18, fontWeight: 900, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Earnings Ledger</h1>
-          <div style={{ position: 'relative', width: 320 }}>
+          <div style={{ position: 'relative', maxWidth: 320, width: '100%' }}>
             <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', ...ms, fontSize: 14, color: '#a9b4b9' }}>search</span>
             <input
               type="text"
@@ -104,25 +104,12 @@ export default function EarningsLedger() {
             />
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166', borderRadius: '50%' }}>
-            <span style={{ ...ms, fontSize: 20 }}>notifications</span>
-          </button>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166', borderRadius: '50%' }}>
-            <span style={{ ...ms, fontSize: 20 }}>help</span>
-          </button>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, paddingLeft: 16, borderLeft: '1px solid rgba(169,180,185,0.2)' }}>
-            <div style={{ textAlign: 'right' }}>
-              <p style={{ fontSize: 12, fontWeight: 600, color: '#2a3439', margin: 0 }}>Admin User</p>
-              <p style={{ fontSize: 10, color: '#566166', margin: 0 }}>Global Oversight</p>
-            </div>
-            <img src="https://ui-avatars.com/api/?name=Admin+User&background=2d6197&color=fff&size=64" alt="" style={{ width: 32, height: 32, borderRadius: '50%', border: '1px solid rgba(169,180,185,0.3)' }} />
-          </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
         </div>
       </header>
 
       {/* Bento Grid - Contributor Info & Metrics */}
-      <div style={{ display: 'grid', gridTemplateColumns: '4fr 8fr', gap: 24, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginBottom: 32 }}>
         {/* Contributor Card */}
         <div style={{ padding: 24, background: '#ffffff', borderRadius: 12, border: '1px solid rgba(169,180,185,0.1)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
@@ -148,7 +135,7 @@ export default function EarningsLedger() {
         </div>
 
         {/* Metrics Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 24 }}>
           <div style={{ padding: 24, background: '#f0f4f7', borderRadius: 12 }}>
             <p style={{ fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 8px 0' }}>Total Lifetime Earnings</p>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
@@ -172,7 +159,7 @@ export default function EarningsLedger() {
 
       {/* Ledger Table */}
       <div style={{ background: '#ffffff', borderRadius: 12, border: '1px solid rgba(169,180,185,0.1)', overflow: 'hidden' }}>
-        <div style={{ padding: '20px 24px', borderBottom: '1px solid #e8eff3', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ padding: '20px 24px', borderBottom: '1px solid #e8eff3', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
           <div>
             <h3 style={{ fontSize: 18, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Task Ledger Details</h3>
             <p style={{ fontSize: 11, color: '#566166', margin: '4px 0 0 0' }}>Historical record of all completed word assignments and payouts.</p>
@@ -188,7 +175,7 @@ export default function EarningsLedger() {
         </div>
 
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 750 }}>
             <thead>
               <tr style={{ background: 'rgba(232,239,243,0.5)' }}>
                 {['Task / Word', 'Completed At', 'Amount', 'Payment Status', 'Payment Date', 'Payment ID'].map((h, i) => (
@@ -249,7 +236,7 @@ export default function EarningsLedger() {
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', marginTop: 40, borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', marginTop: 40, borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none' }}>System Status</a>

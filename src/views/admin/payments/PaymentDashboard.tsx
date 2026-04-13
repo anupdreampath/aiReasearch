@@ -33,7 +33,7 @@ export default function PaymentDashboard() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* TopAppBar */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+      <header style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, gap: 12 }}>
         <h1 style={{ fontSize: 20, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Payments</h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <div style={{ position: 'relative' }}>
@@ -41,20 +41,14 @@ export default function PaymentDashboard() {
             <input
               type="text"
               placeholder="Search transactions..."
-              style={{ padding: '8px 12px 8px 40px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, width: 256 }}
+              style={{ padding: '8px 12px 8px 40px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, maxWidth: 256, width: '100%' }}
             />
           </div>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166', borderRadius: '50%' }}>
-            <span style={{ ...ms, fontSize: 20 }}>notifications</span>
-          </button>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166', borderRadius: '50%' }}>
-            <span style={{ ...ms, fontSize: 20 }}>help_outline</span>
-          </button>
         </div>
       </header>
 
       {/* Quick Actions */}
-      <div style={{ display: 'flex', gap: 12, marginBottom: 32 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
         <button
           onClick={() => router.push('/admin/payments/process')}
           style={{
@@ -106,7 +100,7 @@ export default function PaymentDashboard() {
       </div>
 
       {/* Stats Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24, marginBottom: 32 }}>
         <div style={{ padding: 24, background: '#ffffff', borderRadius: 12, border: '1px solid #f0f4f7' }}>
           <p style={{ fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 8px 0' }}>Total Paid Out</p>
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
@@ -143,7 +137,7 @@ export default function PaymentDashboard() {
 
       {/* Bar Chart Section */}
       <div style={{ padding: 32, background: '#ffffff', borderRadius: 12, border: '1px solid #f0f4f7', marginBottom: 32 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 40 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginBottom: 40, gap: 12 }}>
           <div>
             <h4 style={{ fontSize: 16, fontWeight: 700, color: '#2a3439', margin: '0 0 4px 0', fontFamily: 'Manrope, sans-serif' }}>Payments over time</h4>
             <p style={{ fontSize: 13, color: '#566166', margin: 0 }}>Weekly distribution of Paid vs. Failed transactions</p>
@@ -173,14 +167,15 @@ export default function PaymentDashboard() {
       </div>
 
       {/* Bottom Two Columns */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 32, marginBottom: 40 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32, marginBottom: 40 }}>
         {/* Recent Transactions */}
         <div style={{ background: '#ffffff', borderRadius: 12, border: '1px solid #f0f4f7', overflow: 'hidden' }}>
           <div style={{ padding: '24px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(232,239,243,0.3)' }}>
             <h4 style={{ fontSize: 16, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Recent transactions</h4>
             <button onClick={() => router.push('/admin/payments/history')} style={{ fontSize: 13, fontWeight: 700, color: '#2d6197', background: 'transparent', border: 'none', cursor: 'pointer' }}>View all</button>
           </div>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 600 }}>
             <thead>
               <tr style={{ background: 'rgba(232,239,243,0.5)' }}>
                 {['Contributor', 'Amount', 'Method', 'Status', 'Date'].map((h, i) => (
@@ -227,6 +222,7 @@ export default function PaymentDashboard() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
 
         {/* Payment Method Breakdown */}
@@ -269,7 +265,7 @@ export default function PaymentDashboard() {
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', borderTop: '1px solid #e8eff3', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em', gap: 12 }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none' }}>System Status</a>

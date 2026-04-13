@@ -67,7 +67,7 @@ export default function RoleManagement() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* Header */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 40 }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 40 }}>
         <div>
           <h1 style={{ fontSize: 30, fontWeight: 800, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Role Management</h1>
           <p style={{ fontSize: 14, color: '#566166', margin: '8px 0 0 0' }}>Configure access levels and administrative permissions</p>
@@ -89,9 +89,9 @@ export default function RoleManagement() {
         </button>
       </header>
 
-      <div style={{ display: 'flex', gap: 32 }}>
+      <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
         {/* Left: Role List */}
-        <section style={{ width: '40%' }}>
+        <section style={{ flex: '1 1 300px' }}>
           <h3 style={{ fontSize: 11, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16 }}>Available Roles</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {roles.map((role) => (
@@ -144,7 +144,7 @@ export default function RoleManagement() {
         </section>
 
         {/* Right: Role Detail */}
-        <section style={{ width: '60%' }}>
+        <section style={{ flex: '1 1 400px' }}>
           <div style={{
             padding: 32,
             background: '#ffffff',
@@ -152,7 +152,7 @@ export default function RoleManagement() {
             boxShadow: '0 8px 24px rgba(42,52,57,0.06)',
             border: '1px solid rgba(169,180,185,0.1)',
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
               <h4 style={{ fontSize: 20, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Edit Role: {roleName}</h4>
               <div style={{ display: 'flex', gap: 12 }}>
                 <button style={{ padding: '8px 20px', fontSize: 13, fontWeight: 600, color: '#566166', background: 'transparent', border: 'none', cursor: 'pointer' }}>
@@ -190,7 +190,8 @@ export default function RoleManagement() {
             <div style={{ marginBottom: 40 }}>
               <h5 style={{ fontSize: 11, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16, marginLeft: 4 }}>Permission Policy</h5>
               <div style={{ background: '#e8eff3', borderRadius: 12, overflow: 'hidden' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 500 }}>
                   <thead>
                     <tr style={{ background: 'rgba(225,233,238,0.5)' }}>
                       <th style={{ padding: '12px 16px', fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', textAlign: 'left' }}>Section</th>
@@ -224,6 +225,7 @@ export default function RoleManagement() {
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
             </div>
 
@@ -235,14 +237,14 @@ export default function RoleManagement() {
                   <input
                     type="text"
                     placeholder="Add user by email..."
-                    style={{ width: 192, padding: '6px 12px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 12 }}
+                    style={{ maxWidth: 192, width: '100%', padding: '6px 12px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 12 }}
                   />
                   <button style={{ padding: 6, background: '#d5e3fc', border: 'none', borderRadius: 6, cursor: 'pointer', color: '#455367' }}>
                     <span style={{ ...ms, fontSize: 18 }}>person_add</span>
                   </button>
                 </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
                 {assignedUsers.map((user) => (
                   <div key={user.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 12, background: '#e8eff3', borderRadius: 8 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -268,7 +270,7 @@ export default function RoleManagement() {
       </div>
 
       {/* Footer Stats */}
-      <footer style={{ display: 'flex', gap: 24, marginTop: 48 }}>
+      <footer style={{ display: 'flex', gap: 24, marginTop: 48, flexWrap: 'wrap' }}>
         <div style={{ flex: 1, padding: 24, background: '#ffffff', borderRadius: 12, border: '1px solid rgba(169,180,185,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#d5e3fc', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#455367' }}>

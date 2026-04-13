@@ -68,7 +68,7 @@ export default function AutoAssignmentRules() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* TopAppBar */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32 }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
         <div>
           <h1 style={{ fontSize: 20, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Auto-Assignment Rules</h1>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
@@ -77,7 +77,7 @@ export default function AutoAssignmentRules() {
             <span style={{ fontSize: 10, fontWeight: 700, color: '#2d6197', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Rules Engine</span>
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
           <div style={{ position: 'relative' }}>
             <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', ...ms, fontSize: 18, color: '#a9b4b9' }}>search</span>
             <input
@@ -85,7 +85,7 @@ export default function AutoAssignmentRules() {
               placeholder="Search rules..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{ padding: '10px 12px 10px 40px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, width: 256 }}
+              style={{ padding: '10px 12px 10px 40px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, maxWidth: 256, width: '100%' }}
             />
           </div>
           <button
@@ -104,18 +104,6 @@ export default function AutoAssignmentRules() {
             <span style={{ ...ms, fontSize: 18 }}>add</span>
             Add Rule
           </button>
-          <div style={{ width: 1, height: 24, background: '#d9e4ea', margin: '0 4px' }} />
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 22 }}>notifications</span>
-          </button>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 22 }}>settings</span>
-          </button>
-          <img
-            src="https://ui-avatars.com/api/?name=Admin+User&background=2d6197&color=fff&size=64"
-            alt=""
-            style={{ width: 32, height: 32, borderRadius: '50%' }}
-          />
         </div>
       </header>
 
@@ -268,7 +256,7 @@ export default function AutoAssignmentRules() {
       </div>
 
       {/* Stats Footer (Bento Style) */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, marginBottom: 40 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginBottom: 40 }}>
         {/* System Throughput */}
         <div style={{
           padding: 32,
@@ -326,7 +314,7 @@ export default function AutoAssignmentRules() {
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none', transition: 'color 0.15s' }}>System Status</a>

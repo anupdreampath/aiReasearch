@@ -44,44 +44,30 @@ export default function WordList() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* TopAppBar */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <h1 style={{ fontSize: 20, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Words</h1>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <button
-            onClick={() => router.push('/admin/words/create')}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              padding: '10px 20px',
-              background: '#2d6197',
-              color: '#ffffff',
-              border: 'none',
-              borderRadius: 8,
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: 'pointer',
-            }}
-          >
-            <span style={{ ...ms, fontSize: 18 }}>add</span>
-            Add Word
-          </button>
-          <div style={{ width: 1, height: 24, background: '#d9e4ea', margin: '0 8px' }} />
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 22 }}>notifications</span>
-          </button>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 22 }}>settings</span>
-          </button>
-          <img
-            src="https://ui-avatars.com/api/?name=Admin+User&background=2d6197&color=fff&size=64"
-            alt=""
-            style={{ width: 32, height: 32, borderRadius: '50%', border: '2px solid #ffffff', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
-          />
-        </div>
+        <button
+          onClick={() => router.push('/admin/words/create')}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 8,
+            padding: '10px 20px',
+            background: '#2d6197',
+            color: '#ffffff',
+            border: 'none',
+            borderRadius: 8,
+            fontSize: 14,
+            fontWeight: 600,
+            cursor: 'pointer',
+          }}
+        >
+          <span style={{ ...ms, fontSize: 18 }}>add</span>
+          Add Word
+        </button>
       </header>
 
       {/* Filter Bar */}
-      <section style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16, padding: 20, background: '#ffffff', borderRadius: 12, marginBottom: 24, boxShadow: '0 8px 24px rgba(42,52,57,0.04)' }}>
-        <div style={{ flex: 1, minWidth: 300, position: 'relative' }}>
+      <section style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12, padding: 16, background: '#ffffff', borderRadius: 12, marginBottom: 24, boxShadow: '0 8px 24px rgba(42,52,57,0.04)' }}>
+        <div style={{ flex: 1, minWidth: 180, position: 'relative' }}>
           <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', ...ms, fontSize: 20, color: '#566166' }}>search</span>
           <input
             type="text"
@@ -91,8 +77,8 @@ export default function WordList() {
             style={{ width: '100%', padding: '10px 12px 10px 44px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 14, color: '#2a3439' }}
           />
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <select style={{ padding: '10px 16px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, color: '#566166', cursor: 'pointer' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <select style={{ padding: '10px 12px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, color: '#566166', cursor: 'pointer' }}>
             <option>Part of Speech</option>
             <option>Noun</option>
             <option>Verb</option>
@@ -120,11 +106,11 @@ export default function WordList() {
 
       {/* Bulk Action Toolbar */}
       {selectedCount > 0 && (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#1c5489', color: '#f5f7ff', padding: '12px 24px', borderRadius: 8, marginBottom: 24 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <span style={{ fontSize: 14, fontWeight: 500 }}>{selectedCount} words selected</span>
-            <div style={{ width: 1, height: 16, background: 'rgba(245,247,255,0.2)' }} />
-            <div style={{ display: 'flex', gap: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#1c5489', color: '#f5f7ff', padding: '10px 14px', borderRadius: 8, marginBottom: 24, flexWrap: 'wrap', gap: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <span style={{ fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap' }}>{selectedCount} selected</span>
+            <div className="mobile-hide" style={{ width: 1, height: 16, background: 'rgba(245,247,255,0.2)' }} />
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               <button style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, background: 'transparent', border: 'none', color: '#f5f7ff', cursor: 'pointer' }}>
                 <span style={{ ...ms, fontSize: 16 }}>delete</span>Delete Selected
               </button>
@@ -144,7 +130,8 @@ export default function WordList() {
 
       {/* Table */}
       <div style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 24px rgba(42,52,57,0.04)' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div className="mobile-table-wrap">
+        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 700 }}>
           <thead>
             <tr style={{ background: '#f0f4f7' }}>
               <th style={{ ...thStyle, width: 48, paddingLeft: 24 }}>
@@ -236,9 +223,10 @@ export default function WordList() {
             ))}
           </tbody>
         </table>
+        </div>
 
         {/* Pagination Footer */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 24px', background: 'rgba(240,244,247,0.5)', borderTop: '1px solid #f0f4f7' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', background: 'rgba(240,244,247,0.5)', borderTop: '1px solid #f0f4f7', flexWrap: 'wrap', gap: 12 }}>
           <p style={{ fontSize: 12, color: '#566166', margin: 0 }}>Showing 1 to 5 of 248 entries</p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#a9b4b9' }}>
@@ -257,7 +245,7 @@ export default function WordList() {
       </div>
 
       {/* Stats Grid (Bento Style) */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginTop: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 16, marginTop: 24 }}>
         {/* Total Vocabulary */}
         <div style={{ padding: 24, background: '#ffffff', borderRadius: 12, boxShadow: '0 8px 24px rgba(42,52,57,0.04)' }}>
           <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#566166', margin: '0 0 16px 0' }}>Total Vocabulary</p>

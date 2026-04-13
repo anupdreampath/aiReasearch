@@ -43,7 +43,7 @@ export default function ReviewerDashboard() {
   return (
     <div>
       {/* Welcome Banner */}
-      <div style={{ background: 'linear-gradient(135deg, #2d6197 0%, #1a4670 100%)', borderRadius: 16, padding: '24px 28px', marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ background: 'linear-gradient(135deg, #2d6197 0%, #1a4670 100%)', borderRadius: 16, padding: '24px 28px', marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
         <div>
           <p style={{ color: '#d2e4ff', fontSize: 12, fontWeight: 600, margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Good morning</p>
           <h2 style={{ color: '#fff', fontSize: 22, fontWeight: 800, margin: '0 0 6px' }}>Noor Hassani</h2>
@@ -72,12 +72,12 @@ export default function ReviewerDashboard() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20, marginBottom: 20 }}>
         {/* Weekly Chart */}
         <div style={{ background: '#fff', borderRadius: 14, padding: '20px 24px', border: '1px solid #e1e9ee' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, flexWrap: 'wrap', gap: 8 }}>
             <div>
               <p style={{ fontWeight: 700, fontSize: 15, color: '#2a3439', margin: 0 }}>This Week's Reviews</p>
               <p style={{ fontSize: 12, color: '#717c82', margin: '2px 0 0' }}>Approved vs. rejected submissions</p>
             </div>
-            <div style={{ display: 'flex', gap: 16 }}>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
               {[{ color: '#2563EB', label: 'Approved' }, { color: '#DC2626', label: 'Rejected' }].map(l => (
                 <div key={l.label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                   <div style={{ width: 8, height: 8, borderRadius: 2, background: l.color }} />
@@ -122,7 +122,7 @@ export default function ReviewerDashboard() {
 
       {/* Pending Queue */}
       <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #e1e9ee' }}>
-        <div style={{ padding: '18px 24px', borderBottom: '1px solid #e1e9ee', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ padding: '18px 24px', borderBottom: '1px solid #e1e9ee', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <div>
             <p style={{ fontWeight: 700, fontSize: 15, color: '#2a3439', margin: 0 }}>Pending Queue</p>
             <p style={{ fontSize: 12, color: '#717c82', margin: '2px 0 0' }}>6 submissions awaiting your review</p>
@@ -135,22 +135,22 @@ export default function ReviewerDashboard() {
         <div>
           {pendingItems.map((item, i) => (
             <div key={item.id} onClick={() => router.push(`/reviewer/review/${item.id}`)}
-              style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 24px', borderBottom: i < pendingItems.length - 1 ? '1px solid #f7f9fb' : 'none', cursor: 'pointer', transition: 'background 0.1s' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 24px', borderBottom: i < pendingItems.length - 1 ? '1px solid #f7f9fb' : 'none', cursor: 'pointer', transition: 'background 0.1s', flexWrap: 'wrap' }}
               onMouseEnter={e => e.currentTarget.style.background = '#f7f9fb'}
               onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
               {item.urgent && (
                 <AlertCircle size={14} color="#EF4444" style={{ flexShrink: 0 }} />
               )}
               {!item.urgent && <div style={{ width: 14, flexShrink: 0 }} />}
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ flex: '1 1 200px', minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                   <span style={{ fontWeight: 700, fontSize: 14, color: '#2a3439' }}>{item.word}</span>
                   <span style={{ fontSize: 11, color: '#566166', background: '#e1e9ee', padding: '2px 7px', borderRadius: 20 }}>{item.subreddit}</span>
                   {item.urgent && <span style={{ fontSize: 10, color: '#DC2626', background: '#FEF2F2', padding: '1px 6px', borderRadius: 10, fontWeight: 600 }}>Urgent</span>}
                 </div>
                 <p style={{ fontSize: 12, color: '#717c82', margin: '2px 0 0' }}>by {item.contributor} · {item.age}</p>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
                 <div style={{ textAlign: 'right' }}>
                   <p style={{ fontSize: 11, color: '#717c82', margin: 0 }}>Auto-confidence</p>
                   <p style={{ fontSize: 13, fontWeight: 700, color: item.confidence >= 80 ? '#2563EB' : item.confidence >= 65 ? '#D97706' : '#DC2626', margin: 0 }}>{item.confidence}%</p>

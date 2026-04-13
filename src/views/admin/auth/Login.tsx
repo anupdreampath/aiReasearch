@@ -33,9 +33,9 @@ export default function Login({ mode = 'admin' }: LoginProps) {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#EEF2FF', display: 'flex' }}>
+    <div style={{ minHeight: '100vh', background: '#EEF2FF', display: 'flex', flexWrap: 'wrap' }}>
       {/* Left Panel */}
-      <div style={{ flex: 1, background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: 48, position: 'relative', overflow: 'hidden' }}>
+      <div style={{ flex: '1 1 400px', background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: 48, position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -80, right: -80, width: 320, height: 320, borderRadius: '50%', background: '#4F46E520' }} />
         <div style={{ position: 'absolute', bottom: -60, left: -60, width: 240, height: 240, borderRadius: '50%', background: '#10B98110' }} />
         <div style={{ position: 'relative', textAlign: 'center', maxWidth: 380 }}>
@@ -71,7 +71,7 @@ export default function Login({ mode = 'admin' }: LoginProps) {
       </div>
 
       {/* Right Panel */}
-      <div style={{ width: 480, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '48px 56px', background: '#fff' }}>
+      <div style={{ width: '100%', maxWidth: 480, flex: '1 1 320px', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '48px 56px', background: '#fff', boxSizing: 'border-box' }}>
         <div>
           <h2 style={{ fontSize: 26, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Welcome back</h2>
           <p style={{ color: '#64748B', fontSize: 14, marginBottom: 32 }}>

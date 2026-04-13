@@ -26,7 +26,7 @@ export default function ContributorLogin() {
           <h1 style={{ fontSize: 24, fontWeight: 800, color: '#0F172A', margin: '0 0 6px' }}>Contributor Portal</h1>
           <p style={{ color: '#64748B', fontSize: 14 }}>Sign in to see your assignments</p>
         </div>
-        <div style={{ background: '#fff', borderRadius: 20, padding: '32px', boxShadow: '0 10px 40px rgba(79,70,229,0.1)' }}>
+        <div style={{ background: '#fff', borderRadius: 20, padding: '32px', boxShadow: '0 10px 40px rgba(79,70,229,0.1)', boxSizing: 'border-box' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <Input label="Email" type="email" value={email} onChange={setEmail} icon={<Mail size={14} />} required />
             <Input label="Password" type="password" value={password} onChange={setPassword} icon={<Lock size={14} />} required />

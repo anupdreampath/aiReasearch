@@ -110,9 +110,9 @@ export default function EmailTemplates() {
   );
 
   return (
-    <div style={{ display: 'flex', height: 'calc(100vh - 80px)', margin: '-24px' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', minHeight: 'calc(100vh - 80px)', margin: '-24px' }}>
       {/* Left: Template List */}
-      <div style={{ width: '30%', background: '#f0f4f7', overflowY: 'auto', padding: 24, borderRight: '1px solid rgba(169,180,185,0.3)' }}>
+      <div style={{ flex: '1 1 280px', minWidth: 280, background: '#f0f4f7', overflowY: 'auto', padding: 24, borderRight: '1px solid rgba(169,180,185,0.3)' }}>
         <div style={{ marginBottom: 16 }}>
           <div style={{ position: 'relative' }}>
             <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', ...ms, fontSize: 18, color: '#a9b4b9' }}>search</span>
@@ -165,7 +165,7 @@ export default function EmailTemplates() {
       </div>
 
       {/* Right: Template Editor */}
-      <div style={{ width: '70%', display: 'flex', flexDirection: 'column', background: '#f7f9fb' }}>
+      <div style={{ flex: '2 1 400px', display: 'flex', flexDirection: 'column', background: '#f7f9fb' }}>
         <div style={{ flex: 1, overflowY: 'auto', padding: 32 }}>
           <div style={{ maxWidth: 800, margin: '0 auto' }}>
             {/* Form Header */}
@@ -237,7 +237,7 @@ export default function EmailTemplates() {
                 <span style={{ ...ms, fontSize: 18, color: '#2d6197' }}>info</span>
                 Available Placeholders
               </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
                 {placeholders.map((ph) => (
                   <div key={ph.code} style={{ padding: 12, background: '#f0f4f7', borderRadius: 8, cursor: 'pointer' }}>
                     <code style={{ fontSize: 12, fontWeight: 600, color: '#2d6197', display: 'block', marginBottom: 4 }}>{ph.code}</code>
@@ -250,7 +250,7 @@ export default function EmailTemplates() {
         </div>
 
         {/* Footer Actions */}
-        <div style={{ padding: '24px 32px', background: 'rgba(232,239,243,0.5)', borderTop: '1px solid rgba(169,180,185,0.2)', display: 'flex', justifyContent: 'flex-end', gap: 16 }}>
+        <div style={{ padding: '24px 32px', background: 'rgba(232,239,243,0.5)', borderTop: '1px solid rgba(169,180,185,0.2)', display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: 16 }}>
           <button style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 24px', color: '#2d6197', background: 'transparent', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
             <span style={{ ...ms, fontSize: 16 }}>send</span>
             Send Test Email

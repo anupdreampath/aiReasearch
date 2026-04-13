@@ -46,7 +46,7 @@ export default function SubmissionDetail() {
 
       {decision && <div style={{ marginBottom: 16 }}><Alert type={decision === 'approved' ? 'success' : 'danger'} title={decision === 'approved' ? 'Submission approved! Payment queued.' : 'Submission rejected. Contributor notified.'} message="Redirecting to queue..." /></div>}
 
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
         {/* Main */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {/* Auto-check result */}

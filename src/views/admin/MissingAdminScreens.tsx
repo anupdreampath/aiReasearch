@@ -49,6 +49,16 @@ const postsTable = [
 
 export function WordPerformance() {
   const [selectedWord, setSelectedWord] = useState(wordOptions[0]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = React.useRef(null);
+
+  React.useEffect(() => {
+    function handleClick(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setDropdownOpen(false);
+    }
+    if (dropdownOpen) document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [dropdownOpen]);
 
   const stats = [
     { label: 'Total Posts', val: '108', color: '#4F46E5', icon: <TrendingUp size={20} color="#4F46E5" /> },
@@ -59,19 +69,49 @@ export function WordPerformance() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 20 }}>
         <div>
           <h1 style={{ fontWeight: 800, fontSize: 22, color: '#0F172A', margin: '0 0 4px' }}>Word Performance</h1>
           <p style={{ fontSize: 13, color: '#64748B', margin: 0 }}>Deep analytics per word</p>
         </div>
-        <select value={selectedWord.id} onChange={e => setSelectedWord(wordOptions.find(w => w.id === Number(e.target.value)))}
-          style={{ padding: '9px 14px', fontSize: 13, border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'inherit', outline: 'none', background: '#fff', cursor: 'pointer', minWidth: 160 }}>
-          {wordOptions.map(w => <option key={w.id} value={w.id}>{w.label}</option>)}
-        </select>
+        <div ref={dropdownRef} style={{ position: 'relative', width: '100%', maxWidth: 200 }}>
+          <button
+            onClick={() => setDropdownOpen(v => !v)}
+            style={{
+              width: '100%', padding: '9px 14px', fontSize: 13, border: '1.5px solid #E2E8F0', borderRadius: 10,
+              fontFamily: 'inherit', background: '#fff', cursor: 'pointer', display: 'flex',
+              alignItems: 'center', justifyContent: 'space-between', gap: 8, color: '#0F172A',
+            }}
+          >
+            <span style={{ fontWeight: 600 }}>{selectedWord.label}</span>
+            <span style={{ fontSize: 18, color: '#94A3B8', fontFamily: 'Material Symbols Outlined', transform: dropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>expand_more</span>
+          </button>
+          {dropdownOpen && (
+            <div style={{
+              position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0,
+              background: '#fff', borderRadius: 10, border: '1.5px solid #E2E8F0',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.1)', zIndex: 50, overflow: 'hidden',
+            }}>
+              {wordOptions.map(w => (
+                <button key={w.id} onClick={() => { setSelectedWord(w); setDropdownOpen(false); }}
+                  style={{
+                    width: '100%', padding: '10px 14px', border: 'none', textAlign: 'left',
+                    background: selectedWord.id === w.id ? '#EEF2FF' : '#fff', fontSize: 13,
+                    fontFamily: 'inherit', cursor: 'pointer', color: selectedWord.id === w.id ? '#4F46E5' : '#334155',
+                    fontWeight: selectedWord.id === w.id ? 700 : 400, display: 'flex', alignItems: 'center', gap: 8,
+                  }}
+                >
+                  {selectedWord.id === w.id && <span style={{ fontSize: 16, fontFamily: 'Material Symbols Outlined', color: '#4F46E5' }}>check</span>}
+                  {w.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 20 }}>
         {stats.map(s => (
           <div key={s.label} style={{ background: '#fff', borderRadius: 14, padding: '18px 20px', border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', gap: 14 }}>
             <div style={{ width: 42, height: 42, borderRadius: 10, background: `${s.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{s.icon}</div>
@@ -104,7 +144,7 @@ export function WordPerformance() {
       </div>
 
       {/* By Subreddit + By Contributor */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20, marginBottom: 20 }}>
         <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #E2E8F0', padding: '20px 24px' }}>
           <p style={{ fontWeight: 700, fontSize: 14, color: '#0F172A', margin: '0 0 16px' }}>Posts by Subreddit</p>
           <ResponsiveContainer width="100%" height={180}>
@@ -130,33 +170,35 @@ export function WordPerformance() {
       </div>
 
       {/* Posts Table */}
-      <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #E2E8F0', overflow: 'hidden' }}>
+      <div className="mobile-table-wrap" style={{ background: '#fff', borderRadius: 14, border: '1px solid #E2E8F0', overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid #F1F5F9' }}>
           <p style={{ fontWeight: 700, fontSize: 14, color: '#0F172A', margin: 0 }}>All Posts for "{selectedWord.label}"</p>
         </div>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ background: '#F8FAFC' }}>
-              {['Contributor', 'Subreddit', 'Upvotes', 'Comments', 'Status', 'Snapshot Date'].map(h => (
-                <th key={h} style={{ padding: '10px 16px', textAlign: 'left', fontSize: 11, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {postsTable.map(row => (
-              <tr key={row.id} style={{ borderTop: '1px solid #F1F5F9' }}>
-                <td style={{ padding: '12px 16px', fontSize: 13, fontWeight: 600, color: '#0F172A' }}>{row.contributor}</td>
-                <td style={{ padding: '12px 16px' }}><span style={{ fontSize: 12, color: '#64748B', background: '#F1F5F9', padding: '2px 8px', borderRadius: 20 }}>{row.subreddit}</span></td>
-                <td style={{ padding: '12px 16px', fontSize: 13, color: '#374151' }}>▲ {row.upvotes}</td>
-                <td style={{ padding: '12px 16px', fontSize: 13, color: '#374151' }}>💬 {row.comments}</td>
-                <td style={{ padding: '12px 16px' }}>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: row.status === 'Approved' ? '#10B981' : row.status === 'Rejected' ? '#EF4444' : '#F59E0B', background: row.status === 'Approved' ? '#F0FDF4' : row.status === 'Rejected' ? '#FEF2F2' : '#FFFBEB', padding: '3px 8px', borderRadius: 20 }}>{row.status}</span>
-                </td>
-                <td style={{ padding: '12px 16px', fontSize: 12, color: '#94A3B8' }}>{row.snapshotDate}</td>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 700 }}>
+            <thead>
+              <tr style={{ background: '#F8FAFC' }}>
+                {['Contributor', 'Subreddit', 'Upvotes', 'Comments', 'Status', 'Snapshot Date'].map(h => (
+                  <th key={h} style={{ padding: '10px 16px', textAlign: 'left', fontSize: 11, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {postsTable.map(row => (
+                <tr key={row.id} style={{ borderTop: '1px solid #F1F5F9' }}>
+                  <td style={{ padding: '12px 16px', fontSize: 13, fontWeight: 600, color: '#0F172A' }}>{row.contributor}</td>
+                  <td style={{ padding: '12px 16px' }}><span style={{ fontSize: 12, color: '#64748B', background: '#F1F5F9', padding: '2px 8px', borderRadius: 20 }}>{row.subreddit}</span></td>
+                  <td style={{ padding: '12px 16px', fontSize: 13, color: '#374151' }}>▲ {row.upvotes}</td>
+                  <td style={{ padding: '12px 16px', fontSize: 13, color: '#374151' }}>💬 {row.comments}</td>
+                  <td style={{ padding: '12px 16px' }}>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: row.status === 'Approved' ? '#10B981' : row.status === 'Rejected' ? '#EF4444' : '#F59E0B', background: row.status === 'Approved' ? '#F0FDF4' : row.status === 'Rejected' ? '#FEF2F2' : '#FFFBEB', padding: '3px 8px', borderRadius: 20 }}>{row.status}</span>
+                  </td>
+                  <td style={{ padding: '12px 16px', fontSize: 12, color: '#94A3B8' }}>{row.snapshotDate}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
@@ -207,8 +249,8 @@ export function ContentDetailViewer() {
   return (
     <div>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <button onClick={() => router.push('/admin/scraped')}
             style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: '#fff', border: '1.5px solid #E2E8F0', borderRadius: 10, fontSize: 13, color: '#64748B', cursor: 'pointer', fontFamily: 'inherit' }}>
             <ArrowLeft size={14} /> Scraped Content
@@ -218,7 +260,7 @@ export function ContentDetailViewer() {
             <p style={{ fontSize: 12, color: '#94A3B8', margin: '2px 0 0' }}>Scraped · r/casualconversation · 2024-03-20</p>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           <button style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: '#fff', border: '1.5px solid #E2E8F0', borderRadius: 10, fontSize: 13, color: '#64748B', cursor: 'pointer', fontFamily: 'inherit' }}>
             <RefreshCw size={13} /> Re-scrape
           </button>
@@ -228,7 +270,7 @@ export function ContentDetailViewer() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
         {/* Left: Post + Comments */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {/* Post */}
@@ -251,7 +293,7 @@ export function ContentDetailViewer() {
                 <mark style={{ background: '#FEF08A', padding: '1px 3px', borderRadius: 3 }}>glorbified</mark>{' '}
                 beyond recognition.
               </p>
-              <div style={{ display: 'flex', gap: 16, marginTop: 14, paddingTop: 14, borderTop: '1px solid #F1F5F9' }}>
+              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 14, paddingTop: 14, borderTop: '1px solid #F1F5F9' }}>
                 <span style={{ fontSize: 12, color: '#64748B' }}>▲ 47 upvotes</span>
                 <span style={{ fontSize: 12, color: '#64748B' }}>💬 12 comments</span>
                 <a href="https://reddit.com/r/casualconversation/abc123" target="_blank" rel="noreferrer"
@@ -400,8 +442,8 @@ export function ProcessPayments() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <button onClick={() => router.push('/admin/payments/pending')}
             style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: '#fff', border: '1.5px solid #E2E8F0', borderRadius: 10, fontSize: 13, color: '#64748B', cursor: 'pointer', fontFamily: 'inherit' }}>
             <ArrowLeft size={14} /> Cancel
@@ -419,7 +461,7 @@ export function ProcessPayments() {
 
       {/* Summary */}
       <div style={{ background: '#F0FDF4', borderRadius: 14, padding: '20px 24px', marginBottom: 16, border: '1px solid #BBF7D0' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 20 }}>
           <div style={{ textAlign: 'center' }}>
             <p style={{ fontSize: 28, fontWeight: 800, color: '#065F46', margin: 0 }}>${total.toFixed(2)}</p>
             <p style={{ fontSize: 12, color: '#047857', margin: '2px 0 0' }}>Total Amount</p>
@@ -455,48 +497,50 @@ export function ProcessPayments() {
       )}
 
       {/* Table */}
-      <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #E2E8F0', overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ background: '#F8FAFC' }}>
-              <th style={{ padding: '11px 16px', width: 40 }}>
-                <input type="checkbox" checked={selected.size === batchContributors.length}
-                  onChange={() => setSelected(selected.size === batchContributors.length ? new Set() : new Set(batchContributors.map(c => c.id)))}
-                  style={{ accentColor: '#4F46E5' }} />
-              </th>
-              {['Contributor', 'Method', 'Amount', 'Status'].map(h => (
-                <th key={h} style={{ padding: '11px 16px', textAlign: 'left', fontSize: 11, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {batchContributors.map(c => (
-              <tr key={c.id} style={{ borderTop: '1px solid #F1F5F9', opacity: selected.has(c.id) ? 1 : 0.5 }}>
-                <td style={{ padding: '12px 16px' }}>
-                  <input type="checkbox" checked={selected.has(c.id)} onChange={() => toggle(c.id)} style={{ accentColor: '#4F46E5' }} />
-                </td>
-                <td style={{ padding: '12px 16px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg, #4F46E5, #6366F1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <User size={14} color="#fff" />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: 13, fontWeight: 600, color: '#0F172A' }}>{c.name}</span>
-                      {c.flagged && <span style={{ fontSize: 10, color: '#EF4444', background: '#FEF2F2', padding: '1px 6px', borderRadius: 10, marginLeft: 6, fontWeight: 600 }}>Flagged</span>}
-                    </div>
-                  </div>
-                </td>
-                <td style={{ padding: '12px 16px' }}>
-                  <span style={{ fontSize: 12, background: '#F1F5F9', padding: '3px 8px', borderRadius: 20, color: '#374151' }}>{c.methodIcon} {c.method}</span>
-                </td>
-                <td style={{ padding: '12px 16px', fontSize: 14, fontWeight: 700, color: '#10B981' }}>${c.amount.toFixed(2)}</td>
-                <td style={{ padding: '12px 16px' }}>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: c.status === 'Ready' ? '#10B981' : '#F59E0B', background: c.status === 'Ready' ? '#F0FDF4' : '#FFFBEB', padding: '3px 8px', borderRadius: 20 }}>{c.status}</span>
-                </td>
+      <div className="mobile-table-wrap" style={{ background: '#fff', borderRadius: 14, border: '1px solid #E2E8F0', overflow: 'hidden' }}>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 600 }}>
+            <thead>
+              <tr style={{ background: '#F8FAFC' }}>
+                <th style={{ padding: '11px 16px', width: 40 }}>
+                  <input type="checkbox" checked={selected.size === batchContributors.length}
+                    onChange={() => setSelected(selected.size === batchContributors.length ? new Set() : new Set(batchContributors.map(c => c.id)))}
+                    style={{ accentColor: '#4F46E5' }} />
+                </th>
+                {['Contributor', 'Method', 'Amount', 'Status'].map(h => (
+                  <th key={h} style={{ padding: '11px 16px', textAlign: 'left', fontSize: 11, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {batchContributors.map(c => (
+                <tr key={c.id} style={{ borderTop: '1px solid #F1F5F9', opacity: selected.has(c.id) ? 1 : 0.5 }}>
+                  <td style={{ padding: '12px 16px' }}>
+                    <input type="checkbox" checked={selected.has(c.id)} onChange={() => toggle(c.id)} style={{ accentColor: '#4F46E5' }} />
+                  </td>
+                  <td style={{ padding: '12px 16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg, #4F46E5, #6366F1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <User size={14} color="#fff" />
+                      </div>
+                      <div>
+                        <span style={{ fontSize: 13, fontWeight: 600, color: '#0F172A' }}>{c.name}</span>
+                        {c.flagged && <span style={{ fontSize: 10, color: '#EF4444', background: '#FEF2F2', padding: '1px 6px', borderRadius: 10, marginLeft: 6, fontWeight: 600 }}>Flagged</span>}
+                      </div>
+                    </div>
+                  </td>
+                  <td style={{ padding: '12px 16px' }}>
+                    <span style={{ fontSize: 12, background: '#F1F5F9', padding: '3px 8px', borderRadius: 20, color: '#374151' }}>{c.methodIcon} {c.method}</span>
+                  </td>
+                  <td style={{ padding: '12px 16px', fontSize: 14, fontWeight: 700, color: '#10B981' }}>${c.amount.toFixed(2)}</td>
+                  <td style={{ padding: '12px 16px' }}>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: c.status === 'Ready' ? '#10B981' : '#F59E0B', background: c.status === 'Ready' ? '#F0FDF4' : '#FFFBEB', padding: '3px 8px', borderRadius: 20 }}>{c.status}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div style={{ marginTop: 16, padding: '14px 18px', background: '#F8FAFC', borderRadius: 10, border: '1px solid #E2E8F0' }}>

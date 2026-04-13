@@ -79,7 +79,7 @@ export default function FailedPayments() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* Header */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
+      <header style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32, gap: 12 }}>
         <div>
           <h1 style={{ fontSize: 30, fontWeight: 900, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Failed Payments</h1>
           <p style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, fontWeight: 600, color: '#9f403d', margin: '8px 0 0 0' }}>
@@ -111,8 +111,10 @@ export default function FailedPayments() {
         border: '1px solid rgba(159,64,61,0.3)',
         borderRadius: 12,
         display: 'flex',
+        flexWrap: 'wrap',
         alignItems: 'center',
         justifyContent: 'space-between',
+        gap: 12,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <div style={{
@@ -165,7 +167,8 @@ export default function FailedPayments() {
 
       {/* Data Table */}
       <div style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e8eff3', marginBottom: 32 }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 800 }}>
           <thead>
             <tr style={{ background: '#f0f4f7' }}>
               {['Contributor', 'Amount', 'Method', 'Failure Reason', 'Attempted At', 'Retry Count', 'Actions'].map((h, i) => (
@@ -257,6 +260,7 @@ export default function FailedPayments() {
             ))}
           </tbody>
         </table>
+        </div>
 
         {/* Pagination */}
         <div style={{ padding: 16, background: 'rgba(232,239,243,0.3)', borderTop: '1px solid #e8eff3', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -273,7 +277,7 @@ export default function FailedPayments() {
       </div>
 
       {/* Stats Footer */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 24 }}>
         {stats.map((stat) => (
           <div key={stat.label} style={{ padding: 24, background: '#f0f4f7', borderRadius: 12 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
@@ -321,7 +325,7 @@ export default function FailedPayments() {
       </button>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', marginTop: 40, borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', marginTop: 40, borderTop: '1px solid #e8eff3', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em', gap: 12 }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none' }}>System Status</a>

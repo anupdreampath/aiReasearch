@@ -70,8 +70,8 @@ export default function ReviewDetail() {
   return (
     <div>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <button onClick={() => router.push('/reviewer/pending')}
             style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: '#fff', border: '1.5px solid #e1e9ee', borderRadius: 10, fontSize: 13, color: '#566166', cursor: 'pointer', fontFamily: 'inherit' }}>
             <ArrowLeft size={14} /> Back to Queue
@@ -81,7 +81,7 @@ export default function ReviewDetail() {
             <p style={{ fontSize: 12, color: '#717c82', margin: '2px 0 0' }}>Submitted {sub.submittedAt} · Auto-confidence: {sub.confidence}%</p>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {prevId && (
             <button onClick={() => router.push(`/reviewer/review/${prevId}`)}
               style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '8px 12px', background: '#fff', border: '1.5px solid #e1e9ee', borderRadius: 10, fontSize: 12, color: '#566166', cursor: 'pointer', fontFamily: 'inherit' }}>
@@ -115,7 +115,7 @@ export default function ReviewDetail() {
 
           {/* Post Preview */}
           <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #e1e9ee', overflow: 'hidden' }}>
-            <div style={{ padding: '16px 20px', borderBottom: '1px solid #e1e9ee', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid #e1e9ee', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
               <div>
                 <p style={{ fontWeight: 700, fontSize: 14, color: '#2a3439', margin: 0 }}>Reddit Post Preview</p>
                 <p style={{ fontSize: 12, color: '#717c82', margin: '2px 0 0' }}>{sub.subreddit}</p>
@@ -173,7 +173,7 @@ export default function ReviewDetail() {
           {/* Decision Panel */}
           <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #e1e9ee', padding: '20px' }}>
             <p style={{ fontWeight: 700, fontSize: 14, color: '#2a3439', margin: '0 0 14px' }}>Your Decision</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 10, marginBottom: 16 }}>
               <button onClick={() => setDecision('approve')}
                 style={{ padding: '14px', borderRadius: 12, border: `2px solid ${decision === 'approve' ? '#10B981' : '#e1e9ee'}`, background: decision === 'approve' ? '#F0FDF4' : '#fff', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontSize: 14, fontWeight: 700, color: decision === 'approve' ? '#065F46' : '#374151', transition: 'all 0.15s' }}>
                 <CheckCircle size={18} color={decision === 'approve' ? '#10B981' : '#717c82'} /> Approve
@@ -237,7 +237,7 @@ export default function ReviewDetail() {
                 <p style={{ fontSize: 11, color: '#717c82', margin: 0 }}>{sub.email}</p>
               </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 8 }}>
               {[
                 { label: 'Quality Score', val: `${sub.quality}%`, color: '#2d6197' },
                 { label: 'Past Approvals', val: sub.previousApproval, color: '#6366F1' },

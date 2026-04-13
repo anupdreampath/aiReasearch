@@ -50,13 +50,13 @@ export default function ReportGenerator() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto', height: 'calc(100vh - 80px)', display: 'flex', flexDirection: 'column' }}>
       {/* TopAppBar */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      <header style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, gap: 12 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
           <h1 style={{ fontSize: 20, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Report Generator</h1>
           <div style={{ width: 1, height: 24, background: 'rgba(169,180,185,0.3)' }} />
           <span style={{ fontSize: 14, fontWeight: 500, color: '#566166' }}>Export / Report Generator</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12 }}>
           <button style={{ padding: '10px 20px', border: '1px solid rgba(45,97,151,0.2)', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#2d6197', background: 'transparent', cursor: 'pointer' }}>
             Save Report
           </button>
@@ -128,9 +128,9 @@ export default function ReportGenerator() {
       </header>
 
       {/* Main Content */}
-      <div style={{ display: 'flex', gap: 32, flex: 1, overflow: 'hidden' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, flex: 1, overflow: 'hidden' }}>
         {/* Left Column: Controls & History */}
-        <section style={{ width: '45%', display: 'flex', flexDirection: 'column', gap: 24, overflowY: 'auto' }}>
+        <section style={{ flex: '1 1 350px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24, overflowY: 'auto' }}>
           {/* Configuration Card */}
           <div style={{ padding: 32, background: '#ffffff', borderRadius: 12, border: '1px solid rgba(169,180,185,0.1)' }}>
             <h3 style={{ fontSize: 18, fontWeight: 700, color: '#2a3439', margin: '0 0 24px 0', fontFamily: 'Manrope, sans-serif' }}>Configuration</h3>
@@ -151,7 +151,7 @@ export default function ReportGenerator() {
               {/* Metrics */}
               <div>
                 <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Metrics</label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 8 }}>
                   {metrics.map((m) => (
                     <label key={m.label} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 12, background: '#f0f4f7', borderRadius: 8, cursor: 'pointer' }}>
                       <input type="checkbox" defaultChecked={m.checked} style={{ width: 16, height: 16 }} />
@@ -162,7 +162,7 @@ export default function ReportGenerator() {
               </div>
 
               {/* Group By & Date Range */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16 }}>
                 <div>
                   <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Group By</label>
                   <select defaultValue="Date" style={{ width: '100%', padding: '12px 16px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, cursor: 'pointer' }}>
@@ -185,7 +185,7 @@ export default function ReportGenerator() {
               {/* Visualization Type */}
               <div>
                 <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Visualization Type</label>
-                <div style={{ display: 'flex', gap: 8 }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                   {vizTypes.map((viz) => (
                     <button
                       key={viz.id}
@@ -260,7 +260,7 @@ export default function ReportGenerator() {
         </section>
 
         {/* Right Column: Preview Pane */}
-        <section style={{ width: '55%', display: 'flex', flexDirection: 'column' }}>
+        <section style={{ flex: '1 1 350px', minWidth: 0, display: 'flex', flexDirection: 'column' }}>
           <div style={{
             flex: 1,
             background: '#ffffff',
@@ -298,7 +298,7 @@ export default function ReportGenerator() {
               </div>
               <h3 style={{ fontSize: 24, fontWeight: 700, color: '#2a3439', margin: '0 0 12px 0', fontFamily: 'Manrope, sans-serif' }}>Ready to Analyze</h3>
               <p style={{ fontSize: 14, color: '#566166', maxWidth: 320, margin: '0 0 32px 0' }}>Adjust your filters on the left and click "Generate Preview" to see your data visualized here.</p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, width: '100%', maxWidth: 320 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 16, width: '100%', maxWidth: 320 }}>
                 <div style={{ padding: 16, background: 'rgba(232,239,243,0.3)', borderRadius: 8, border: '1px solid rgba(169,180,185,0.1)' }}>
                   <div style={{ width: 32, height: 4, background: 'rgba(45,97,151,0.2)', borderRadius: 2, marginBottom: 8 }} />
                   <div style={{ width: 48, height: 4, background: 'rgba(45,97,151,0.1)', borderRadius: 2 }} />
@@ -317,7 +317,7 @@ export default function ReportGenerator() {
           </div>
 
           {/* Preview Options */}
-          <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 8px', opacity: 0.5 }}>
+          <div style={{ marginTop: 16, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', padding: '0 8px', opacity: 0.5, gap: 12 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
               <span style={{ fontSize: 11, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Live Preview Status</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -338,7 +338,7 @@ export default function ReportGenerator() {
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', marginTop: 24, borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', marginTop: 24, borderTop: '1px solid #e8eff3', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em', gap: 12 }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none' }}>System Status</a>

@@ -73,7 +73,7 @@ export default function DataIntegrityChecker() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* TopAppBar */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32 }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
         <div>
           <h1 style={{ fontSize: 20, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Data Integrity Checker</h1>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
@@ -82,26 +82,15 @@ export default function DataIntegrityChecker() {
             <span style={{ fontSize: 10, fontWeight: 700, color: '#2d6197', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Integrity Tools</span>
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
           <div style={{ position: 'relative' }}>
             <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', ...ms, fontSize: 18, color: '#a9b4b9' }}>search</span>
             <input
               type="text"
               placeholder="Search integrity logs..."
-              style={{ padding: '10px 12px 10px 40px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, width: 256 }}
+              style={{ padding: '10px 12px 10px 40px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, maxWidth: 256, width: '100%' }}
             />
           </div>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 22 }}>notifications</span>
-          </button>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 22 }}>settings</span>
-          </button>
-          <img
-            src="https://ui-avatars.com/api/?name=Admin+User&background=2d6197&color=fff&size=64"
-            alt=""
-            style={{ width: 32, height: 32, borderRadius: '50%' }}
-          />
         </div>
       </header>
 
@@ -120,7 +109,7 @@ export default function DataIntegrityChecker() {
       </section>
 
       {/* Health Score & Controls */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 24, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginBottom: 32 }}>
         {/* Health Score */}
         <div style={{ padding: 32, background: '#ffffff', borderRadius: 12, border: '1px solid #f0f4f7', textAlign: 'center' }}>
           <h4 style={{ fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 24px 0' }}>Health Score</h4>
@@ -136,7 +125,7 @@ export default function DataIntegrityChecker() {
         {/* Quick Actions */}
         <div style={{ padding: 32, background: '#ffffff', borderRadius: 12, border: '1px solid #f0f4f7', display: 'flex', flexDirection: 'column', gap: 16 }}>
           <h4 style={{ fontSize: 14, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Quick Actions</h4>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12 }}>
             <button style={{
               display: 'flex', alignItems: 'center', gap: 12,
               padding: 16,
@@ -199,7 +188,7 @@ export default function DataIntegrityChecker() {
 
       {/* Active Integrity Checks */}
       <h3 style={{ fontSize: 16, fontWeight: 700, color: '#2a3439', margin: '0 0 20px 0', fontFamily: 'Manrope, sans-serif' }}>Active Integrity Checks</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20, marginBottom: 32 }}>
         {mockChecks.map((check) => (
           <div key={check.id} style={{ padding: 24, background: '#ffffff', borderRadius: 12, border: '1px solid #f0f4f7', display: 'flex', alignItems: 'flex-start', gap: 16 }}>
             <div style={{
@@ -266,7 +255,8 @@ export default function DataIntegrityChecker() {
           <h4 style={{ fontSize: 14, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Recent Issues</h4>
           <button style={{ fontSize: 12, fontWeight: 700, color: '#2d6197', background: 'transparent', border: 'none', cursor: 'pointer' }}>View All</button>
         </div>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 600 }}>
           <thead>
             <tr style={{ borderBottom: '1px solid #f0f4f7' }}>
               {['Check ID', 'Check Name', 'Error Type', 'Severity', 'Detected'].map((h) => (
@@ -300,10 +290,11 @@ export default function DataIntegrityChecker() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none' }}>System Status</a>

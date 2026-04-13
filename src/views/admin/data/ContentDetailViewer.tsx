@@ -63,7 +63,7 @@ export default function ContentDetailViewer() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto', height: 'calc(100vh - 100px)', display: 'flex', flexDirection: 'column' }}>
       {/* TopAppBar */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 0', marginBottom: 24, borderBottom: '1px solid #e8eff3' }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, padding: '16px 0', marginBottom: 24, borderBottom: '1px solid #e8eff3' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <h1 style={{ fontSize: 16, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Post ID: {post.id}</h1>
           <span style={{
@@ -117,9 +117,9 @@ export default function ContentDetailViewer() {
       </header>
 
       {/* Content Area */}
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden', margin: '0 -24px', padding: '0 24px' }}>
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden', margin: '0 -24px', padding: '0 24px', flexWrap: 'wrap' }}>
         {/* Left: Content & Comments (65%) */}
-        <section style={{ width: '65%', height: '100%', overflowY: 'auto', paddingRight: 40 }}>
+        <section style={{ flex: '1 1 400px', height: '100%', overflowY: 'auto', paddingRight: 40 }}>
           {/* Post Header */}
           <div style={{ marginBottom: 32 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#566166', marginBottom: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -228,7 +228,7 @@ export default function ContentDetailViewer() {
         </section>
 
         {/* Right: Metadata (35%) */}
-        <section style={{ width: '35%', height: '100%', overflowY: 'auto', paddingLeft: 32, borderLeft: '1px solid #e8eff3' }}>
+        <section style={{ flex: '1 1 280px', height: '100%', overflowY: 'auto', paddingLeft: 32, borderLeft: '1px solid #e8eff3' }}>
           {/* Metadata Card */}
           <div style={{ padding: 24, background: '#ffffff', borderRadius: 16, border: '1px solid #f0f4f7', marginBottom: 24 }}>
             <h4 style={{ fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.2em', margin: '0 0 24px 0' }}>Post Metadata</h4>
@@ -255,7 +255,7 @@ export default function ContentDetailViewer() {
                 </div>
               ))}
               <hr style={{ border: 'none', borderTop: '1px solid #f0f4f7', margin: '4px 0' }} />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 16 }}>
                 <div style={{ padding: 16, background: '#f0f4f7', borderRadius: 12 }}>
                   <span style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', marginBottom: 4 }}>Upvotes</span>
                   <span style={{ fontSize: 24, fontWeight: 800, color: '#2a3439', fontFamily: 'Manrope, sans-serif' }}>{post.upvotes}</span>

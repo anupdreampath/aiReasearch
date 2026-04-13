@@ -51,7 +51,7 @@ export default function WordDetail() {
       />
 
       {/* Hero Card */}
-      <div style={{ background: 'linear-gradient(135deg, #0F172A, #1E293B)', borderRadius: 20, padding: '28px 32px', marginBottom: 20, display: 'flex', alignItems: 'flex-start', gap: 24, position: 'relative', overflow: 'hidden' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0F172A, #1E293B)', borderRadius: 20, padding: '28px 32px', marginBottom: 20, display: 'flex', alignItems: 'flex-start', gap: 24, position: 'relative', overflow: 'hidden', flexWrap: 'wrap' }}>
         <div style={{ position: 'absolute', top: -40, right: -40, width: 180, height: 180, borderRadius: '50%', background: '#4F46E520' }} />
         <div style={{ width: 72, height: 72, borderRadius: 18, background: '#4F46E530', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <span style={{ fontSize: 18, fontWeight: 900, color: '#818CF8', textTransform: 'uppercase' }}>{word.word.slice(0,2)}</span>
@@ -63,7 +63,7 @@ export default function WordDetail() {
             <StatusBadge status={word.status} />
           </div>
           <p style={{ color: '#94A3B8', fontSize: 14, lineHeight: 1.7, margin: 0, maxWidth: 600 }}>{word.definition}</p>
-          <div style={{ display: 'flex', gap: 24, marginTop: 16 }}>
+          <div style={{ display: 'flex', gap: 24, marginTop: 16, flexWrap: 'wrap' }}>
             {[{ label: 'Total Posts', v: word.postsCount, color: '#818CF8' }, { label: 'Target', v: '500', color: '#94A3B8' }, { label: 'Assigned', v: word.assignedCount, color: '#34D399' }, { label: 'Progress', v: `${Math.round((word.postsCount/500)*100)}%`, color: '#D97706' }].map(s => (
               <div key={s.label}>
                 <p style={{ fontSize: 22, fontWeight: 800, color: s.color, margin: 0 }}>{s.v}</p>
@@ -92,7 +92,7 @@ export default function WordDetail() {
       </div>
 
       {tab === 'overview' && (
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
           <Card>
             <CardHeader title="Post Growth Over Time" subtitle="Cumulative posts collected" />
             <ResponsiveContainer width="100%" height={220}>
@@ -174,7 +174,7 @@ export default function WordDetail() {
       )}
 
       {tab === 'analytics' && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
           {[
             { label: 'Total Posts', value: word.postsCount, sub: 'of 500 target', color: '#0F4C81' },
             { label: 'Approval Rate', value: '87%', sub: '12% rejected', color: '#0D9488' },

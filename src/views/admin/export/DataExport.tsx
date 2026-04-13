@@ -80,8 +80,8 @@ export default function DataExport() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* TopNavBar */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      <header style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, gap: 12 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
           <h1 style={{ fontSize: 20, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Data Export</h1>
           <div style={{ width: 1, height: 16, background: 'rgba(169,180,185,0.3)' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#566166', fontSize: 13, fontWeight: 500 }}>
@@ -92,23 +92,15 @@ export default function DataExport() {
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: '#f0f4f7', borderRadius: 8, width: 256 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: '#f0f4f7', borderRadius: 8, maxWidth: 256, width: '100%' }}>
             <span style={{ ...ms, fontSize: 18, color: '#a9b4b9' }}>search</span>
             <input type="text" placeholder="Search export history..." style={{ background: 'transparent', border: 'none', fontSize: 13, flex: 1 }} />
-          </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166', borderRadius: '50%' }}>
-              <span style={{ ...ms, fontSize: 20 }}>notifications</span>
-            </button>
-            <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166', borderRadius: '50%' }}>
-              <span style={{ ...ms, fontSize: 20 }}>help_outline</span>
-            </button>
           </div>
         </div>
       </header>
 
       {/* Main Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32 }}>
         {/* Left: Filters Card */}
         <section style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <div style={{ padding: 32, background: '#ffffff', borderRadius: 12, border: '1px solid rgba(169,180,185,0.1)' }}>
@@ -122,7 +114,7 @@ export default function DataExport() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
               {/* Word & Date */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   <label style={{ fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Word multi-select</label>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', background: '#f0f4f7', borderRadius: 8, cursor: 'pointer' }}>
@@ -140,7 +132,7 @@ export default function DataExport() {
               </div>
 
               {/* Platform & Status */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 32 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   <label style={{ fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Platform</label>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -180,7 +172,7 @@ export default function DataExport() {
               <div style={{ height: 1, background: '#e8eff3' }} />
 
               {/* Format & Columns */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 32 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   <label style={{ fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Export Format</label>
                   <div style={{ display: 'flex', background: '#f0f4f7', padding: 4, borderRadius: 8 }}>
@@ -220,7 +212,7 @@ export default function DataExport() {
               </div>
 
               {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: 16, paddingTop: 16 }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, paddingTop: 16 }}>
                 <button style={{
                   flex: 1,
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
@@ -355,7 +347,7 @@ export default function DataExport() {
           </div>
 
           {/* Quick Actions */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 32 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16, marginTop: 32 }}>
             <div style={{ padding: 20, background: 'rgba(45,97,151,0.05)', borderRadius: 12, border: '1px solid rgba(45,97,151,0.1)', display: 'flex', alignItems: 'center', gap: 16, cursor: 'pointer' }}>
               <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(45,97,151,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2d6197' }}>
                 <span style={{ ...ms, fontSize: 24 }}>auto_awesome</span>
@@ -379,7 +371,7 @@ export default function DataExport() {
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', marginTop: 40, borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', marginTop: 40, borderTop: '1px solid #e8eff3', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em', gap: 12 }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none' }}>System Status</a>

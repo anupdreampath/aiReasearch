@@ -249,3 +249,107 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
+
+/* ── Mobile Responsive ─────────────────────────────────────────────────────── */
+
+/* Prevent horizontal overflow globally */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Responsive table wrapper — use on any custom <table> parent */
+.mobile-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  /* ── Core layout overrides (supplement Sidebar inline <style>) ── */
+  .layout-main {
+    margin-left: 0 !important;
+  }
+  .layout-header {
+    padding: 0 12px !important;
+  }
+  .layout-content {
+    padding: 12px !important;
+  }
+  .hamburger-btn {
+    display: flex !important;
+  }
+  .header-date-range {
+    display: none !important;
+  }
+  .sidebar-panel {
+    transition: transform 0.25s ease !important;
+  }
+
+  /* ── Header right-side actions ── */
+  .header-right-actions {
+    gap: 8px !important;
+  }
+  .header-hide-mobile {
+    display: none !important;
+  }
+
+  /* ── Reviewer layout mobile ── */
+  .reviewer-sidebar {
+    position: fixed !important;
+    z-index: 50 !important;
+    height: 100vh !important;
+    transition: transform 0.25s ease !important;
+  }
+  .reviewer-sidebar.closed {
+    transform: translateX(-100%) !important;
+  }
+  .reviewer-sidebar.open {
+    transform: translateX(0) !important;
+  }
+  .reviewer-main {
+    margin-left: 0 !important;
+  }
+  .reviewer-header {
+    padding: 0 12px !important;
+  }
+  .reviewer-header-center {
+    display: none !important;
+  }
+  .reviewer-header-search {
+    display: none !important;
+  }
+  .reviewer-hamburger {
+    display: flex !important;
+  }
+
+  /* ── Generic responsive helpers ── */
+  .mobile-stack {
+    flex-direction: column !important;
+  }
+  .mobile-wrap {
+    flex-wrap: wrap !important;
+  }
+  .mobile-full {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+  .mobile-hide {
+    display: none !important;
+  }
+  .mobile-gap-sm {
+    gap: 8px !important;
+  }
+  .mobile-p-sm {
+    padding: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .layout-content {
+    padding: 8px !important;
+  }
+  .layout-header {
+    padding: 0 8px !important;
+  }
+}

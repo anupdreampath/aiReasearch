@@ -235,14 +235,13 @@ export default function Layout({ children, mode = 'admin' }) {
             >
               <span style={{ fontSize: 22, fontFamily: 'Material Symbols Outlined' }}>menu</span>
             </button>
-            <style>{`@media (max-width: 768px) { .hamburger-btn { display: flex !important; } .header-date-range { display: none !important; } }`}</style>
-            <h2 style={{ fontSize: 20, fontWeight: 800, color: '#2a3439', fontFamily: 'Manrope, sans-serif' }}>{title}</h2>
-            <div style={{ width: 1, height: 16, background: '#e1e9ee' }} />
-            <p style={{ fontSize: 12, color: '#566166', fontFamily: 'Inter, sans-serif' }}>{isAdmin ? 'Admin Console' : isReviewer ? 'Reviewer Panel' : 'Contributor Portal'}</p>
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: '#2a3439', fontFamily: 'Manrope, sans-serif', whiteSpace: 'nowrap' }}>{title}</h2>
+            <div className="mobile-hide" style={{ width: 1, height: 16, background: '#e1e9ee' }} />
+            <p className="mobile-hide" style={{ fontSize: 12, color: '#566166', fontFamily: 'Inter, sans-serif', whiteSpace: 'nowrap' }}>{isAdmin ? 'Admin Console' : isReviewer ? 'Reviewer Panel' : 'Contributor Portal'}</p>
           </div>
 
           {/* Right: Date + Actions + User */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+          <div className="header-right-actions" style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
             {/* Date Range Selector */}
             <div ref={datePickerRef} className="header-date-range" style={{ position: 'relative' }}>
               <button
@@ -317,6 +316,7 @@ export default function Layout({ children, mode = 'admin' }) {
             {/* Help Center */}
             <button
               onClick={() => router.push('/help')}
+              className="header-hide-mobile"
               style={{
                 width: 36, height: 36,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -356,6 +356,7 @@ export default function Layout({ children, mode = 'admin' }) {
             {/* Settings / Stats */}
             <button
               onClick={() => router.push(isAdmin ? '/admin/settings' : isReviewer ? '/reviewer/stats' : '/portal/profile')}
+              className="header-hide-mobile"
               style={{
                 width: 36, height: 36,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -470,7 +471,7 @@ export default function Layout({ children, mode = 'admin' }) {
         </header>
 
         {/* ── Content ── */}
-        <main style={{ flex: 1, padding: '32px', overflowY: 'auto' }} className="animate-fade-in layout-content">
+        <main style={{ flex: 1, padding: '32px', overflowY: 'auto', overflowX: 'hidden', maxWidth: '100%' }} className="animate-fade-in layout-content">
           {children}
         </main>
       </div>

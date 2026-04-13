@@ -18,9 +18,9 @@ export default function ReviewerLogin() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', background: '#2a3439' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexWrap: 'wrap', background: '#2a3439' }}>
       {/* Left Panel */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '48px', background: 'linear-gradient(135deg, #2d6197 0%, #1a4670 50%, #2d6197 100%)' }}>
+      <div style={{ flex: '1 1 400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '48px', background: 'linear-gradient(135deg, #2d6197 0%, #1a4670 50%, #2d6197 100%)' }}>
         <div style={{ maxWidth: 440 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 48 }}>
             <div style={{ width: 44, height: 44, borderRadius: 14, background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -61,7 +61,7 @@ export default function ReviewerLogin() {
       </div>
 
       {/* Right Panel */}
-      <div style={{ width: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 48, background: '#fff' }}>
+      <div style={{ flex: '1 1 320px', maxWidth: 520, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 48, background: '#fff' }}>
         <div style={{ width: '100%', maxWidth: 360 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 32 }}>
             <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #2d6197, #1a4670)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

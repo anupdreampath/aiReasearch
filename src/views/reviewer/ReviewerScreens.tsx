@@ -39,8 +39,8 @@ function StatusBadge({ status }) {
 function QueueTable({ data, showActions = false }) {
   const router = useRouter();
   return (
-    <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #e1e9ee', overflow: 'hidden' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+    <div className="mobile-table-wrap" style={{ background: '#fff', borderRadius: 14, border: '1px solid #e1e9ee', overflow: 'auto' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 700 }}>
         <thead>
           <tr style={{ background: '#f7f9fb' }}>
             {['Word', 'Contributor', 'Subreddit', 'Confidence', 'Status', 'Age', ''].map(h => (
@@ -124,7 +124,7 @@ export function ReviewQueue() {
           <div style={{ position: 'relative' }}>
             <Search size={13} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#717c82' }} />
             <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search word or contributor..."
-              style={{ padding: '9px 12px 9px 30px', fontSize: 13, border: '1.5px solid #e1e9ee', borderRadius: 10, fontFamily: 'inherit', outline: 'none', width: 220 }}
+              style={{ padding: '9px 12px 9px 30px', fontSize: 13, border: '1.5px solid #e1e9ee', borderRadius: 10, fontFamily: 'inherit', outline: 'none', maxWidth: 220, width: '100%' }}
               onFocus={e => e.target.style.borderColor = '#2d6197'}
               onBlur={e => e.target.style.borderColor = '#e1e9ee'} />
           </div>
@@ -143,7 +143,7 @@ export function PendingQueue() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
         <div>
           <h1 style={{ fontWeight: 800, fontSize: 22, color: '#2a3439', margin: '0 0 4px' }}>Pending Review</h1>
           <p style={{ fontSize: 13, color: '#566166', margin: 0 }}>{pending.length} submissions awaiting your decision</p>
@@ -184,13 +184,13 @@ export function ApprovedList() {
         <h1 style={{ fontWeight: 800, fontSize: 22, color: '#2a3439', margin: '0 0 4px' }}>Approved Submissions</h1>
         <p style={{ fontSize: 13, color: '#566166', margin: 0 }}>{approved.length} posts you have approved</p>
       </div>
-      <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
+      <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
         {[
           { label: 'Approved Today', val: approved.length, color: '#10B981' },
           { label: 'Avg Confidence', val: `${Math.round(approved.reduce((a, s) => a + s.confidence, 0) / approved.length)}%`, color: '#6366F1' },
           { label: 'Total Upvotes', val: approved.reduce((a, s) => a + s.upvotes, 0), color: '#0EA5E9' },
         ].map(s => (
-          <div key={s.label} style={{ flex: 1, background: '#fff', borderRadius: 12, padding: '14px 18px', border: '1px solid #e1e9ee' }}>
+          <div key={s.label} style={{ flex: '1 1 150px', background: '#fff', borderRadius: 12, padding: '14px 18px', border: '1px solid #e1e9ee' }}>
             <p style={{ fontSize: 22, fontWeight: 800, color: s.color, margin: 0 }}>{s.val}</p>
             <p style={{ fontSize: 12, color: '#717c82', margin: '2px 0 0' }}>{s.label}</p>
           </div>
@@ -385,7 +385,7 @@ export function ReviewerLog() {
         <p style={{ fontSize: 13, color: '#566166', margin: 0 }}>Your review history and decisions</p>
       </div>
 
-      <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
         {[
           { key: 'all', label: 'All Actions' },
           { key: 'approved', label: 'Approvals' },

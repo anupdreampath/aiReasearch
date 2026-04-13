@@ -18,7 +18,7 @@ export function ActivityLog() {
     <div className="animate-fade-in">
       <PageHeader title="Activity Log" subtitle="All admin actions and system events" />
       <Card padding={false}>
-        <div style={{ padding: '14px 20px', borderBottom: '1px solid #F1F5F9', display: 'flex', gap: 10 }}>
+        <div style={{ padding: '14px 20px', borderBottom: '1px solid #F1F5F9', display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           <SearchBar value={search} onChange={setSearch} placeholder="Search actions..." style={{ flex: 1, maxWidth: 280 }} />
           <Select value={typeFilter} onChange={setTypeFilter} options={['word', 'submission', 'assignment', 'payment', 'contributor', 'scraping']} placeholder="All types" />
         </div>
@@ -55,7 +55,7 @@ export function AddContributors() {
         <Tabs tabs={[{ id: 'manual', label: 'Manual Add' }, { id: 'csv', label: 'CSV Import' }]} active={mode} onChange={setMode} />
       </div>
       {mode === 'manual' ? (
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
           <Card>
             <CardHeader title="Contributor Details" />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -112,7 +112,7 @@ export function ContributorSegmentation() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="Contributor Segmentation" subtitle="Group contributors for targeted assignment" action={<Button variant="primary" icon={<Plus size={14} />}>Create Segment</Button>} />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
         {segments.map(s => (
           <Card key={s.name} style={{ borderLeft: `4px solid ${s.color}`, background: s.bg }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
@@ -140,7 +140,7 @@ export function ContributorRiskPanel() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="Risk Panel" subtitle="Contributors with flags or suspicious activity" />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16, marginBottom: 20 }}>
         <StatCard title="Risk Flagged" value={mockContributors.filter(c => c.riskFlag).length} icon={<AlertTriangle size={20} />} color="#EF4444" bg="#FEF2F2" />
         <StatCard title="Suspended" value={mockContributors.filter(c => c.status === 'suspended').length} icon={<Ban size={20} />} color="#F59E0B" bg="#FFFBEB" />
         <StatCard title="Under Monitoring" value="3" icon={<Eye size={20} />} color="#3B82F6" bg="#EFF6FF" />
@@ -158,7 +158,7 @@ export function ContributorRiskPanel() {
               </div>
               <p style={{ fontSize: 11, color: '#94A3B8', margin: 0 }}>{c.country} · Quality: {c.qualityScore} · Approval: {c.approvalRate}%</p>
             </div>
-            <div style={{ display: 'flex', gap: 4 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
               <Button variant="secondary" size="sm" icon={<Eye size={12} />}>Review</Button>
               <Button variant="danger" size="sm" icon={<Ban size={12} />}>Suspend</Button>
             </div>
@@ -196,7 +196,7 @@ export function PendingVerification() {
                   <span>{s.subreddit}</span><span>·</span><span>↑{s.upvotes} 💬{s.comments}</span><span>·</span><span>{s.submittedAt}</span>
                 </div>
               </div>
-              <div style={{ display: 'flex', gap: 6 }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                 <Button variant="danger" size="sm" onClick={e => e.stopPropagation()}>Reject</Button>
                 <Button variant="tertiary" size="sm" onClick={e => e.stopPropagation()}>Approve</Button>
               </div>
@@ -217,7 +217,7 @@ export function BulkVerification() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="Bulk Verification" subtitle="Process multiple submissions at once"
-        action={<div style={{ display: 'flex', gap: 8 }}><Button variant="secondary" onClick={() => setSelected(allAutoPass.map(s => s.id))}>Select Auto-Pass ({allAutoPass.length})</Button><Button variant="tertiary" disabled={selected.length === 0}>Approve Selected ({selected.length})</Button><Button variant="danger" disabled={selected.length === 0}>Reject Selected ({selected.length})</Button></div>} />
+        action={<div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}><Button variant="secondary" onClick={() => setSelected(allAutoPass.map(s => s.id))}>Select Auto-Pass ({allAutoPass.length})</Button><Button variant="tertiary" disabled={selected.length === 0}>Approve Selected ({selected.length})</Button><Button variant="danger" disabled={selected.length === 0}>Reject Selected ({selected.length})</Button></div>} />
       <Alert type="success" message={`${allAutoPass.length} submissions auto-detected with ≥95% confidence. Recommended for quick approval.`} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 16 }}>
         {pending.map(s => (
@@ -268,7 +268,7 @@ export function AutoVerificationRules() {
                   <Badge variant={rule.active ? 'success' : 'default'}>{rule.active ? 'Active' : 'Disabled'}</Badge>
                 </div>
                 <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 8px' }}>{rule.desc}</p>
-                {rule.type === 'threshold' && <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ fontSize: 12, color: '#94A3B8' }}>Threshold:</span><input defaultValue={rule.value} style={{ width: 60, padding: '4px 8px', fontSize: 13, border: '1.5px solid #E2E8F0', borderRadius: 8, outline: 'none', fontFamily: 'inherit' }} /></div>}
+                {rule.type === 'threshold' && <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ fontSize: 12, color: '#94A3B8' }}>Threshold:</span><input defaultValue={rule.value} style={{ maxWidth: 60, flex: '1 1 auto', minWidth: 0, padding: '4px 8px', fontSize: 13, border: '1.5px solid #E2E8F0', borderRadius: 8, outline: 'none', fontFamily: 'inherit' }} /></div>}
               </div>
               <Toggle value={rule.active} onChange={() => toggle(rule.id)} />
             </div>
@@ -287,7 +287,7 @@ export function ScrapedContentBrowser() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="Scraped Content Browser" subtitle={`${posts.length} posts in storage`} action={<Button variant="primary" icon={<Download size={14} />} onClick={() => router.push('/admin/export')}>Export Data</Button>} />
-      <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 16 }}>
         <SearchBar placeholder="Search content..." style={{ flex: 1, maxWidth: 300 }} />
         <Select value={wordFilter} onChange={setWordFilter} options={['blorple', 'frumious', 'plimble']} placeholder="All words" />
         <Button variant="secondary" icon={<Filter size={13} />}>Filter</Button>
@@ -309,7 +309,7 @@ export function ScrapedContentBrowser() {
                   <span>📸 Snapshot: {post.snapshotTime}</span>
                 </div>
               </div>
-              <div style={{ display: 'flex', gap: 4 }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                 <Button variant="ghost" size="sm" icon={<Eye size={12} />}>View</Button>
                 <Button variant="ghost" size="sm" icon={<Copy size={12} />}>Copy</Button>
               </div>
@@ -330,7 +330,7 @@ export function DataIntegrityChecker() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="Data Integrity Checker" subtitle="Identify and resolve data quality issues" action={<Button variant="primary" icon={<RefreshCw size={14} />}>Run Check</Button>} />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, marginBottom: 20 }}>
         {[
           { label: 'Total Posts', value: '651', color: '#4F46E5' },
           { label: 'Intact', value: '649', color: '#10B981' },
@@ -402,13 +402,13 @@ export function PlatformSettings() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="Platform Settings" subtitle="Global system configuration" action={
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           <Button variant="secondary" icon={<Key size={14} />} onClick={() => router.push('/admin/settings/api')}>API Keys</Button>
           <Button variant="secondary" icon={<HardDrive size={14} />} onClick={() => router.push('/admin/settings/storage')}>Storage</Button>
           <Button variant="primary">Save Changes</Button>
         </div>
       } />
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16 }}>
         <Card>
           <CardHeader title="Contributor Limits" />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -467,19 +467,19 @@ export function ApiKeys() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
         {keys.map(k => (
           <Card key={k.id}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <div style={{ width: 40, height: 40, borderRadius: 12, background: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' }}>
+              <div style={{ width: 40, height: 40, borderRadius: 12, background: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <Key size={18} color="#4F46E5" />
               </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+              <div style={{ flex: '1 1 200px', minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2, flexWrap: 'wrap' }}>
                   <p style={{ fontWeight: 700, fontSize: 14, color: '#0F172A', margin: 0 }}>{k.service}</p>
                   <Badge variant="success">Active</Badge>
                   <Badge variant="default">{k.env}</Badge>
                 </div>
-                <code style={{ fontSize: 12, color: '#64748B', fontFamily: 'monospace' }}>{showKey === k.id ? k.key : k.key.replace(/[^*]/g, '•')}</code>
+                <code style={{ fontSize: 11, color: '#64748B', fontFamily: 'monospace', wordBreak: 'break-all' }}>{showKey === k.id ? k.key : k.key.replace(/[^*]/g, '•')}</code>
               </div>
-              <div style={{ display: 'flex', gap: 6 }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                 <Button variant="ghost" size="sm" icon={<Eye size={12} />} onClick={() => setShowKey(showKey === k.id ? null : k.id)}>Show</Button>
                 <Button variant="ghost" size="sm" icon={<Copy size={12} />}>Copy</Button>
                 <Button variant="ghost" size="sm" icon={<RefreshCw size={12} />}>Rotate</Button>
@@ -498,7 +498,7 @@ export function StorageSettings() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="Storage Settings" subtitle="Configure where scraped content is stored" />
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16 }}>
         <Card>
           <CardHeader title="Current Storage" icon={<HardDrive size={16} />} />
           {[
@@ -546,7 +546,7 @@ export function AssignmentDetail() {
     <div className="animate-fade-in">
       <PageHeader breadcrumb="Assignments / Detail" title={`Assignment #${assignment.id || 1}`} subtitle={`${assignment.word || 'blorple'} — ${assignment.contributor || 'Rahul Sharma'}`}
         action={<Button variant="secondary" icon={<ArrowLeft size={14} />} onClick={() => router.push('/admin/assignments')}>Back</Button>} />
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
         <Card>
           <CardHeader title="Assignment Details" />
           {[

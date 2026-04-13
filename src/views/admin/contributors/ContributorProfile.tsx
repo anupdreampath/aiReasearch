@@ -42,8 +42,8 @@ export default function ContributorProfile() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* TopAppBar */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <button
             onClick={() => router.push('/admin/contributors')}
             style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#a9b4b9' }}
@@ -61,7 +61,7 @@ export default function ContributorProfile() {
             textTransform: 'uppercase',
           }}>{contributor.status}</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <button style={{
             display: 'flex', alignItems: 'center', gap: 6,
             padding: '10px 16px',
@@ -88,18 +88,11 @@ export default function ContributorProfile() {
           }}>
             <span style={{ ...ms, fontSize: 18 }}>block</span>Ban Contributor
           </button>
-          <div style={{ width: 1, height: 24, background: '#d9e4ea', margin: '0 4px' }} />
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 22 }}>notifications</span>
-          </button>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 22 }}>settings</span>
-          </button>
         </div>
       </header>
 
       {/* Profile Hero */}
-      <section style={{ display: 'flex', gap: 32, alignItems: 'flex-start', marginBottom: 32 }}>
+      <section style={{ display: 'flex', gap: 32, alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap' }}>
         <div style={{ position: 'relative' }}>
           <div style={{
             width: 128, height: 128,
@@ -159,7 +152,7 @@ export default function ContributorProfile() {
       </section>
 
       {/* Stats Row */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginBottom: 40 }}>
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24, marginBottom: 40 }}>
         <div style={{ padding: 24, background: '#ffffff', borderRadius: 12, borderBottom: '2px solid rgba(45,97,151,0.1)' }}>
           <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#566166', margin: '0 0 16px 0' }}>Approval Rate</p>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
@@ -193,7 +186,7 @@ export default function ContributorProfile() {
       </section>
 
       {/* Main Content Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '3fr 1fr', gap: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32 }}>
         {/* Left Column */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           {/* Tabs Navigation */}
@@ -227,7 +220,8 @@ export default function ContributorProfile() {
 
           {/* History Table */}
           <div style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 650 }}>
               <thead>
                 <tr style={{ background: '#f0f4f7' }}>
                   <th style={{ padding: '12px 24px', fontSize: 10, fontWeight: 800, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.05em', textAlign: 'left' }}>Word/Task ID</th>
@@ -260,6 +254,7 @@ export default function ContributorProfile() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
 

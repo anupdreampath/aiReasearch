@@ -68,11 +68,11 @@ export default function ScrapedContentBrowser() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* TopAppBar */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32 }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
         <div>
           <h1 style={{ fontSize: 20, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Scraped Content</h1>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
           <div style={{ position: 'relative' }}>
             <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', ...ms, fontSize: 18, color: '#a9b4b9' }}>search</span>
             <input
@@ -80,7 +80,7 @@ export default function ScrapedContentBrowser() {
               placeholder="Search data points..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{ padding: '10px 12px 10px 40px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, width: 256 }}
+              style={{ padding: '10px 12px 10px 40px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, maxWidth: 256, width: '100%' }}
             />
           </div>
           <button
@@ -99,23 +99,11 @@ export default function ScrapedContentBrowser() {
             <span style={{ ...ms, fontSize: 18 }}>download</span>
             Export All
           </button>
-          <div style={{ width: 1, height: 24, background: '#d9e4ea', margin: '0 4px' }} />
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 22 }}>notifications</span>
-          </button>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 22 }}>help_outline</span>
-          </button>
-          <img
-            src="https://ui-avatars.com/api/?name=Admin+User&background=2d6197&color=fff&size=64"
-            alt=""
-            style={{ width: 32, height: 32, borderRadius: '50%' }}
-          />
         </div>
       </header>
 
       {/* Summary Bento Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24, marginBottom: 32 }}>
         <div style={{ padding: 24, background: '#ffffff', borderRadius: 12, display: 'flex', flexDirection: 'column', gap: 4 }}>
           <span style={{ fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Total Posts Scraped</span>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 8 }}>
@@ -186,7 +174,7 @@ export default function ScrapedContentBrowser() {
       {/* Content Table */}
       <div style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', marginBottom: 32 }}>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 900 }}>
             <thead>
               <tr style={{ background: 'rgba(232,239,243,0.3)' }}>
                 {['ID', 'Word', 'Subreddit', 'Author', 'Post Title', 'Metrics', 'Snapshot', 'Status', 'Actions'].map((h, i) => (
@@ -252,7 +240,7 @@ export default function ScrapedContentBrowser() {
             </tbody>
           </table>
         </div>
-        <div style={{ padding: '16px 24px', borderTop: '1px solid rgba(169,180,185,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ padding: '16px 24px', borderTop: '1px solid rgba(169,180,185,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <span style={{ fontSize: 12, color: '#566166' }}>Showing 1 to 10 of 1,284,902 results</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166', borderRadius: 8 }}>
@@ -271,7 +259,7 @@ export default function ScrapedContentBrowser() {
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none' }}>System Status</a>
@@ -286,7 +274,8 @@ export default function ScrapedContentBrowser() {
           position: 'fixed',
           top: 0,
           right: 0,
-          width: 480,
+          width: '100%',
+          maxWidth: 480,
           height: '100vh',
           background: '#ffffff',
           boxShadow: '-8px 0 32px rgba(0,0,0,0.1)',
@@ -335,7 +324,7 @@ export default function ScrapedContentBrowser() {
               <p style={{ fontSize: 13, lineHeight: 1.7, color: '#2a3439', margin: 0 }}>
                 "When we consider the weight of freedom, we often find ourselves stuck between two equally valid paths. This post explores how Kierkegaard's concept of 'dread' manifests as modern-day word-usage patterns in digital spaces..."
               </p>
-              <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(169,180,185,0.2)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(169,180,185,0.2)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16 }}>
                 <div>
                   <span style={{ display: 'block', fontSize: 10, color: '#566166', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.1em', marginBottom: 4 }}>Word Target</span>
                   <span style={{ fontSize: 13, fontWeight: 600, color: '#2d6197' }}>{selectedPost.word}</span>
@@ -370,7 +359,7 @@ export default function ScrapedContentBrowser() {
               <p style={{ fontSize: 12, color: '#566166', fontStyle: 'italic', margin: 0 }}>Emotional volatility spikes observed near the 4-hour mark of the thread's existence.</p>
             </div>
           </div>
-          <div style={{ padding: 24, borderTop: '1px solid #e8eff3', background: '#ffffff', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div style={{ padding: 24, borderTop: '1px solid #e8eff3', background: '#ffffff', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16 }}>
             <button style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 12, borderRadius: 8, border: '1px solid #a9b4b9', background: 'transparent', color: '#2a3439', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
               <span style={{ ...ms, fontSize: 16 }}>refresh</span>
               Re-scrape Row

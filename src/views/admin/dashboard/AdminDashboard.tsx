@@ -11,7 +11,7 @@ export default function AdminDashboard() {
   return (
     <div className="animate-fade-in" style={{ maxWidth: 1600, margin: '0 auto' }}>
       {/* Stat Cards Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16, marginBottom: 24 }}>
         <StatCard title="Total Words" value="124,502" change="12%" changeType="positive" />
         <StatCard title="Active Assignments" value="842" change="4%" changeType="positive" />
         <StatCard title="Pending Verifications" value="156" change="8%" changeType="negative" />
@@ -19,7 +19,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Charts Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: '70% 30%', gap: 32, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginBottom: 24 }}>
         <Card padding={true}>
           <ChartHeader timeRange={timeRange} setTimeRange={setTimeRange} />
           <PostsPerDayChart timeRange={timeRange} />
@@ -30,7 +30,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Bottom Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
         <Card padding={true}>
           <RecentSubmissionsTable router={router} />
         </Card>
@@ -154,7 +154,8 @@ function RecentSubmissionsTable({ router }) {
           View All Submissions <span style={{ fontSize: 16, fontFamily: 'Material Symbols Outlined' }}>arrow_forward</span>
         </button>
       </div>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <div className="mobile-table-wrap">
+      <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 500 }}>
         <thead>
           <tr style={{ borderBottom: '1px solid #e8eff3' }}>
             <th style={tableHeaderStyle}>Contributor</th>
@@ -194,6 +195,7 @@ function RecentSubmissionsTable({ router }) {
           />
         </tbody>
       </table>
+      </div>
     </>
   );
 }

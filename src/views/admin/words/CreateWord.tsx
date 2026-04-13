@@ -51,32 +51,22 @@ export default function CreateWord() {
 
   return (
     <div style={{ maxWidth: 1440, margin: '0 auto' }}>
-      {/* Top App Bar */}
-      <header style={{
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        width: 'calc(100% - 16rem)',
-        height: 64,
-        zIndex: 40,
-        background: 'rgba(255,255,255,0.8)',
-        backdropFilter: 'blur(8px)',
+      {/* Top Action Bar */}
+      <div style={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '0 32px',
-        borderBottom: '1px solid rgba(169,180,185,0.15)',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+        marginBottom: 24,
+        flexWrap: 'wrap',
+        gap: 12,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontSize: 18, fontWeight: 700, color: '#2a3439', fontFamily: 'Manrope, sans-serif' }}>Create Word</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <button style={{ padding: '8px 20px', fontSize: 13, fontWeight: 600, color: '#526074', background: 'transparent', border: 'none', cursor: 'pointer' }}>
+        <span style={{ fontSize: 18, fontWeight: 700, color: '#2a3439', fontFamily: 'Manrope, sans-serif' }}>Create Word</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <button style={{ padding: '8px 16px', fontSize: 13, fontWeight: 600, color: '#526074', background: 'transparent', border: 'none', cursor: 'pointer' }}>
             Save Draft
           </button>
           <button style={{
-            padding: '8px 24px',
+            padding: '8px 20px',
             background: 'linear-gradient(90deg, #2d6197, #1d548a)',
             color: '#f5f7ff',
             border: 'none',
@@ -88,24 +78,17 @@ export default function CreateWord() {
           }}>
             Publish
           </button>
-          <div style={{ width: 1, height: 24, background: 'rgba(169,180,185,0.3)' }} />
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 20 }}>notifications</span>
-          </button>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 20 }}>help_outline</span>
-          </button>
         </div>
-      </header>
+      </div>
 
       {/* Main Content */}
-      <div style={{ paddingTop: 80, padding: '96px 32px 32px' }}>
-        <div style={{ display: 'flex', gap: 32 }}>
-          {/* Left Column (60%) */}
-          <div style={{ width: '60%', display: 'flex', flexDirection: 'column', gap: 32 }}>
+      <div>
+        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          {/* Left Column */}
+          <div style={{ flex: '1 1 300px', display: 'flex', flexDirection: 'column', gap: 24 }}>
             {/* Word Input Section */}
-            <div style={{ padding: 32, background: '#ffffff', borderRadius: 12, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div style={{ padding: 20, background: '#ffffff', borderRadius: 12, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                 <div>
                   <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Root Lexeme</label>
                   <input
@@ -115,7 +98,7 @@ export default function CreateWord() {
                     placeholder="Enter term..."
                     style={{
                       width: '100%',
-                      fontSize: 36,
+                      fontSize: 28,
                       fontWeight: 800,
                       color: '#2a3439',
                       background: '#f0f4f7',
@@ -126,7 +109,7 @@ export default function CreateWord() {
                     }}
                   />
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24 }}>
                   <div>
                     <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Part of Speech</label>
                     <select
@@ -155,7 +138,7 @@ export default function CreateWord() {
             </div>
 
             {/* Definitions Section */}
-            <div style={{ padding: 32, background: '#ffffff', borderRadius: 12, boxShadow: '0 1px 3px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div style={{ padding: 20, background: '#ffffff', borderRadius: 12, boxShadow: '0 1px 3px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', gap: 20 }}>
               <div>
                 <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Loose Definition</label>
                 <textarea
@@ -179,12 +162,12 @@ export default function CreateWord() {
             </div>
 
             {/* Image Dropzone */}
-            <div style={{ padding: 32, background: '#ffffff', borderRadius: 12, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+            <div style={{ padding: 20, background: '#ffffff', borderRadius: 12, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
               <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16 }}>Visual Asset (Optional)</label>
               <div style={{
                 border: '2px dashed rgba(169,180,185,0.3)',
                 borderRadius: 12,
-                padding: 48,
+                padding: 24,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -199,10 +182,10 @@ export default function CreateWord() {
             </div>
           </div>
 
-          {/* Right Column (40%) */}
-          <div style={{ width: '40%', display: 'flex', flexDirection: 'column', gap: 32 }}>
+          {/* Right Column */}
+          <div style={{ flex: '1 1 280px', display: 'flex', flexDirection: 'column', gap: 24 }}>
             {/* Subreddits & Platform */}
-            <div style={{ padding: 32, background: '#ffffff', borderRadius: 12, boxShadow: '0 1px 3px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', gap: 32 }}>
+            <div style={{ padding: 20, background: '#ffffff', borderRadius: 12, boxShadow: '0 1px 3px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', gap: 24 }}>
               {/* Suggested Subreddits */}
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
@@ -279,7 +262,7 @@ export default function CreateWord() {
             </div>
 
             {/* Status and Notes */}
-            <div style={{ padding: 32, background: '#ffffff', borderRadius: 12, boxShadow: '0 1px 3px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', gap: 32 }}>
+            <div style={{ padding: 20, background: '#ffffff', borderRadius: 12, boxShadow: '0 1px 3px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', gap: 24 }}>
               {/* Entity Status */}
               <div>
                 <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16 }}>Entity Status</label>

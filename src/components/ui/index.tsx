@@ -231,8 +231,8 @@ interface CardHeaderProps {
   [key: string]: any;
 }
 export const CardHeader: React.FC<CardHeaderProps> = ({ title, subtitle, action, icon }) => (
-  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
       {icon && <div style={{ width: 32, height: 32, borderRadius: theme.radius.lg, background: theme.primaryContainer, display: 'flex', alignItems: 'center', justifyContent: 'center', color: theme.primary }}>{icon}</div>}
       <div>
         <h3 style={{ fontSize: '18px', fontWeight: 700, color: theme.onSurface, margin: 0, fontFamily: theme.font.headline }}>{title}</h3>
@@ -638,12 +638,12 @@ export const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle, action,
   return (
     <div style={{ marginBottom: '24px', ...(useGlass && { background: glass.card.background, backdropFilter: glass.card.backdropFilter, border: glass.card.border, borderRadius: theme.radius.lg, padding: '24px' }) }} className="animate-fade-in">
       {breadcrumb && <p style={{ fontSize: '12px', color: theme.onSurfaceVariant, margin: '0 0 4px 0' }}>{breadcrumb}</p>}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px' }}>
-        <div>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
+        <div style={{ minWidth: 0 }}>
           <h1 style={{ fontSize: '20px', fontWeight: 700, color: theme.onSurface, margin: 0, letterSpacing: '-0.02em' }}>{title}</h1>
           {subtitle && <p style={{ fontSize: '14px', color: theme.onSurfaceVariant, margin: '4px 0 0 0' }}>{subtitle}</p>}
         </div>
-        {action && <div style={{ flexShrink: 0 }}>{action}</div>}
+        {action && <div style={{ flexShrink: 0, maxWidth: '100%' }}>{action}</div>}
       </div>
     </div>
   );

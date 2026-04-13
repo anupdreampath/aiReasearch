@@ -74,7 +74,7 @@ export default function ScheduledExports() {
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto' }}>
       {/* Header */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40 }}>
+      <header style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40, gap: 12 }}>
         <div>
           <h1 style={{ fontSize: 30, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Scheduled Exports</h1>
           <p style={{ fontSize: 14, color: '#566166', margin: '8px 0 0 0' }}>Manage recurring data syncs and automated reports.</p>
@@ -108,8 +108,10 @@ export default function ScheduledExports() {
               border: '1px solid transparent',
               display: 'flex',
               flexDirection: 'row',
+              flexWrap: 'wrap',
               alignItems: 'center',
               justifyContent: 'space-between',
+              gap: 16,
             }}
           >
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
@@ -193,7 +195,7 @@ export default function ScheduledExports() {
       </div>
 
       {/* Stats Footer */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 48 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 24, marginTop: 48 }}>
         {stats.map((stat) => (
           <div key={stat.label} style={{ padding: 16, background: '#f0f4f7', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 16, border: '1px solid rgba(169,180,185,0.1)' }}>
             <div style={{ padding: 8, background: '#ffffff', borderRadius: 8, color: stat.color }}>
@@ -208,7 +210,7 @@ export default function ScheduledExports() {
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', marginTop: 40, borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', marginTop: 40, borderTop: '1px solid #e8eff3', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em', gap: 12 }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none' }}>System Status</a>

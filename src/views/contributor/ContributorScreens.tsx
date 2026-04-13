@@ -239,7 +239,7 @@ export function EarningsDashboard() {
       </div>
 
       {/* Earnings rate info */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, marginBottom: 20 }}>
         {[
           { label: 'Per Approved Post', value: '$5.00', sub: 'Standard rate' },
           { label: 'Avg per Week', value: `$${Math.round(totalEarned / 8)}`, sub: 'Last 8 weeks' },
@@ -424,7 +424,7 @@ export function NotificationsScreen() {
                 {icons[n.type]}
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 4, marginBottom: 4 }}>
                   <p style={{ fontWeight: n.read ? 500 : 700, fontSize: 13, color: '#2a3439', margin: 0 }}>{n.title}</p>
                   <span style={{ fontSize: 11, color: '#717c82' }}>{n.time}</span>
                 </div>
@@ -456,7 +456,7 @@ export function SupportChat() {
   return (
     <div className="animate-fade-in">
       <PageHeader title="Support Chat" subtitle="Get help from our team" />
-      <div style={{ maxWidth: 640, margin: '0 auto' }}>
+      <div style={{ width: '100%', maxWidth: 640, margin: '0 auto' }}>
         <Card>
           <div style={{ height: 400, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 12, padding: '4px 0', marginBottom: 16 }}>
             {messages.map(m => (
@@ -502,7 +502,7 @@ export function ProfileSettings() {
             <Input label="Email" type="email" value={form.email} onChange={v => set('email', v)} />
             <Select label="Country" value={form.country} onChange={v => set('country', v)} options={['India', 'Philippines', 'USA', 'UK', 'Nigeria', 'Mexico']} />
             <Input label="Reddit Username" value={form.reddit} onChange={v => set('reddit', v)} />
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', flexWrap: 'wrap', gap: 8 }}>
               <Button variant="secondary">Cancel</Button>
               <Button variant="primary">Save Changes</Button>
             </div>

@@ -28,7 +28,7 @@ export default function CreateAssignment() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* TopAppBar */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
           <button
             onClick={() => router.push('/admin/assignments')}
@@ -39,12 +39,6 @@ export default function CreateAssignment() {
           <h1 style={{ fontSize: 20, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Create Assignment</h1>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#a9b4b9' }}>
-            <span style={{ ...ms, fontSize: 22 }}>notifications</span>
-          </button>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#a9b4b9' }}>
-            <span style={{ ...ms, fontSize: 22 }}>settings</span>
-          </button>
           <button
             style={{
               padding: '10px 24px',
@@ -63,9 +57,9 @@ export default function CreateAssignment() {
       </header>
 
       {/* Content Area - Two Columns */}
-      <div style={{ display: 'flex', gap: 32 }}>
+      <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
         {/* Left Column (55%) */}
-        <section style={{ width: '55%', display: 'flex', flexDirection: 'column', gap: 32 }}>
+        <section style={{ flex: '1 1 400px', display: 'flex', flexDirection: 'column', gap: 32 }}>
           {/* Word Selector */}
           <div>
             <label style={{ display: 'block', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#566166', marginBottom: 12, fontFamily: 'Inter, sans-serif' }}>
@@ -121,7 +115,7 @@ export default function CreateAssignment() {
           </div>
 
           {/* Assignment Parameters Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24 }}>
             <div>
               <label style={{ display: 'block', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#566166', marginBottom: 12, fontFamily: 'Inter, sans-serif' }}>
                 Due Date
@@ -162,12 +156,12 @@ export default function CreateAssignment() {
           </div>
 
           {/* Notify Toggle */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 16, background: '#f0f4f7', borderRadius: 8 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ ...ms, fontSize: 20, color: '#2d6197' }}>notifications_active</span>
-              <div>
-                <p style={{ fontSize: 14, fontWeight: 700, color: '#2a3439', margin: 0 }}>Notify contributors immediately</p>
-                <p style={{ fontSize: 11, color: '#566166', margin: 0 }}>Send automated dashboard and email alerts upon assignment creation.</p>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', padding: 14, background: '#f0f4f7', borderRadius: 8, gap: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, flex: 1, minWidth: 0 }}>
+              <span style={{ ...ms, fontSize: 20, color: '#2d6197', flexShrink: 0, marginTop: 1 }}>notifications_active</span>
+              <div style={{ minWidth: 0 }}>
+                <p style={{ fontSize: 13, fontWeight: 700, color: '#2a3439', margin: 0 }}>Notify contributors immediately</p>
+                <p style={{ fontSize: 11, color: '#566166', margin: 0, lineHeight: 1.4 }}>Send automated dashboard and email alerts upon assignment creation.</p>
               </div>
             </div>
             <button
@@ -175,12 +169,15 @@ export default function CreateAssignment() {
               style={{
                 position: 'relative',
                 width: 44,
+                minWidth: 44,
                 height: 24,
                 borderRadius: 12,
                 background: notify ? '#2d6197' : '#d9e4ea',
                 border: 'none',
                 cursor: 'pointer',
                 transition: 'background 0.2s',
+                flexShrink: 0,
+                marginTop: 2,
               }}
             >
               <span style={{
@@ -199,7 +196,7 @@ export default function CreateAssignment() {
         </section>
 
         {/* Right Column (45%) - Preview Card */}
-        <section style={{ width: '45%', position: 'sticky', top: 24, height: 'fit-content' }}>
+        <section style={{ flex: '1 1 340px', position: 'sticky', top: 24, height: 'fit-content' }}>
           <div style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(169,180,185,0.1)', boxShadow: '0 4px 12px rgba(42,52,57,0.04)' }}>
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 24px', background: 'rgba(45,97,151,0.05)' }}>
@@ -257,7 +254,7 @@ export default function CreateAssignment() {
               </div>
 
               {/* Statistics Grid */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16 }}>
                 <div style={{ padding: 16, background: '#e8eff3', borderRadius: 8 }}>
                   <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#566166', margin: '0 0 4px 0' }}>Estimated Completion</p>
                   <p style={{ fontSize: 20, fontWeight: 800, color: '#2d6197', margin: 0, fontFamily: 'Manrope, sans-serif' }}>3.2 Days</p>

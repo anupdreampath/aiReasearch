@@ -40,7 +40,7 @@ export default function EditWord() {
         }
       />
       {saved && <div style={{ marginBottom: 16 }}><Alert type="success" message="Changes saved successfully!" /></div>}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <Card>
             <CardHeader title="Word Details" />

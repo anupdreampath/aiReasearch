@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import {
   FileCheck, Clock, CheckCircle, XCircle, BarChart3, LogOut,
-  Bell, ChevronDown, Search, List, AlertTriangle, Copy, Shield
+  Bell, ChevronDown, Search, List, AlertTriangle, Copy, Shield, Menu, X
 } from 'lucide-react';
 import { Avatar, Badge } from '../ui';
 
@@ -22,14 +22,42 @@ const NAV = [
 export default function ReviewerLayout({ children }) {
   const router = useRouter();
   const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const isActive = (path) => path === '/reviewer' ? pathname === path : pathname.startsWith(path);
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#EEF2FF' }}>
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)', zIndex: 49, display: 'none' }}
+          className="reviewer-overlay"
+        />
+      )}
+      <style>{`
+        @media (max-width: 768px) {
+          .reviewer-overlay { display: block !important; }
+        }
+      `}</style>
+
       {/* Sidebar */}
-      <aside style={{ width: 220, background: '#0F172A', display: 'flex', flexDirection: 'column', flexShrink: 0, position: 'sticky', top: 0, height: '100vh', overflowY: 'auto' }}>
+      <aside
+        className={`reviewer-sidebar ${sidebarOpen ? 'open' : 'closed'}`}
+        style={{
+          width: 220,
+          background: '#0F172A',
+          display: 'flex',
+          flexDirection: 'column',
+          flexShrink: 0,
+          position: 'sticky',
+          top: 0,
+          height: '100vh',
+          overflowY: 'auto',
+        }}
+      >
         {/* Logo */}
-        <div style={{ padding: '20px 16px 16px', borderBottom: '1px solid #1E293B' }}>
+        <div style={{ padding: '20px 16px 16px', borderBottom: '1px solid #1E293B', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ width: 34, height: 34, borderRadius: 10, background: 'linear-gradient(135deg, #10B981, #059669)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <FileCheck size={18} color="#fff" />
@@ -39,6 +67,25 @@ export default function ReviewerLayout({ children }) {
               <p style={{ color: '#10B981', fontSize: 10, margin: 0, fontWeight: 600 }}>Reviewer Panel</p>
             </div>
           </div>
+          {/* Mobile close button */}
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="reviewer-hamburger"
+            style={{
+              display: 'none',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 32,
+              height: 32,
+              border: 'none',
+              background: '#1E293B',
+              borderRadius: 8,
+              cursor: 'pointer',
+              color: '#94A3B8',
+            }}
+          >
+            <X size={16} />
+          </button>
         </div>
 
         {/* Queue Summary */}
@@ -57,7 +104,7 @@ export default function ReviewerLayout({ children }) {
         {/* Nav */}
         <nav style={{ flex: 1, padding: '4px 8px' }}>
           {NAV.map(item => (
-            <button key={item.path} onClick={() => router.push(item.path)}
+            <button key={item.path} onClick={() => { router.push(item.path); setSidebarOpen(false); }}
               style={{
                 width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 padding: '8px 10px', borderRadius: 9, border: 'none', cursor: 'pointer',
@@ -90,18 +137,37 @@ export default function ReviewerLayout({ children }) {
       </aside>
 
       {/* Main */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+      <div className="reviewer-main" style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
         {/* Header */}
-        <header style={{ height: 60, background: '#fff', borderBottom: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', position: 'sticky', top: 0, zIndex: 40 }}>
+        <header className="reviewer-header" style={{ height: 60, background: '#fff', borderBottom: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', position: 'sticky', top: 0, zIndex: 40 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ position: 'relative' }}>
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="reviewer-hamburger"
+              style={{
+                display: 'none',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 36,
+                height: 36,
+                border: 'none',
+                background: 'transparent',
+                cursor: 'pointer',
+                borderRadius: 8,
+                color: '#64748B',
+              }}
+            >
+              <Menu size={20} />
+            </button>
+            <div className="reviewer-header-search" style={{ position: 'relative' }}>
               <Search size={14} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
               <input placeholder="Search submissions..." style={{ padding: '7px 12px 7px 30px', fontSize: 13, background: '#F8FAFC', border: '1.5px solid #E2E8F0', borderRadius: 10, outline: 'none', fontFamily: 'inherit', width: 200 }}
                 onFocus={e => e.target.style.borderColor = '#10B981'}
                 onBlur={e => e.target.style.borderColor = '#E2E8F0'} />
             </div>
           </div>
-          <div style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div className="reviewer-header-center" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#10B981' }} />
             <span style={{ fontSize: 14, fontWeight: 600, color: '#0F172A' }}>Reviewer Panel</span>
           </div>
@@ -112,16 +178,16 @@ export default function ReviewerLayout({ children }) {
             </button>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
               <Avatar name="Sarah Chen" size={32} color="#10B981" />
-              <div>
+              <div className="mobile-hide">
                 <p style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', margin: 0 }}>Sarah Chen</p>
                 <p style={{ fontSize: 10, color: '#94A3B8', margin: 0 }}>Senior Reviewer</p>
               </div>
-              <ChevronDown size={12} color="#94A3B8" />
+              <ChevronDown size={12} color="#94A3B8" className="mobile-hide" />
             </div>
           </div>
         </header>
 
-        <main style={{ flex: 1, padding: '24px', overflowY: 'auto' }} className="animate-fade-in">
+        <main style={{ flex: 1, padding: '24px', overflowY: 'auto', overflowX: 'hidden', maxWidth: '100%' }} className="animate-fade-in layout-content">
           {children}
         </main>
       </div>

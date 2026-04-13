@@ -26,21 +26,18 @@ export default function ContributorList() {
   return (
     <div style={{ maxWidth:1600, margin:'0 auto' }}>
       {/* Header */}
-      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:24 }}>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:24, flexWrap:'wrap', gap:12 }}>
         <div>
-          <h1 style={{ fontSize:28, fontWeight:800, color:'#2a3439', margin:0, fontFamily:'Manrope,sans-serif' }}>Contributors</h1>
-          <p style={{ fontSize:14, color:'#566166', margin:'4px 0 0', fontFamily:'Inter,sans-serif' }}>Managing the global data architect network</p>
+          <h1 style={{ fontSize:24, fontWeight:800, color:'#2a3439', margin:0, fontFamily:'Manrope,sans-serif' }}>Contributors</h1>
+          <p style={{ fontSize:13, color:'#566166', margin:'4px 0 0', fontFamily:'Inter,sans-serif' }}>Managing the global data architect network</p>
         </div>
-        <div style={{ display:'flex', alignItems:'center', gap:12 }}>
-          <button style={{ display:'flex', alignItems:'center', gap:8, padding:'10px 16px', background:'#e1e9ee', color:'#455367', border:'none', borderRadius:8, fontSize:14, fontWeight:500, cursor:'pointer' }}>
+        <div style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap' }}>
+          <button style={{ display:'flex', alignItems:'center', gap:8, padding:'10px 16px', background:'#e1e9ee', color:'#455367', border:'none', borderRadius:8, fontSize:13, fontWeight:500, cursor:'pointer' }}>
             <span style={{...ms,fontSize:18}}>upload_file</span>Import CSV
           </button>
-          <button onClick={()=>nav('/admin/contributors/add')} style={{ display:'flex', alignItems:'center', gap:8, padding:'10px 16px', background:'#2d6197', color:'#fff', border:'none', borderRadius:8, fontSize:14, fontWeight:700, cursor:'pointer' }}>
+          <button onClick={()=>nav('/admin/contributors/add')} style={{ display:'flex', alignItems:'center', gap:8, padding:'10px 16px', background:'#2d6197', color:'#fff', border:'none', borderRadius:8, fontSize:13, fontWeight:700, cursor:'pointer' }}>
             <span style={{...ms,fontSize:18}}>add</span>Add Contributor
           </button>
-          <div style={{ width:1, height:32, background:'#e1e9ee', margin:'0 8px' }}/>
-          <button style={{ padding:8, background:'transparent', border:'none', cursor:'pointer', color:'#566166' }}><span style={{...ms,fontSize:22}}>notifications</span></button>
-          <button style={{ padding:8, background:'transparent', border:'none', cursor:'pointer', color:'#566166' }}><span style={{...ms,fontSize:22}}>settings</span></button>
         </div>
       </div>
 
@@ -54,13 +51,13 @@ export default function ContributorList() {
               <input type="text" placeholder="Name or email address..." style={{ width:'100%', padding:'10px 12px 10px 40px', background:'#fff', border:'none', borderRadius:8, fontSize:13 }}/>
             </div>
           </div>
-          <div style={{ width:192 }}>
+          <div style={{ width:160, minWidth:120, flex:'1 1 120px' }}>
             <label style={{ display:'block', fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.05em', color:'#566166', marginBottom:8 }}>Country</label>
             <select style={{ width:'100%', padding:'10px 12px', background:'#fff', border:'none', borderRadius:8, fontSize:13, color:'#566166' }}>
               <option>All Countries</option><option>United States</option><option>Germany</option><option>India</option>
             </select>
           </div>
-          <div style={{ width:192 }}>
+          <div style={{ width:160, minWidth:120, flex:'1 1 120px' }}>
             <label style={{ display:'block', fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.05em', color:'#566166', marginBottom:8 }}>Status</label>
             <select style={{ width:'100%', padding:'10px 12px', background:'#fff', border:'none', borderRadius:8, fontSize:13, color:'#566166' }}>
               <option>Any Status</option><option>Active</option><option>Pending</option><option>Suspended</option>
@@ -87,7 +84,8 @@ export default function ContributorList() {
 
       {/* Table */}
       <div style={{ background:'#fff', borderRadius:12, overflow:'hidden', boxShadow:'0 8px 24px rgba(42,52,57,0.04)' }}>
-        <table style={{ width:'100%', borderCollapse:'collapse' }}>
+        <div className="mobile-table-wrap">
+        <table style={{ width:'100%', borderCollapse:'collapse', minWidth:900 }}>
           <thead><tr style={{ background:'rgba(232,239,243,0.5)' }}>
             <th style={th}>Contributor</th>
             <th style={th}>Account Stats</th>
@@ -150,8 +148,9 @@ export default function ContributorList() {
             ))}
           </tbody>
         </table>
+        </div>
         {/* Pagination */}
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'20px 24px', background:'rgba(232,239,243,0.2)', borderTop:'1px solid #e8eff3' }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'16px', background:'rgba(232,239,243,0.2)', borderTop:'1px solid #e8eff3', flexWrap:'wrap', gap:12 }}>
           <p style={{ fontSize:12, color:'#566166', margin:0 }}>Showing <span style={{ fontWeight:700, color:'#2a3439' }}>1 - 25</span> of <span style={{ fontWeight:700, color:'#2a3439' }}>1,240</span> contributors</p>
           <div style={{ display:'flex', alignItems:'center', gap:4 }}>
             <button style={{ padding:8, background:'transparent', border:'none', cursor:'pointer', color:'#a9b4b9' }}><span style={{...ms,fontSize:22}}>chevron_left</span></button>

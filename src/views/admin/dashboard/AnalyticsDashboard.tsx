@@ -39,7 +39,7 @@ export default function AnalyticsDashboard() {
       />
 
       {/* KPIs */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 24 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 24 }}>
         <StatCard title="Posts / Day (avg)" value="47.3" change="↑ 8.2% vs prev period" changeType="positive" icon={<TrendingUp size={20} />} color="#4F46E5" bg="#EEF2FF" />
         <StatCard title="Success Rate" value="89.4%" change="↑ 2.1% vs prev period" changeType="positive" icon={<CheckCircle size={20} />} color="#10B981" bg="#ECFDF5" />
         <StatCard title="Rejection Rate" value="10.6%" change="↓ 2.1% vs prev period" changeType="positive" icon={<XCircle size={20} />} color="#EF4444" bg="#FEF2F2" />
@@ -47,7 +47,7 @@ export default function AnalyticsDashboard() {
       </div>
 
       {/* Charts Row 1 */}
-      <div style={{ display: 'grid', gridTemplateColumns: '3fr 1fr', gap: 16, marginBottom: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, marginBottom: 16 }}>
         <Card>
           <CardHeader title="Post Volume & Verification Rate" subtitle="Daily breakdown" />
           <ResponsiveContainer width="100%" height={240}>
@@ -77,7 +77,7 @@ export default function AnalyticsDashboard() {
       </div>
 
       {/* Charts Row 2 */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, marginBottom: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16, marginBottom: 16 }}>
         <Card>
           <CardHeader title="Posts by Region" subtitle="Geographic distribution" />
           <ResponsiveContainer width="100%" height={200}>
@@ -140,7 +140,7 @@ export default function AnalyticsDashboard() {
       {/* Contributor performance */}
       <Card>
         <CardHeader title="Top Contributors This Period" subtitle="Ranked by posts submitted and approval rate" />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12 }}>
           {[
             { name: 'Aiko Tanaka', posts: 28, rate: '100%', country: '🇯🇵', earnings: '$140' },
             { name: 'Priya Patel', posts: 22, rate: '99%', country: '🇮🇳', earnings: '$110' },

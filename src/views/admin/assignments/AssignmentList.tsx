@@ -55,7 +55,7 @@ export default function AssignmentList() {
   return (
     <div className="animate-fade-in" style={{ maxWidth: 1600, margin: '0 auto' }}>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 24 }}>
         <h1 style={{ fontSize: 28, fontWeight: 800, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Assignments</h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <button
@@ -82,7 +82,7 @@ export default function AssignmentList() {
 
       {/* Filter Bar */}
       <div style={{ background: '#f0f4f7', borderRadius: '12px', padding: '24px', marginBottom: 24 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: 12, marginBottom: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12, marginBottom: 16 }}>
           {/* Search */}
           <div style={{ position: 'relative' }}>
             <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', fontSize: 18, color: '#566166', fontFamily: 'Material Symbols Outlined' }}>search</span>
@@ -128,13 +128,15 @@ export default function AssignmentList() {
         </div>
 
         {/* Date Range & Bulk Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#ffffff', padding: '8px 12px', borderRadius: '8px' }}>
-              <span style={{ fontSize: '10px', fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Due Date Range</span>
-              <input type="date" style={{ border: 'none', fontSize: '12px', fontFamily: 'Inter, sans-serif', color: '#566166', background: 'transparent' }} />
-              <span style={{ color: '#566166' }}>—</span>
-              <input type="date" style={{ border: 'none', fontSize: '12px', fontFamily: 'Inter, sans-serif', color: '#566166', background: 'transparent' }} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, background: '#ffffff', padding: '8px 12px', borderRadius: '8px', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '10px', fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.05em', whiteSpace: 'nowrap', lineHeight: '28px' }}>Due Date Range</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                <input type="date" style={{ border: '1px solid #e1e9ee', fontSize: '12px', fontFamily: 'Inter, sans-serif', color: '#566166', background: 'transparent', borderRadius: 6, padding: '4px 6px', maxWidth: 130 }} />
+                <span style={{ color: '#566166' }}>—</span>
+                <input type="date" style={{ border: '1px solid #e1e9ee', fontSize: '12px', fontFamily: 'Inter, sans-serif', color: '#566166', background: 'transparent', borderRadius: 6, padding: '4px 6px', maxWidth: 130 }} />
+              </div>
             </div>
             <button style={{ fontSize: '12px', fontWeight: 700, color: '#2d6197', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Clear Filters</button>
           </div>
@@ -154,7 +156,8 @@ export default function AssignmentList() {
 
       {/* Table */}
       <div style={{ background: '#ffffff', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 8px 24px rgba(42,52,57,0.04)' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 800 }}>
           <thead style={{ background: '#f7f9fb' }}>
             <tr>
               <th style={{ padding: '16px', width: 40 }}>
@@ -250,9 +253,10 @@ export default function AssignmentList() {
             ))}
           </tbody>
         </table>
+        </div>
 
         {/* Pagination */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 24px', background: '#f7f9fb', borderTop: '1px solid #e1e9ee' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, padding: '16px 24px', background: '#f7f9fb', borderTop: '1px solid #e1e9ee' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ fontSize: '12px', color: '#566166', fontFamily: 'Inter, sans-serif' }}>Showing</span>
             <select style={{ background: 'transparent', border: 'none', fontSize: '12px', fontWeight: 700, color: '#2a3439', fontFamily: 'Inter, sans-serif' }}>

@@ -66,8 +66,8 @@ export default function PaymentHistory() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* TopAppBar */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+      <header style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, gap: 12 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 24 }}>
           <h1 style={{ fontSize: 20, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Payment History</h1>
           <div style={{ position: 'relative' }}>
             <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', ...ms, fontSize: 16, color: '#a9b4b9' }}>search</span>
@@ -76,11 +76,11 @@ export default function PaymentHistory() {
               placeholder="Search transactions..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{ padding: '8px 12px 8px 40px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, width: 256 }}
+              style={{ padding: '8px 12px 8px 40px', background: '#f0f4f7', border: 'none', borderRadius: 8, fontSize: 13, maxWidth: 256, width: '100%' }}
             />
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
           <button style={{
             display: 'flex', alignItems: 'center', gap: 8,
             padding: '8px 16px',
@@ -95,12 +95,6 @@ export default function PaymentHistory() {
             <span style={{ ...ms, fontSize: 18 }}>download</span>
             Export CSV
           </button>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166', borderRadius: '50%' }}>
-            <span style={{ ...ms, fontSize: 20 }}>notifications</span>
-          </button>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166', borderRadius: '50%' }}>
-            <span style={{ ...ms, fontSize: 20 }}>help_outline</span>
-          </button>
         </div>
       </header>
 
@@ -110,7 +104,7 @@ export default function PaymentHistory() {
           <label style={{ fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', paddingLeft: 4 }}>Date range</label>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: '#f0f4f7', borderRadius: 8 }}>
             <span style={{ ...ms, fontSize: 14, color: '#a9b4b9' }}>calendar_today</span>
-            <input type="text" value="Oct 1, 2023 - Oct 31, 2023" style={{ background: 'transparent', border: 'none', fontSize: 13, fontWeight: 500, color: '#2a3439', width: 180 }} />
+            <input type="text" value="Oct 1, 2023 - Oct 31, 2023" style={{ background: 'transparent', border: 'none', fontSize: 13, fontWeight: 500, color: '#2a3439', maxWidth: 180, width: '100%' }} />
           </div>
         </div>
 
@@ -166,7 +160,8 @@ export default function PaymentHistory() {
 
       {/* Table Container */}
       <div style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(169,180,185,0.1)', marginBottom: 32 }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 900 }}>
           <thead>
             <tr style={{ background: 'rgba(232,239,243,0.5)' }}>
               {['Payment ID', 'Contributor', 'Amount', 'Method', 'Status', 'Paid At', 'External Reference', 'Actions'].map((h, i) => (
@@ -238,6 +233,7 @@ export default function PaymentHistory() {
             </tr>
           </tfoot>
         </table>
+        </div>
 
         {/* Pagination */}
         <div style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#f7f9fb', borderTop: '1px solid #e8eff3' }}>
@@ -259,7 +255,7 @@ export default function PaymentHistory() {
       </div>
 
       {/* Bento Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginBottom: 40 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 24, marginBottom: 40 }}>
         {stats.map((stat) => (
           <div key={stat.label} style={{ padding: 24, background: '#ffffff', borderRadius: 12, border: '1px solid rgba(169,180,185,0.1)' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
@@ -290,7 +286,7 @@ export default function PaymentHistory() {
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', borderTop: '1px solid #e8eff3', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em', gap: 12 }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none' }}>System Status</a>

@@ -19,12 +19,12 @@ export default function BroadcastMessage() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* TopAppBar */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      <header style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, gap: 12 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
           <h1 style={{ fontSize: 24, fontWeight: 800, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Broadcast Message</h1>
           <span style={{ padding: '4px 12px', background: 'rgba(45,97,151,0.1)', color: '#2d6197', fontSize: 11, fontWeight: 700, borderRadius: 9999, textTransform: 'uppercase' }}>DRAFT</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12 }}>
           <button style={{ padding: '10px 20px', border: '1px solid #a9b4b9', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#2a3439', background: 'transparent', cursor: 'pointer' }}>
             Schedule
           </button>
@@ -42,13 +42,6 @@ export default function BroadcastMessage() {
             Send Now
             <span style={{ ...ms, fontSize: 18 }}>send</span>
           </button>
-          <div style={{ width: 1, height: 24, background: 'rgba(169,180,185,0.3)', margin: '0 8px' }} />
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 20 }}>notifications</span>
-          </button>
-          <button style={{ padding: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
-            <span style={{ ...ms, fontSize: 20 }}>help</span>
-          </button>
         </div>
       </header>
 
@@ -59,8 +52,10 @@ export default function BroadcastMessage() {
         background: 'rgba(210,228,255,0.3)',
         borderRadius: 12,
         display: 'flex',
+        flexWrap: 'wrap',
         alignItems: 'center',
         justifyContent: 'space-between',
+        gap: 12,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <div style={{
@@ -86,13 +81,13 @@ export default function BroadcastMessage() {
       </div>
 
       {/* Main Content */}
-      <div style={{ display: 'flex', gap: 32 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32 }}>
         {/* Left Column: Form */}
-        <div style={{ width: '55%', display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <div style={{ flex: '1 1 400px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24 }}>
           {/* Recipient Selector */}
           <div style={{ padding: 24, background: '#ffffff', borderRadius: 12, border: '1px solid rgba(169,180,185,0.1)' }}>
             <h3 style={{ fontSize: 11, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 20px 0' }}>1. Target Audience</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 16 }}>
               {[
                 { id: 'all', icon: 'public', label: 'All' },
                 { id: 'segment', icon: 'filter_alt', label: 'Segment' },
@@ -170,7 +165,7 @@ export default function BroadcastMessage() {
               <label style={{ fontSize: 11, fontWeight: 700, color: '#566166' }}>Body Content</label>
               <div style={{ border: '1px solid rgba(169,180,185,0.2)', borderRadius: 8, overflow: 'hidden' }}>
                 {/* Toolbar */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: '#f0f4f7', borderBottom: '1px solid rgba(169,180,185,0.1)' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8, padding: '8px 16px', background: '#f0f4f7', borderBottom: '1px solid rgba(169,180,185,0.1)' }}>
                   {['format_bold', 'format_italic', 'format_list_bulleted', 'link', 'image'].map((icon) => (
                     <button key={icon} style={{ padding: 4, background: 'transparent', border: 'none', cursor: 'pointer', color: '#566166' }}>
                       <span style={{ ...ms, fontSize: 20 }}>{icon}</span>
@@ -198,7 +193,7 @@ export default function BroadcastMessage() {
         </div>
 
         {/* Right Column: Preview */}
-        <div style={{ width: '45%' }}>
+        <div style={{ flex: '1 1 350px', minWidth: 0 }}>
           <div style={{ position: 'sticky', top: 24 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
               <h3 style={{ fontSize: 11, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Live Preview</h3>

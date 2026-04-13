@@ -47,7 +47,7 @@ export default function DuplicateDetection() {
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* Header */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+      <header style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{ width: 8, height: 32, background: '#2d6197', borderRadius: 4 }} />
           <h1 style={{ fontSize: 24, fontWeight: 700, color: '#2a3439', margin: 0, fontFamily: 'Manrope, sans-serif' }}>Duplicate Detection</h1>
@@ -83,7 +83,7 @@ export default function DuplicateDetection() {
       </header>
 
       {/* Info Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginBottom: 32 }}>
         <div style={{ padding: 24, background: '#ffffff', borderRadius: 12, display: 'flex', gap: 16, border: '1px solid rgba(169,180,185,0.1)' }}>
           <div style={{ padding: 12, background: '#d2e4ff', borderRadius: '50%', color: '#1c5489' }}>
             <span style={{ ...ms, fontSize: 24 }}>info</span>
@@ -142,7 +142,8 @@ export default function DuplicateDetection() {
 
       {/* Table */}
       <div style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(169,180,185,0.1)', marginBottom: 32 }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 800 }}>
           <thead>
             <tr style={{ background: 'rgba(232,239,243,0.5)' }}>
               {['Submission A', 'Submission B', 'Similarity Score', 'Detected At', 'Actions'].map((h, i) => (
@@ -213,9 +214,10 @@ export default function DuplicateDetection() {
             ))}
           </tbody>
         </table>
+        </div>
 
         {/* Pagination */}
-        <div style={{ padding: '16px 24px', background: 'rgba(232,239,243,0.3)', borderTop: '1px solid #e8eff3', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ padding: '16px 24px', background: 'rgba(232,239,243,0.3)', borderTop: '1px solid #e8eff3', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
           <p style={{ fontSize: 12, color: '#566166', margin: 0 }}>Showing 3 of 124 suspected duplicates</p>
           <div style={{ display: 'flex', gap: 8 }}>
             <button style={{ padding: '6px 12px', background: '#ffffff', border: 'none', borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: 'pointer', opacity: 0.5 }} disabled>Previous</button>
@@ -225,7 +227,7 @@ export default function DuplicateDetection() {
       </div>
 
       {/* Stats Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24, marginBottom: 32 }}>
         {stats.map((stat) => (
           <div key={stat.label} style={{ padding: 20, background: '#ffffff', borderRadius: 12, borderLeft: `4px solid ${stat.borderColor}`, border: '1px solid rgba(169,180,185,0.1)' }}>
             <p style={{ fontSize: 10, fontWeight: 700, color: '#566166', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 4px 0' }}>{stat.label}</p>
@@ -261,7 +263,7 @@ export default function DuplicateDetection() {
       </button>
 
       {/* Footer */}
-      <footer style={{ padding: '24px 0', borderTop: '1px solid #e8eff3', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em' }}>
+      <footer style={{ padding: '24px 0', borderTop: '1px solid #e8eff3', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, fontWeight: 500, color: '#a9b4b9', letterSpacing: '0.05em', gap: 12 }}>
         <div>© 2024 Sentimental Grid. All rights reserved.</div>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ color: '#a9b4b9', textDecoration: 'none' }}>System Status</a>
