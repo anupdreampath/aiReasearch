@@ -75,12 +75,13 @@ export default function FloatingChat() {
         .fc-quick { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 16px 12px; }
         .fc-quick-btn { padding: 6px 12px; border-radius: 20px; border: 1px solid #e1e9ee; background: #f7f9fb; font-size: 12px; color: #566166; cursor: pointer; font-family: inherit; transition: all 0.15s; }
         .fc-quick-btn:hover { background: #d2e4ff; color: #2d6197; border-color: #2d6197; }
-        @media (max-width: 480px) {
-          .fc-panel { width: calc(100vw - 32px); right: -8px; bottom: 64px; height: calc(100vh - 120px); border-radius: 16px; }
-          .fc-widget { bottom: 16px; right: 16px; }
-        }
         @media (max-width: 768px) {
-          .fc-widget { bottom: 16px; right: 16px; }
+          .fc-widget { bottom: 72px; right: 16px; }
+          .fc-panel { bottom: 80px; }
+        }
+        @media (max-width: 480px) {
+          .fc-panel { width: calc(100vw - 32px); right: -8px; bottom: 80px; height: calc(100vh - 160px); border-radius: 16px; }
+          .fc-widget { bottom: 72px; right: 16px; }
         }
       `}</style>
 
